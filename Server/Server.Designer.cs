@@ -39,9 +39,10 @@
             // 
             // Connect_btn
             // 
-            this.Connect_btn.Location = new System.Drawing.Point(562, 107);
+            this.Connect_btn.Location = new System.Drawing.Point(695, 69);
+            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Connect_btn.Name = "Connect_btn";
-            this.Connect_btn.Size = new System.Drawing.Size(75, 23);
+            this.Connect_btn.Size = new System.Drawing.Size(100, 28);
             this.Connect_btn.TabIndex = 0;
             this.Connect_btn.Text = "Connect";
             this.Connect_btn.UseVisualStyleBackColor = true;
@@ -49,9 +50,10 @@
             // 
             // Disconnect_btn
             // 
-            this.Disconnect_btn.Location = new System.Drawing.Point(562, 136);
+            this.Disconnect_btn.Location = new System.Drawing.Point(695, 104);
+            this.Disconnect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Disconnect_btn.Name = "Disconnect_btn";
-            this.Disconnect_btn.Size = new System.Drawing.Size(75, 23);
+            this.Disconnect_btn.Size = new System.Drawing.Size(100, 28);
             this.Disconnect_btn.TabIndex = 1;
             this.Disconnect_btn.Text = "Disconnet";
             this.Disconnect_btn.UseVisualStyleBackColor = true;
@@ -59,49 +61,61 @@
             // 
             // MaxUser_tb
             // 
-            this.MaxUser_tb.Location = new System.Drawing.Point(495, 55);
+            this.MaxUser_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MaxUser_tb.Location = new System.Drawing.Point(607, 7);
+            this.MaxUser_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaxUser_tb.Name = "MaxUser_tb";
-            this.MaxUser_tb.Size = new System.Drawing.Size(142, 20);
+            this.MaxUser_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MaxUser_tb.Size = new System.Drawing.Size(188, 22);
             this.MaxUser_tb.TabIndex = 2;
+            this.MaxUser_tb.Text = "4";
             // 
             // MaxTable_tb
             // 
-            this.MaxTable_tb.Location = new System.Drawing.Point(495, 81);
+            this.MaxTable_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MaxTable_tb.Location = new System.Drawing.Point(607, 39);
+            this.MaxTable_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaxTable_tb.Name = "MaxTable_tb";
-            this.MaxTable_tb.Size = new System.Drawing.Size(142, 20);
+            this.MaxTable_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MaxTable_tb.Size = new System.Drawing.Size(188, 22);
             this.MaxTable_tb.TabIndex = 3;
+            this.MaxTable_tb.Text = "2";
             // 
             // ServerLog_lb
             // 
             this.ServerLog_lb.FormattingEnabled = true;
-            this.ServerLog_lb.Location = new System.Drawing.Point(12, 59);
+            this.ServerLog_lb.ItemHeight = 16;
+            this.ServerLog_lb.Location = new System.Drawing.Point(13, 9);
+            this.ServerLog_lb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ServerLog_lb.Name = "ServerLog_lb";
-            this.ServerLog_lb.Size = new System.Drawing.Size(305, 225);
+            this.ServerLog_lb.Size = new System.Drawing.Size(408, 340);
             this.ServerLog_lb.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(334, 62);
+            this.label1.Location = new System.Drawing.Point(429, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 13);
+            this.label1.Size = new System.Drawing.Size(170, 16);
             this.label1.TabIndex = 5;
             this.label1.Text = "Số người chơi tối đa (1-300):";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(334, 88);
+            this.label2.Location = new System.Drawing.Point(429, 41);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(145, 13);
+            this.label2.Size = new System.Drawing.Size(175, 16);
             this.label2.TabIndex = 6;
             this.label2.Text = "Số phòng chơi tối đa (1-300):";
             // 
             // Server
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(651, 296);
+            this.ClientSize = new System.Drawing.Size(807, 364);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ServerLog_lb);
@@ -109,6 +123,7 @@
             this.Controls.Add(this.MaxUser_tb);
             this.Controls.Add(this.Disconnect_btn);
             this.Controls.Add(this.Connect_btn);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Server_FormClosing);

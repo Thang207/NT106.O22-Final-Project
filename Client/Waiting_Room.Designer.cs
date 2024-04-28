@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Client
+    partial class Waiting_Room
     {
         /// <summary>
         /// Required designer variable.

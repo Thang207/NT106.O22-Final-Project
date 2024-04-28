@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tetris;
 
 namespace Client
 {
-    public partial class Client : Form
+    public partial class Waiting_Room : Form
     {
         private int maxPlayingTables;
         private CheckBox[,] checkBoxGameTables;
@@ -22,13 +17,15 @@ namespace Client
         private StreamReader sr;
         private Service service;
         // Form game ở đây
+        private TetrisRoom room;
+
         //Whether to exit the receiving thread normally
         private bool normalExit = false;
         // whether the command is from the server
         private bool isReceiveCommand = false;
         //The seat number of the game table you are sitting on, -1 means not seated, 0 means black, 1 means red
         private int side = -1;
-        public Client()
+        public Waiting_Room()
         {
             InitializeComponent();
         }
@@ -233,12 +230,11 @@ namespace Client
                 side = j;
                 //Format: SitDown, Nickname, Table Number, Seat Number
                 service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
-                /*formPlaying = new FormPlaying(i, j, sw);
-                formPlaying.Show();
-                formPlaying.RePaint();*/
+                room = new TetrisRoom(i, j, sw);
+                room.Show();
+                //formPlaying.RePaint();
             }
         }
-
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (client != null)

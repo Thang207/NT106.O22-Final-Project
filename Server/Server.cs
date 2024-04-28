@@ -237,7 +237,5 @@ namespace Server
                 Disconnect_btn_Click(null, null);
             }
         }
-
-        
     }
 }
