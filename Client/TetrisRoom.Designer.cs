@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.gb_p1 = new System.Windows.Forms.GroupBox();
-            this.gb_p2 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pn_p1 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.gb_p2 = new System.Windows.Forms.GroupBox();
             this.pn_p2 = new System.Windows.Forms.Panel();
             this.gb_p1.SuspendLayout();
             this.gb_p2.SuspendLayout();
@@ -48,6 +48,20 @@
             this.gb_p1.TabStop = false;
             this.gb_p1.Text = "Player 1";
             // 
+            // pn_p1
+            // 
+            this.pn_p1.Location = new System.Drawing.Point(6, 21);
+            this.pn_p1.Name = "pn_p1";
+            this.pn_p1.Size = new System.Drawing.Size(260, 302);
+            this.pn_p1.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(6, 21);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(260, 302);
+            this.panel1.TabIndex = 0;
+            // 
             // gb_p2
             // 
             this.gb_p2.Controls.Add(this.pn_p2);
@@ -58,20 +72,6 @@
             this.gb_p2.TabStop = false;
             this.gb_p2.Text = "Player 2";
             // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(6, 21);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(260, 302);
-            this.panel1.TabIndex = 0;
-            // 
-            // pn_p1
-            // 
-            this.pn_p1.Location = new System.Drawing.Point(6, 21);
-            this.pn_p1.Name = "pn_p1";
-            this.pn_p1.Size = new System.Drawing.Size(260, 302);
-            this.pn_p1.TabIndex = 0;
-            // 
             // pn_p2
             // 
             this.pn_p2.Location = new System.Drawing.Point(6, 21);
@@ -79,14 +79,14 @@
             this.pn_p2.Size = new System.Drawing.Size(260, 302);
             this.pn_p2.TabIndex = 0;
             // 
-            // MultiPlayer
+            // TetrisRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 353);
+            this.ClientSize = new System.Drawing.Size(682, 352);
             this.Controls.Add(this.gb_p2);
             this.Controls.Add(this.gb_p1);
-            this.Name = "MultiPlayer";
+            this.Name = "TetrisRoom";
             this.Text = "MultiPlayer";
             this.gb_p1.ResumeLayout(false);
             this.gb_p2.ResumeLayout(false);
