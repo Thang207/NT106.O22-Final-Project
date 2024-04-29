@@ -71,10 +71,12 @@ namespace Tetris
             {
                 pn_p2.Enabled = false;
                 gb_p2.Enabled = false;
+                p1Game.Focus();
             } else if (side == 1)
             {
                 pn_p1.Enabled = false;
                 gb_p1.Enabled = false;
+                p2Game.Focus();
             }
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
@@ -90,6 +92,8 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
+                    MessageBox.Show("gui toi server");
+                    service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
             }
@@ -100,15 +104,33 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
+                    MessageBox.Show("gui toi server");
+                    service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        public void ProcessReceivedKey(Keys keyData)
+        {
+            if (side == 0)
+            {
+                // Process key for player 1
+                KeyEventArgs e = new KeyEventArgs(keyData);
+                p1Game.MainWindow_KeyDown(this, e);
+            }
+            else if (side == 1)
+            {
+                // Process key for player 2
+                KeyEventArgs e = new KeyEventArgs(keyData);
+                p2Game.MainWindow_KeyDown(this, e);
+            }
+        }
+
         private void Player_Ready(object sender, EventArgs e)
         {
-            GameTetris senderWindow = sender as GameTetris;
+             GameTetris senderWindow = sender as GameTetris;
 
             if (senderWindow == p1Game)
             {
@@ -141,6 +163,7 @@ namespace Tetris
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
+            this.Focus();
         }
 
 

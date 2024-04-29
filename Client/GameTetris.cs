@@ -692,16 +692,16 @@ namespace Tetris
             btnPlay.Enabled = false;
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
-            {
-                KeyEventArgs e = new KeyEventArgs(keyData);
-                this.MainWindow_KeyDown(this, e);
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
+        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        //{
+        //    if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
+        //        || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+        //    {
+        //        KeyEventArgs e = new KeyEventArgs(keyData);
+        //        this.MainWindow_KeyDown(this, e);
+        //        return true;
+        //    }
+        //    return base.ProcessCmdKey(ref msg, keyData);
+        //}
     }
 }

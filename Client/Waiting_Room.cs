@@ -137,7 +137,19 @@ namespace Client
                         break;
                     case "allready":
                         MessageBox.Show("Both sides are ready, the game starts!");
-                        room.GameTetris_StartGame();
+                        room.Invoke((MethodInvoker)delegate
+                        {
+                            room.GameTetris_StartGame();
+                            room.Focus();
+                        });
+                        break;
+                    case "key":
+                        Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
+                        MessageBox.Show("nhan tu server");
+                        if (room != null)
+                        {
+                            room.ProcessReceivedKey(keyData);
+                        }
                         break;
                 }
             }

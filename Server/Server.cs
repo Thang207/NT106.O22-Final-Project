@@ -15,11 +15,6 @@ using System.Windows.Forms;
 
 namespace Server
 {
-    public static class GlobalSeed
-    {
-        public static int Seed { get; set; } = new Random().Next();
-    }
-
     public partial class Server : Form
     {
         // MAX number of user
@@ -251,6 +246,13 @@ namespace Server
                             sendString = "AllReady";
                             service.SendToBoth(gameTable[tableIndex], sendString);
                         }
+                        break;
+                    case "key": //table index, side , key
+                        tableIndex = int.Parse(splitString[1]);
+                        side = int.Parse(splitString[2]);
+                        anotherSide = (side + 1) % 2;
+                        sendString = string.Format("Key,{0}", splitString[3]);
+                        service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
                     //Victory, format: Win, table number, seat number
                     case "win":
