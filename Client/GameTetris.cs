@@ -51,6 +51,7 @@ namespace Tetris
         // Load main window
         public GameTetris()
         {
+
             InitializeComponent();
             ScoreUpdateLabel.Text = "";
             // Initialize/reset ghost piece
@@ -79,17 +80,9 @@ namespace Tetris
             {
                 PieceSequenceIteration = 0;
 
-                // Scramble PieceSequence
+                // Set PieceSequence to ILJSZOT
                 PieceSequence.Clear();
-                System.Random random = new System.Random();
-                while (PieceSequence.Count < 7)
-                {
-                    int x = random.Next(7);
-                    if (!PieceSequence.Contains(x))
-                    {
-                        PieceSequence.Add(x);
-                    }
-                }
+                PieceSequence.AddRange(new List<int> { 0, 1, 2, 3, 4, 5, 6 });
             }
 
             // Select next piece from PieceSequence
