@@ -642,7 +642,7 @@ namespace Tetris
             return false;
         }
 
-        private void StartNewGame()
+        public void StartNewGame()
         {
             isPlayable = true;
             timeElapsed = 0;
@@ -691,10 +691,10 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            StartNewGame();
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space

@@ -135,7 +135,10 @@ namespace Client
                             }
                         }
                         break;
-
+                    case "allready":
+                        MessageBox.Show("Both sides are ready, the game starts!");
+                        room.GameTetris_StartGame();
+                        break;
                 }
             }
             Application.Exit();

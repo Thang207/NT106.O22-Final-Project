@@ -19,11 +19,10 @@ namespace Tetris
         public TetrisRoom(int tableIndex, int side, StreamWriter sw)
         {
             InitializeComponent();
-
             TableIndex = tableIndex;
             this.side = side;
             DrawGameRoom();
-            service = new Client.Service(null, sw);
+            service = new Service(null, sw);
         }
 
         private void DrawGameRoom()
@@ -43,7 +42,9 @@ namespace Tetris
             p1Game.GameOver += PlayerWindow_GameOver;
             p2Game.GameOver += PlayerWindow_GameOver;
 
-            p1Game.StartGame += GameTetris_StartGame;
+            p1Game.StartGame += Player_Ready;
+            p2Game.StartGame += Player_Ready;
+
 
             pn_p1.Size = new Size(p1Game.Width, p1Game.Height);
             pn_p2.Size = new Size(p2Game.Width, p2Game.Height);
@@ -72,7 +73,6 @@ namespace Tetris
                 pn_p1.Enabled = false;
                 gb_p1.Enabled = false;
             }
-
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
         }
@@ -103,10 +103,24 @@ namespace Tetris
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private void Player_Ready(object sender, EventArgs e)
+        {
+            GameTetris senderWindow = sender as GameTetris;
+
+            if (senderWindow == p1Game)
+            {
+                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
+            }
+            else
+            {
+                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
+            }
+        }
+
         private void PlayerWindow_GameOver(object sender, EventArgs e)
         {
             GameTetris senderWindow = sender as GameTetris;
-            p2Game.StopGame(); 
+            p2Game.StopGame();
             p1Game.StopGame();
 
             if (senderWindow == p1Game)
@@ -118,9 +132,11 @@ namespace Tetris
                 MessageBox.Show("Player 1 wins!");
             }
         }
-        private void GameTetris_StartGame(object sender, EventArgs e)
+
+        public void GameTetris_StartGame()
         {
-            p2Game.btnPlay_Click(this, e);
+            p1Game.StartNewGame();
+            p2Game.StartNewGame();
         }
 
         private void TetrisRoom_Load(object sender, EventArgs e)
