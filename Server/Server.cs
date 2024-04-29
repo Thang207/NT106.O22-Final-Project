@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,6 +153,9 @@ namespace Server
                 }
                 service.AddItem(string.Format("from {0}:{1}", user.userName, receiveString));
                 string[] splitString = receiveString.Split(',');
+                int tableIndex = -1; //table number
+                int side = -1;//Seat number
+                int anotherSide = -1; //The seat number of the other side
                 string sendString;
                 string command = splitString[0].ToLower();
                 switch (command)
@@ -174,7 +178,85 @@ namespace Server
 
                         }
                         break;
-
+                    //Exit, format: Logout
+                    case "logout":
+                        service.AddItem(string.Format("{0} exit the game room", user.userName));
+                        normalExit = true;
+                        exitWhile = true;
+                        break;
+                    //Sit down, format: SitDown, table number, seat number
+                    case "sitdown":
+                        tableIndex = int.Parse(splitString[1]);
+                        side = int.Parse(splitString[2]);
+                        gameTable[tableIndex].gamePlayer[side].user = user;
+                        gameTable[tableIndex].gamePlayer[side].someone = true;
+                        service.AddItem(string.Format("{0} is seated at table {1}, seat {2}", user.userName, tableIndex + 1, side + 1));
+                        //Get the seat number of the other party
+                        anotherSide = (side + 1) % 2;
+                        // Determine if the other party is someone
+                        if (gameTable[tableIndex].gamePlayer[anotherSide].someone == true)
+                        {
+                            // Tell the user that the other party is seated
+                            //Format: SitDown, seat number, username
+                            sendString = string.Format("SitDown,{0},{1}", anotherSide, gameTable[tableIndex].gamePlayer[anotherSide].user.userName);
+                            service.SendToOne(user, sendString);
+                        }
+                        //Tell both users that the user is seated
+                        //Format: SitDown, seat number, username
+                        sendString = string.Format("SitDown,{0},{1}", side, user.userName);
+                        service.SendToBoth(gameTable[tableIndex], sendString);
+                        //Send the status of each table in the game room to all users
+                        service.SendToAll(userList, "Tables," + this.GetOnlineString());
+                        break;
+                    //Leave seat, format: GetUp, table number, seat number
+                    case "getup":
+                        tableIndex = int.Parse(splitString[1]);
+                        side = int.Parse(splitString[2]);
+                        service.AddItem(string.Format("{0} leave seat and return to the game room", user.userName));
+                        //Send the departure information to two users in the format: GetUp, seat number, user name
+                        service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1}", side, user.userName));
+                        gameTable[tableIndex].gamePlayer[side].someone = false;
+                        gameTable[tableIndex].gamePlayer[side].started = false;
+                        anotherSide = (side + 1) % 2;
+                        if (gameTable[tableIndex].gamePlayer[anotherSide].someone == true)
+                        {
+                            gameTable[tableIndex].gamePlayer[anotherSide].started = false;
+                        }
+                        //Send the status of each table in the game room to all users
+                        service.SendToAll(userList, "Tables," + this.GetOnlineString());
+                        break;
+                    //Prepare, format: Start, table number, seat number
+                    case "start":
+                        tableIndex = int.Parse(splitString[1]);
+                        side = int.Parse(splitString[2]);
+                        gameTable[tableIndex].gamePlayer[side].started = true;
+                        if (side == 0)
+                        {
+                            anotherSide = 1;
+                            sendString = "Message, Black is ready";
+                        }
+                        else
+                        {
+                            anotherSide = 0;
+                            sendString = "Message, the red team is ready";
+                        }
+                        service.SendToBoth(gameTable[tableIndex], sendString);
+                        if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
+                        {
+                            sendString = "AllReady";
+                            service.SendToBoth(gameTable[tableIndex], sendString);
+                        }
+                        break;
+                    //Victory, format: Win, table number, seat number
+                    case "win":
+                        tableIndex = int.Parse(splitString[1]);
+                        side = int.Parse(splitString[2]);
+                        anotherSide = (side + 1) % 2;
+                        sendString = string.Format("win,{0}", side);
+                        service.SendToBoth(gameTable[tableIndex], sendString);
+                        gameTable[tableIndex].gamePlayer[side].started = false;
+                        gameTable[tableIndex].gamePlayer[anotherSide].started = false;
+                        break;
                 }
             }
             userList.Remove(user);

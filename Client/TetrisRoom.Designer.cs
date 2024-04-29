@@ -88,6 +88,8 @@
             this.Controls.Add(this.gb_p1);
             this.Name = "TetrisRoom";
             this.Text = "MultiPlayer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TetrisRoom_FormClosing);
+            this.Load += new System.EventHandler(this.TetrisRoom_Load);
             this.gb_p1.ResumeLayout(false);
             this.gb_p2.ResumeLayout(false);
             this.ResumeLayout(false);

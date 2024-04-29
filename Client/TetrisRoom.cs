@@ -9,15 +9,25 @@ namespace Tetris
     public partial class TetrisRoom : Form
     {
         private int TableIndex;
-        private int side;
+        private int side = 0;
 
         public GameTetris p1Game;
         public GameTetris p2Game;
+        public GameTetris main;
+        private Service service;
 
         public TetrisRoom(int tableIndex, int side, StreamWriter sw)
         {
             InitializeComponent();
 
+            TableIndex = tableIndex;
+            this.side = side;
+            DrawGameRoom();
+            service = new Client.Service(null, sw);
+        }
+
+        private void DrawGameRoom()
+        {
             this.IsMdiContainer = true;
             this.WindowState = FormWindowState.Normal;
 
@@ -53,24 +63,42 @@ namespace Tetris
             p1Game.Show();
             p2Game.Show();
 
-            pn_p2.Enabled = false;
-            gb_p2.Enabled = false;
+            if (side == 0)
+            {
+                pn_p2.Enabled = false;
+                gb_p2.Enabled = false;
+            } else if (side == 1)
+            {
+                pn_p1.Enabled = false;
+                gb_p1.Enabled = false;
+            }
+
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
-
-            TableIndex = tableIndex;
-            this.side = side;
         }
 
         // Chỉ cho panel 1 có thể nhấn phím
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+            if (side == 0)
             {
-                KeyEventArgs e = new KeyEventArgs(keyData);
-                p1Game.MainWindow_KeyDown(this, e);
-                return true;
+                if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                {
+                    KeyEventArgs e = new KeyEventArgs(keyData);
+                    p1Game.MainWindow_KeyDown(this, e);
+                    return true;
+                }
+            }
+            else if (side == 1)
+            {
+                if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                {
+                    KeyEventArgs e = new KeyEventArgs(keyData);
+                    p2Game.MainWindow_KeyDown(this, e);
+                    return true;
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -93,6 +121,16 @@ namespace Tetris
         private void GameTetris_StartGame(object sender, EventArgs e)
         {
             p2Game.btnPlay_Click(this, e);
+        }
+
+        private void TetrisRoom_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TetrisRoom_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            service.SendToServer(string.Format("GetUp,{0},{1}", TableIndex, side));
         }
     }
 }

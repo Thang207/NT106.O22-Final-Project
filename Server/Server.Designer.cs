@@ -40,7 +40,7 @@
             // Connect_btn
             // 
             this.Connect_btn.Location = new System.Drawing.Point(695, 69);
-            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4);
             this.Connect_btn.Name = "Connect_btn";
             this.Connect_btn.Size = new System.Drawing.Size(100, 28);
             this.Connect_btn.TabIndex = 0;
@@ -51,7 +51,7 @@
             // Disconnect_btn
             // 
             this.Disconnect_btn.Location = new System.Drawing.Point(695, 104);
-            this.Disconnect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Disconnect_btn.Margin = new System.Windows.Forms.Padding(4);
             this.Disconnect_btn.Name = "Disconnect_btn";
             this.Disconnect_btn.Size = new System.Drawing.Size(100, 28);
             this.Disconnect_btn.TabIndex = 1;
@@ -62,22 +62,22 @@
             // MaxUser_tb
             // 
             this.MaxUser_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MaxUser_tb.Location = new System.Drawing.Point(607, 7);
-            this.MaxUser_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaxUser_tb.Location = new System.Drawing.Point(649, 7);
+            this.MaxUser_tb.Margin = new System.Windows.Forms.Padding(4);
             this.MaxUser_tb.Name = "MaxUser_tb";
             this.MaxUser_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MaxUser_tb.Size = new System.Drawing.Size(188, 22);
+            this.MaxUser_tb.Size = new System.Drawing.Size(146, 22);
             this.MaxUser_tb.TabIndex = 2;
             this.MaxUser_tb.Text = "4";
             // 
             // MaxTable_tb
             // 
             this.MaxTable_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MaxTable_tb.Location = new System.Drawing.Point(607, 39);
-            this.MaxTable_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaxTable_tb.Location = new System.Drawing.Point(649, 39);
+            this.MaxTable_tb.Margin = new System.Windows.Forms.Padding(4);
             this.MaxTable_tb.Name = "MaxTable_tb";
             this.MaxTable_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MaxTable_tb.Size = new System.Drawing.Size(188, 22);
+            this.MaxTable_tb.Size = new System.Drawing.Size(146, 22);
             this.MaxTable_tb.TabIndex = 3;
             this.MaxTable_tb.Text = "2";
             // 
@@ -86,7 +86,7 @@
             this.ServerLog_lb.FormattingEnabled = true;
             this.ServerLog_lb.ItemHeight = 16;
             this.ServerLog_lb.Location = new System.Drawing.Point(13, 9);
-            this.ServerLog_lb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ServerLog_lb.Margin = new System.Windows.Forms.Padding(4);
             this.ServerLog_lb.Name = "ServerLog_lb";
             this.ServerLog_lb.Size = new System.Drawing.Size(408, 340);
             this.ServerLog_lb.TabIndex = 4;
@@ -123,7 +123,7 @@
             this.Controls.Add(this.MaxUser_tb);
             this.Controls.Add(this.Disconnect_btn);
             this.Controls.Add(this.Connect_btn);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Server_FormClosing);
