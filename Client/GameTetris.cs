@@ -32,8 +32,8 @@ namespace Tetris
         int PieceSequenceIteration = 0;
         bool isPlayable = false;
 
-        readonly Color[] colorList = 
-        {  
+        readonly Color[] colorList =
+        {
             Color.FromArgb(1, 237, 250),     // I piece - cyan
             Color.FromArgb(255, 200, 46),   // L piece - orange
             Color.FromArgb(0, 119, 211),     // J piece - blue
@@ -51,7 +51,6 @@ namespace Tetris
         // Load main window
         public GameTetris()
         {
-
             InitializeComponent();
             ScoreUpdateLabel.Text = "";
             // Initialize/reset ghost piece
@@ -80,9 +79,17 @@ namespace Tetris
             {
                 PieceSequenceIteration = 0;
 
-                // Set PieceSequence to ILJSZOT
+                // Scramble PieceSequence
                 PieceSequence.Clear();
-                PieceSequence.AddRange(new List<int> { 0, 1, 2, 3, 4, 5, 6 });
+                System.Random random = new System.Random();
+                while (PieceSequence.Count < 7)
+                {
+                    int x = random.Next(7);
+                    if (!PieceSequence.Contains(x))
+                    {
+                        PieceSequence.Add(x);
+                    }
+                }
             }
 
             // Select next piece from PieceSequence
@@ -99,7 +106,7 @@ namespace Tetris
             }
 
             // Layout options for next piece
-            Control[,] nextPieceArray = 
+            Control[,] nextPieceArray =
             {
                 { box203, box207, box211, box215 }, // I piece
                 { box202, box206, box210, box211 }, // L piece
@@ -113,7 +120,7 @@ namespace Tetris
             // Retrieve layout for next piece
             for (int x = 0; x < 4; x++)
             {
-                nextPiece[x] = nextPieceArray[nextPieceInt,x];
+                nextPiece[x] = nextPieceArray[nextPieceInt, x];
             }
 
             // Populate next piece panel with correct color
@@ -339,7 +346,7 @@ namespace Tetris
             }
             return true;
         }
-        
+
         // Timer for piece movement speed - increases with game level
 
         // Speed is controlled by LevelUp() method
@@ -618,8 +625,8 @@ namespace Tetris
         // Clear score update notification every 2 seconds
         private void ScoreUpdateTimer_Tick(object sender, EventArgs e)
         {
-                ScoreUpdateLabel.Text = "";
-                ScoreUpdateTimer.Stop();
+            ScoreUpdateLabel.Text = "";
+            ScoreUpdateTimer.Stop();
         }
 
         // Check if a piece collise with ghost
@@ -635,7 +642,7 @@ namespace Tetris
             return false;
         }
 
-        public void StartNewGame()
+        public void StartNewGame(int seed)
         {
             timeElapsed = 0;
             savedPieceInt = -1;
@@ -647,7 +654,7 @@ namespace Tetris
             gameOver = false;
             isPaused = false;
             PieceSequenceIteration = 0;
-            isPlayable = false;
+            isPlayable = true;
 
             foreach (Control control in grid.Controls)
             {
@@ -655,7 +662,7 @@ namespace Tetris
             }
 
             PieceSequence.Clear();
-            System.Random random = new System.Random();
+            System.Random random = new System.Random(seed);
             while (PieceSequence.Count < 7)
             {
                 int x = random.Next(7);
@@ -687,6 +694,8 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
+            int seed = new Random().Next();
+            StartNewGame(seed);
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }

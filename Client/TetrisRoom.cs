@@ -8,6 +8,7 @@ namespace Tetris
 {
     public partial class TetrisRoom : Form
     {
+        public static int GlobalSeed { get; set; }
         private int TableIndex;
         private int side = 0;
 
@@ -135,8 +136,8 @@ namespace Tetris
 
         public void GameTetris_StartGame()
         {
-            p1Game.StartNewGame();
-            p2Game.StartNewGame();
+            p1Game.StartNewGame(GlobalSeed);
+            p2Game.StartNewGame(GlobalSeed);
         }
 
         private void TetrisRoom_Load(object sender, EventArgs e)

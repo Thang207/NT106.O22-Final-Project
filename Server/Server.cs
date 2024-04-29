@@ -15,6 +15,11 @@ using System.Windows.Forms;
 
 namespace Server
 {
+    public static class GlobalSeed
+    {
+        public static int Seed { get; set; } = new Random().Next();
+    }
+
     public partial class Server : Form
     {
         // MAX number of user
