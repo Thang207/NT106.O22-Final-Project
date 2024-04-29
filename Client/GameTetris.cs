@@ -644,14 +644,17 @@ namespace Tetris
 
         public void StartNewGame()
         {
-            isPlayable = true;
             timeElapsed = 0;
+            savedPieceInt = -1;
+            rotations = 0;
+            combo = 0;
             score = 0;
             clears = 0;
             level = 0;
-            combo = 0;
             gameOver = false;
             isPaused = false;
+            PieceSequenceIteration = 0;
+            isPlayable = false;
 
             foreach (Control control in grid.Controls)
             {
