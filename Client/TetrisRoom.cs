@@ -135,8 +135,11 @@ namespace Tetris
 
         public void GameTetris_StartGame()
         {
-            p1Game.StartNewGame();
-            p2Game.StartNewGame();
+            this.Invoke((MethodInvoker)delegate
+            {
+                p1Game.StartNewGame();
+                p2Game.StartNewGame();
+            });
         }
 
         private void TetrisRoom_Load(object sender, EventArgs e)
