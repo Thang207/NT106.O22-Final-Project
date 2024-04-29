@@ -1,5 +1,6 @@
 ﻿using Client;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ namespace Tetris
     public partial class TetrisRoom : Form
     {
         public static int GlobalSeed { get; set; }
+        public static System.Random random = new System.Random(GlobalSeed);
         private int TableIndex;
         private int side = 0;
 
@@ -133,12 +135,14 @@ namespace Tetris
                 MessageBox.Show("Player 1 wins!");
             }
         }
-
         public void GameTetris_StartGame()
         {
-            p1Game.StartNewGame(GlobalSeed);
-            p2Game.StartNewGame(GlobalSeed);
+            TetrisRoom.random = new System.Random(GlobalSeed);
+            List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
+            p1Game.StartNewGame(sequence);
+            p2Game.StartNewGame(sequence);
         }
+
 
         private void TetrisRoom_Load(object sender, EventArgs e)
         {

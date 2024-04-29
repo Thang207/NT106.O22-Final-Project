@@ -74,27 +74,16 @@ namespace Tetris
             // Move next piece to current piece
             currentPiece = nextPieceInt;
 
-            // If last piece of PieceSequence, generate new PieceSequence
-            if (PieceSequenceIteration == 7)
+            // If last piece of PieceSequence, reset PieceSequenceIteration
+            if (PieceSequenceIteration == PieceSequence.Count)
             {
                 PieceSequenceIteration = 0;
-
-                // Scramble PieceSequence
-                PieceSequence.Clear();
-                System.Random random = new System.Random();
-                while (PieceSequence.Count < 7)
-                {
-                    int x = random.Next(7);
-                    if (!PieceSequence.Contains(x))
-                    {
-                        PieceSequence.Add(x);
-                    }
-                }
             }
 
             // Select next piece from PieceSequence
             nextPieceInt = PieceSequence[PieceSequenceIteration];
             PieceSequenceIteration++;
+
 
             // If not first move, clear next piece panel
             if (nextPiece.Contains(null) == false)
@@ -642,7 +631,17 @@ namespace Tetris
             return false;
         }
 
-        public void StartNewGame(int seed)
+        public static List<int> GenerateTetrisSequence(int length)
+        {
+            List<int> sequence = new List<int>();
+            for (int i = 0; i < length; i++)
+            {
+                sequence.Add(TetrisRoom.random.Next(7));  // Assuming there are 7 different Tetris blocks
+            }
+            return sequence;
+        }
+
+        public void StartNewGame(List<int> sequence)
         {
             timeElapsed = 0;
             savedPieceInt = -1;
@@ -661,16 +660,8 @@ namespace Tetris
                 control.BackColor = Color.White;
             }
 
-            PieceSequence.Clear();
-            System.Random random = new System.Random(seed);
-            while (PieceSequence.Count < 7)
-            {
-                int x = random.Next(7);
-                if (!PieceSequence.Contains(x))
-                {
-                    PieceSequence.Add(x);
-                }
-            }
+            // Use the provided sequence
+            PieceSequence = sequence;
 
             SpeedTimer.Start();
             GameTimer.Start();
@@ -683,6 +674,7 @@ namespace Tetris
             btnPlay.Enabled = false;
         }
 
+
         public void StopGame()
         {
             SpeedTimer.Stop();
@@ -694,8 +686,8 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            int seed = new Random().Next();
-            StartNewGame(seed);
+            List<int> sequence = GameTetris.GenerateTetrisSequence(10);
+            StartNewGame(sequence);
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }
