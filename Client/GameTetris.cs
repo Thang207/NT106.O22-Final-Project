@@ -645,7 +645,6 @@ namespace Tetris
         public void StartNewGame()
         {
             timeElapsed = 0;
-            savedPieceInt = -1;
             rotations = 0;
             combo = 0;
             score = 0;
@@ -654,7 +653,6 @@ namespace Tetris
             gameOver = false;
             isPaused = false;
             PieceSequenceIteration = 0;
-            isPlayable = false;
 
             foreach (Control control in grid.Controls)
             {
@@ -680,6 +678,7 @@ namespace Tetris
             PieceSequenceIteration++;
 
             DropNewPiece();
+            isPlayable = true;
             btnPlay.Enabled = false;
         }
 
