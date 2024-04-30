@@ -42,9 +42,6 @@ namespace Tetris
             p1Game.FormBorderStyle = FormBorderStyle.None;
             p2Game.FormBorderStyle = FormBorderStyle.None;
 
-            p1Game.GameOver += PlayerWindow_GameOver;
-            p2Game.GameOver += PlayerWindow_GameOver;
-
             p1Game.StartGame += Player_Ready;
             p2Game.StartGame += Player_Ready;
 
@@ -72,16 +69,25 @@ namespace Tetris
 
             if (side == 0)
             {
+                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                pn_p1.Controls.Add(announcementLabel);
+                announcementLabel.BringToFront();
                 pn_p2.Enabled = false;
                 gb_p2.Enabled = false;
                 p2Game.HideListView();
                 p1Game.Focus();
-            } else if (side == 1)
+                p1Game.GameOver += PlayerWindow_GameOver;
+            }
+            else if (side == 1)
             {
+                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                pn_p2.Controls.Add(announcementLabel);
+                announcementLabel.BringToFront();
                 pn_p1.Enabled = false;
                 gb_p1.Enabled = false;
                 p1Game.HideListView();
                 p2Game.Focus();
+                p2Game.GameOver += PlayerWindow_GameOver;
             }
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
@@ -166,7 +172,12 @@ namespace Tetris
 
         private void PlayerWindow_GameOver(object sender, EventArgs e)
         {
+            announcementLabel.Text = "You Lose!!!";
+            AddMessage("You Lose!!!");
+            announcementLabel.Visible = true; 
+            announcementTimer.Start();
             GameTetris senderWindow = sender as GameTetris;
+            
             p2Game.StopGame();
             p1Game.StopGame();
 
@@ -179,29 +190,35 @@ namespace Tetris
                 service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
         }
+
+        public void annouceWin(string message)
+        {
+            announcementLabel.Text = message;
+            announcementLabel.Visible = true;
+            announcementTimer.Start();
+        }
         public void GameTetris_StartGame()
         {
-<<<<<<< HEAD
+
             TetrisRoom.random = new System.Random(GlobalSeed);
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
-=======
-            this.Invoke((MethodInvoker)delegate
-            {
-                p1Game.StartNewGame();
-                p2Game.StartNewGame();
-            });
->>>>>>> f656c03167b27b6b24d61327648cb1817a63008c
+            //this.Invoke((MethodInvoker)delegate
+            //{
+            //    p1Game.StartNewGame();
+            //    p2Game.StartNewGame();
+            //});
+
         }
 
-
-        private void TetrisRoom_Load(object sender, EventArgs e)
+        private void announcement_Tick(object sender, EventArgs e)
         {
-
+            announcementLabel.Text = "";
+            announcementLabel.Visible = false; 
+            announcementTimer.Stop();
         }
-
         private void TetrisRoom_FormClosing(object sender, FormClosingEventArgs e)
         {
             service.SendToServer(string.Format("GetUp,{0},{1}", TableIndex, side));

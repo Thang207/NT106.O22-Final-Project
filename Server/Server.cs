@@ -271,8 +271,8 @@ namespace Server
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         anotherSide = (side + 1) % 2;
-                        sendString = string.Format("lose,{0}", side + 1);
-                        service.SendToBoth(gameTable[tableIndex], sendString);
+                        sendString = string.Format("win");
+                        service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;
                         break;

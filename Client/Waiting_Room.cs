@@ -160,9 +160,31 @@ namespace Client
                     case "win":
                         room.Invoke((MethodInvoker)delegate
                         {
-                            room.AddMessage("Player "+ splitString[1] + " is the winner");
+                            room.annouceWin("You Win!!!");
+                            room.AddMessage("You Win!!!");
+                            if (side == 0)
+                            {
+                                room.p1Game.StopGame();
+                            }
+                            else if (side == 1)
+                            {
+                                room.p2Game.StopGame();
+                            }
                         });
                         break;
+                    //case "getup":
+                    //    if (side == int.Parse(splitString[1]))
+                    //    {
+                    //        side = -1;
+                    //    }
+                    //    else
+                    //    {
+                    //        room.SetTableSideText(splitString[1], "",
+                    //            string.Format("{0} exit", splitString[2]));
+                    //        room.Restart("The enemy escapes, our side wins");
+                    //    }
+                    //    break;
+                        //The other party disconnects from the server
                 }
             }
             Application.Exit();

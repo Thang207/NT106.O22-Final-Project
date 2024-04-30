@@ -154,21 +154,14 @@ namespace Tetris
                     gameOver = true;
                     GameOver?.Invoke(this, EventArgs.Empty);
 
-                    DialogResult result = MessageBox.Show("Game over! Chơi game mới?", "Game Over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (result == DialogResult.Yes)
-                    {
                         // Xử lý chơi game mới
                         gameOver = false;
                         isPaused = false;
                         btnPlay.Enabled = true;
                         RestartGame?.Invoke(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        // Xử lý thoát form game
-                        this.Close();
-                    }
+                    
+
 
                     return;
                 }
@@ -654,10 +647,7 @@ namespace Tetris
             gameOver = false;
             isPaused = false;
             PieceSequenceIteration = 0;
-<<<<<<< HEAD
             isPlayable = true;
-=======
->>>>>>> f656c03167b27b6b24d61327648cb1817a63008c
 
             foreach (Control control in grid.Controls)
             {
@@ -723,6 +713,11 @@ namespace Tetris
         public void Enable_Play()
         {
             btnPlay.Enabled = true;
+        }
+
+        private void LevelLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
