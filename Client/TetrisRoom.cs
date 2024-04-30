@@ -165,11 +165,19 @@ namespace Tetris
         }
         public void GameTetris_StartGame()
         {
+<<<<<<< HEAD
             TetrisRoom.random = new System.Random(GlobalSeed);
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
+=======
+            this.Invoke((MethodInvoker)delegate
+            {
+                p1Game.StartNewGame();
+                p2Game.StartNewGame();
+            });
+>>>>>>> f656c03167b27b6b24d61327648cb1817a63008c
         }
 
 
