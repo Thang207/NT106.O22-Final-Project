@@ -145,7 +145,6 @@ namespace Client
                         break;
                     case "key":
                         Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
-                        MessageBox.Show("nhan tu server");
                         if (room != null)
                         {
                             room.ProcessReceivedKey(keyData);

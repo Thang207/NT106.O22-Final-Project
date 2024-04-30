@@ -448,102 +448,102 @@ namespace Tetris
                     x++;
                 }
             }
-            else if (!CheckGameOver() && e.KeyCode == Keys.ShiftKey)
-            {
-                rotations = 0;
+            ////else if (!CheckGameOver() && e.KeyCode == Keys.ShiftKey)
+            ////{
+            ////    rotations = 0;
 
-                // Layout options for saved piece
-                Control[,] savedPieceArray =
-                {
-                        { box219, box223, box227, box231 }, // I piece
-                        { box218, box222, box226, box227 }, // L piece
-                        { box219, box223, box227, box226 }, // J piece
-                        { box222, box223, box219, box220 }, // S piece
-                        { box218, box219, box223, box224 }, // Z piece
-                        { box222, box223, box226, box227 }, // O piece
-                        { box223, box226, box227, box228 }  // T piece
-                };
+            ////    // Layout options for saved piece
+            ////    //Control[,] savedPieceArray =
+            ////    //{
+            ////    //        { box219, box223, box227, box231 }, // I piece
+            ////    //        { box218, box222, box226, box227 }, // L piece
+            ////    //        { box219, box223, box227, box226 }, // J piece
+            ////    //        { box222, box223, box219, box220 }, // S piece
+            ////    //        { box218, box219, box223, box224 }, // Z piece
+            ////    //        { box222, box223, box226, box227 }, // O piece
+            ////    //        { box223, box226, box227, box228 }  // T piece
+            ////    //};
 
-                // Layout options for falling piece
-                Control[,] activePieceArray =
-                {
-                        { box6, box16, box26, box36 }, // I piece
-                        { box4, box14, box24, box25 }, // L piece
-                        { box5, box15, box25, box24 }, // J piece
-                        { box14, box15, box5, box6 },  // S piece
-                        { box5, box6, box16, box17 },  // Z piece
-                        { box5, box6, box15, box16 },  // O piece
-                        { box6, box15, box16, box17 }  // T piece
-                };
+            ////    // Layout options for falling piece
+            ////    Control[,] activePieceArray =
+            ////    {
+            ////            { box6, box16, box26, box36 }, // I piece
+            ////            { box4, box14, box24, box25 }, // L piece
+            ////            { box5, box15, box25, box24 }, // J piece
+            ////            { box14, box15, box5, box6 },  // S piece
+            ////            { box5, box6, box16, box17 },  // Z piece
+            ////            { box5, box6, box15, box16 },  // O piece
+            ////            { box6, box15, box16, box17 }  // T piece
+            ////    };
 
-                // Erase falling piece
-                foreach (Control x in activePiece)
-                {
-                    x.BackColor = Color.White;
-                }
+            //    // Erase falling piece
+            //    foreach (Control x in activePiece)
+            //    {
+            //        x.BackColor = Color.White;
+            //    }
 
-                // If no piece has been saved yet
-                if (savedPieceInt == -1)
-                {
-                    // Retrieve layout for saved piece
-                    savedPieceInt = currentPiece;
-                    for (int x = 0; x < 4; x++)
-                    {
-                        savedPiece[x] = savedPieceArray[savedPieceInt, x];
-                    }
+            //    // If no piece has been saved yet
+            //    if (savedPieceInt == -1)
+            //    {
+            //        // Retrieve layout for saved piece
+            //        savedPieceInt = currentPiece;
+            //        for (int x = 0; x < 4; x++)
+            //        {
+            //            savedPiece[x] = savedPieceArray[savedPieceInt, x];
+            //        }
 
-                    // Draw saved piece
-                    savedPieceColor = colorList[savedPieceInt];
-                    foreach (Control x in savedPiece)
-                    {
-                        x.BackColor = savedPieceColor;
-                    }
+            //        // Draw saved piece
+            //        savedPieceColor = colorList[savedPieceInt];
+            //        foreach (Control x in savedPiece)
+            //        {
+            //            x.BackColor = savedPieceColor;
+            //        }
 
-                    DropNewPiece();
-                }
+            //        DropNewPiece();
+            //    }
 
-                // If a piece has already been saved
-                else
-                {
+            //    // If a piece has already been saved
+            //    else
+            //    {
 
-                    // Erase saved piece
-                    foreach (Control x in savedPiece)
-                    {
-                        x.BackColor = Color.White;
-                    }
+            //        // Erase saved piece
+            //        foreach (Control x in savedPiece)
+            //        {
+            //            x.BackColor = Color.White;
+            //        }
 
-                    // Swap pieces
-                    int savedPieceTemp = currentPiece;
-                    currentPiece = savedPieceInt;
-                    savedPieceInt = savedPieceTemp;
-                    for (int x = 0; x < 4; x++)
-                    {
-                        savedPiece[x] = savedPieceArray[savedPieceInt, x];
-                        activePiece2[x] = activePieceArray[currentPiece, x];
-                    }
+            //        // Swap pieces
+            //        int savedPieceTemp = currentPiece;
+            //        currentPiece = savedPieceInt;
+            //        savedPieceInt = savedPieceTemp;
+            //        for (int x = 0; x < 4; x++)
+            //        {
+            //            savedPiece[x] = savedPieceArray[savedPieceInt, x];
+            //            activePiece2[x] = activePieceArray[currentPiece, x];
+            //        }
 
-                    // Draw saved piece
-                    savedPieceColor = colorList[savedPieceInt];
-                    foreach (Control x in savedPiece)
-                    {
-                        x.BackColor = savedPieceColor;
-                    }
+            //        // Draw saved piece
+            //        savedPieceColor = colorList[savedPieceInt];
+            //        foreach (Control x in savedPiece)
+            //        {
+            //            x.BackColor = savedPieceColor;
+            //        }
 
-                    // Draw falling piece
-                    pieceColor = colorList[currentPiece];
-                    foreach (Control square in activePiece2)
-                    {
-                        square.BackColor = pieceColor;
-                    }
+            //        // Draw falling piece
+            //        pieceColor = colorList[currentPiece];
+            //        foreach (Control square in activePiece2)
+            //        {
+            //            square.BackColor = pieceColor;
+            //        }
 
-                    DrawGhost();
+            //        DrawGhost();
 
-                    for (int x = 0; x < 4; x++)
-                    {
-                        activePiece[x] = activePiece2[x];
-                    }
-                }
-            }
+            //        for (int x = 0; x < 4; x++)
+            //        {
+            //            activePiece[x] = activePiece2[x];
+            //        }
+            //    }
+            //}
             else if (!CheckGameOver() && e.KeyCode == Keys.Space && !CheckCollisionWithGhost())
             {
                 // Hard drop

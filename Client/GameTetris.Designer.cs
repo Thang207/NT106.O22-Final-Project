@@ -274,25 +274,7 @@
             this.box214 = new System.Windows.Forms.PictureBox();
             this.box215 = new System.Windows.Forms.PictureBox();
             this.box216 = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.box217 = new System.Windows.Forms.PictureBox();
-            this.box218 = new System.Windows.Forms.PictureBox();
-            this.box219 = new System.Windows.Forms.PictureBox();
-            this.box220 = new System.Windows.Forms.PictureBox();
-            this.box221 = new System.Windows.Forms.PictureBox();
-            this.box222 = new System.Windows.Forms.PictureBox();
-            this.box223 = new System.Windows.Forms.PictureBox();
-            this.box224 = new System.Windows.Forms.PictureBox();
-            this.box225 = new System.Windows.Forms.PictureBox();
-            this.box226 = new System.Windows.Forms.PictureBox();
-            this.box227 = new System.Windows.Forms.PictureBox();
-            this.box228 = new System.Windows.Forms.PictureBox();
-            this.box229 = new System.Windows.Forms.PictureBox();
-            this.box230 = new System.Windows.Forms.PictureBox();
-            this.box231 = new System.Windows.Forms.PictureBox();
-            this.box232 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.ScoreUpdateLabel = new System.Windows.Forms.Label();
             this.ScoreUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
@@ -537,23 +519,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.box214)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box215)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box216)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.box217)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box218)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box219)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box220)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box221)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box222)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box223)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box224)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box225)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box226)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box227)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box228)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box229)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box230)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box231)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box232)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -3488,201 +3453,6 @@
             this.box216.TabIndex = 15;
             this.box216.TabStop = false;
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.box217, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.box218, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.box219, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.box220, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.box221, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.box222, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.box223, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.box224, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.box225, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.box226, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.box227, 2, 2);
-            this.tableLayoutPanel2.Controls.Add(this.box228, 3, 2);
-            this.tableLayoutPanel2.Controls.Add(this.box229, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.box230, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.box231, 2, 3);
-            this.tableLayoutPanel2.Controls.Add(this.box232, 3, 3);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(468, 463);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(177, 160);
-            this.tableLayoutPanel2.TabIndex = 8;
-            // 
-            // box217
-            // 
-            this.box217.BackColor = System.Drawing.Color.White;
-            this.box217.Location = new System.Drawing.Point(3, 2);
-            this.box217.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box217.Name = "box217";
-            this.box217.Size = new System.Drawing.Size(38, 34);
-            this.box217.TabIndex = 0;
-            this.box217.TabStop = false;
-            // 
-            // box218
-            // 
-            this.box218.BackColor = System.Drawing.Color.White;
-            this.box218.Location = new System.Drawing.Point(47, 2);
-            this.box218.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box218.Name = "box218";
-            this.box218.Size = new System.Drawing.Size(38, 34);
-            this.box218.TabIndex = 1;
-            this.box218.TabStop = false;
-            // 
-            // box219
-            // 
-            this.box219.BackColor = System.Drawing.Color.White;
-            this.box219.Location = new System.Drawing.Point(91, 2);
-            this.box219.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box219.Name = "box219";
-            this.box219.Size = new System.Drawing.Size(38, 34);
-            this.box219.TabIndex = 2;
-            this.box219.TabStop = false;
-            // 
-            // box220
-            // 
-            this.box220.BackColor = System.Drawing.Color.White;
-            this.box220.Location = new System.Drawing.Point(135, 2);
-            this.box220.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box220.Name = "box220";
-            this.box220.Size = new System.Drawing.Size(39, 34);
-            this.box220.TabIndex = 3;
-            this.box220.TabStop = false;
-            // 
-            // box221
-            // 
-            this.box221.BackColor = System.Drawing.Color.White;
-            this.box221.Location = new System.Drawing.Point(3, 42);
-            this.box221.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box221.Name = "box221";
-            this.box221.Size = new System.Drawing.Size(38, 34);
-            this.box221.TabIndex = 4;
-            this.box221.TabStop = false;
-            // 
-            // box222
-            // 
-            this.box222.BackColor = System.Drawing.Color.White;
-            this.box222.Location = new System.Drawing.Point(47, 42);
-            this.box222.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box222.Name = "box222";
-            this.box222.Size = new System.Drawing.Size(38, 34);
-            this.box222.TabIndex = 5;
-            this.box222.TabStop = false;
-            // 
-            // box223
-            // 
-            this.box223.BackColor = System.Drawing.Color.White;
-            this.box223.Location = new System.Drawing.Point(91, 42);
-            this.box223.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box223.Name = "box223";
-            this.box223.Size = new System.Drawing.Size(38, 34);
-            this.box223.TabIndex = 6;
-            this.box223.TabStop = false;
-            // 
-            // box224
-            // 
-            this.box224.BackColor = System.Drawing.Color.White;
-            this.box224.Location = new System.Drawing.Point(135, 42);
-            this.box224.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box224.Name = "box224";
-            this.box224.Size = new System.Drawing.Size(39, 34);
-            this.box224.TabIndex = 7;
-            this.box224.TabStop = false;
-            // 
-            // box225
-            // 
-            this.box225.BackColor = System.Drawing.Color.White;
-            this.box225.Location = new System.Drawing.Point(3, 82);
-            this.box225.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box225.Name = "box225";
-            this.box225.Size = new System.Drawing.Size(38, 34);
-            this.box225.TabIndex = 8;
-            this.box225.TabStop = false;
-            // 
-            // box226
-            // 
-            this.box226.BackColor = System.Drawing.Color.White;
-            this.box226.Location = new System.Drawing.Point(47, 82);
-            this.box226.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box226.Name = "box226";
-            this.box226.Size = new System.Drawing.Size(38, 34);
-            this.box226.TabIndex = 9;
-            this.box226.TabStop = false;
-            // 
-            // box227
-            // 
-            this.box227.BackColor = System.Drawing.Color.White;
-            this.box227.Location = new System.Drawing.Point(91, 82);
-            this.box227.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box227.Name = "box227";
-            this.box227.Size = new System.Drawing.Size(38, 34);
-            this.box227.TabIndex = 10;
-            this.box227.TabStop = false;
-            // 
-            // box228
-            // 
-            this.box228.BackColor = System.Drawing.Color.White;
-            this.box228.Location = new System.Drawing.Point(135, 82);
-            this.box228.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box228.Name = "box228";
-            this.box228.Size = new System.Drawing.Size(39, 34);
-            this.box228.TabIndex = 11;
-            this.box228.TabStop = false;
-            // 
-            // box229
-            // 
-            this.box229.BackColor = System.Drawing.Color.White;
-            this.box229.Location = new System.Drawing.Point(3, 122);
-            this.box229.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box229.Name = "box229";
-            this.box229.Size = new System.Drawing.Size(38, 36);
-            this.box229.TabIndex = 12;
-            this.box229.TabStop = false;
-            // 
-            // box230
-            // 
-            this.box230.BackColor = System.Drawing.Color.White;
-            this.box230.Location = new System.Drawing.Point(47, 122);
-            this.box230.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box230.Name = "box230";
-            this.box230.Size = new System.Drawing.Size(38, 36);
-            this.box230.TabIndex = 13;
-            this.box230.TabStop = false;
-            // 
-            // box231
-            // 
-            this.box231.BackColor = System.Drawing.Color.White;
-            this.box231.Location = new System.Drawing.Point(91, 122);
-            this.box231.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box231.Name = "box231";
-            this.box231.Size = new System.Drawing.Size(38, 36);
-            this.box231.TabIndex = 14;
-            this.box231.TabStop = false;
-            // 
-            // box232
-            // 
-            this.box232.BackColor = System.Drawing.Color.White;
-            this.box232.Location = new System.Drawing.Point(135, 122);
-            this.box232.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.box232.Name = "box232";
-            this.box232.Size = new System.Drawing.Size(39, 36);
-            this.box232.TabIndex = 15;
-            this.box232.TabStop = false;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -3692,16 +3462,6 @@
             this.label6.Size = new System.Drawing.Size(64, 32);
             this.label6.TabIndex = 9;
             this.label6.Text = "Next";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(465, 429);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(166, 32);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Change (Shift)";
             // 
             // ScoreUpdateLabel
             // 
@@ -3766,9 +3526,7 @@
             this.ClientSize = new System.Drawing.Size(742, 813);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ScoreUpdateLabel);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.LevelLabel);
             this.Controls.Add(this.ClearsLabel);
@@ -4020,23 +3778,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.box214)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box215)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box216)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.box217)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box218)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box219)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box220)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box221)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box222)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box223)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box224)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box225)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box226)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box227)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box228)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box229)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box230)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box231)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.box232)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -4271,25 +4012,7 @@
         private System.Windows.Forms.PictureBox box214;
         private System.Windows.Forms.PictureBox box215;
         private System.Windows.Forms.PictureBox box216;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.PictureBox box217;
-        private System.Windows.Forms.PictureBox box218;
-        private System.Windows.Forms.PictureBox box219;
-        private System.Windows.Forms.PictureBox box220;
-        private System.Windows.Forms.PictureBox box221;
-        private System.Windows.Forms.PictureBox box222;
-        private System.Windows.Forms.PictureBox box223;
-        private System.Windows.Forms.PictureBox box224;
-        private System.Windows.Forms.PictureBox box225;
-        private System.Windows.Forms.PictureBox box226;
-        private System.Windows.Forms.PictureBox box227;
-        private System.Windows.Forms.PictureBox box228;
-        private System.Windows.Forms.PictureBox box229;
-        private System.Windows.Forms.PictureBox box230;
-        private System.Windows.Forms.PictureBox box231;
-        private System.Windows.Forms.PictureBox box232;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox box233;
         private System.Windows.Forms.PictureBox box234;
         private System.Windows.Forms.PictureBox box235;

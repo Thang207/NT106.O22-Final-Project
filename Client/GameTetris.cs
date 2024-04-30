@@ -686,8 +686,8 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            List<int> sequence = GameTetris.GenerateTetrisSequence(10);
-            StartNewGame(sequence);
+            //List<int> sequence = GameTetris.GenerateTetrisSequence(10);
+            //StartNewGame(sequence);
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }

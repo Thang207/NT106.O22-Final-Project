@@ -92,7 +92,6 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
-                    MessageBox.Show("gui toi server");
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
@@ -104,7 +103,6 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
-                    MessageBox.Show("gui toi server");
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
@@ -118,13 +116,13 @@ namespace Tetris
             {
                 // Process key for player 1
                 KeyEventArgs e = new KeyEventArgs(keyData);
-                p1Game.MainWindow_KeyDown(this, e);
+                p2Game.MainWindow_KeyDown(this, e);
             }
             else if (side == 1)
             {
                 // Process key for player 2
                 KeyEventArgs e = new KeyEventArgs(keyData);
-                p2Game.MainWindow_KeyDown(this, e);
+                p1Game.MainWindow_KeyDown(this, e);
             }
         }
 
