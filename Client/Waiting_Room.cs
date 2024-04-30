@@ -175,7 +175,6 @@ namespace Client
                 this.panel1.Controls.Add(label);
                 CreateCheckBox(i, 1, s, "Red");
                 CreateCheckBox(i, 0, s, "Black");
-
             }
         }
 
@@ -243,7 +242,7 @@ namespace Client
                 int i = int.Parse(checkbox.Name.Substring(5, 4));
                 int j = int.Parse(checkbox.Name.Substring(9, 4));
                 side = j;
-                MessageBox.Show(side.ToString());
+                //MessageBox.Show(side.ToString());
                 //Format: SitDown, Nickname, Table Number, Seat Number
                 service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                 room = new TetrisRoom(i, j, sw);
