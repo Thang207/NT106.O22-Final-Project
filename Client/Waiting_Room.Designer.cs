@@ -41,57 +41,69 @@
             // 
             // Local_tb
             // 
-            this.Local_tb.Location = new System.Drawing.Point(362, 12);
+            this.Local_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Local_tb.Location = new System.Drawing.Point(558, 15);
+            this.Local_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Local_tb.Name = "Local_tb";
-            this.Local_tb.Size = new System.Drawing.Size(100, 20);
+            this.Local_tb.Size = new System.Drawing.Size(132, 22);
             this.Local_tb.TabIndex = 0;
             // 
             // Server_tb
             // 
-            this.Server_tb.Location = new System.Drawing.Point(362, 38);
+            this.Server_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Server_tb.Location = new System.Drawing.Point(558, 47);
+            this.Server_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Server_tb.Name = "Server_tb";
-            this.Server_tb.Size = new System.Drawing.Size(100, 20);
+            this.Server_tb.Size = new System.Drawing.Size(132, 22);
             this.Server_tb.TabIndex = 1;
             // 
             // UserName_tb
             // 
-            this.UserName_tb.Location = new System.Drawing.Point(120, 12);
+            this.UserName_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UserName_tb.Location = new System.Drawing.Point(94, 15);
+            this.UserName_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.UserName_tb.Name = "UserName_tb";
-            this.UserName_tb.Size = new System.Drawing.Size(100, 20);
+            this.UserName_tb.Size = new System.Drawing.Size(132, 22);
             this.UserName_tb.TabIndex = 2;
+            this.UserName_tb.TextChanged += new System.EventHandler(this.UserName_tb_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 15);
+            this.label1.Location = new System.Drawing.Point(13, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.Size = new System.Drawing.Size(73, 16);
             this.label1.TabIndex = 3;
             this.label1.Text = "UserName";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(312, 19);
+            this.label2.Location = new System.Drawing.Point(491, 23);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 4;
             this.label2.Text = "Local";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(312, 45);
+            this.label3.Location = new System.Drawing.Point(491, 55);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.Size = new System.Drawing.Size(47, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "Server";
             // 
             // Connect_btn
             // 
-            this.Connect_btn.Location = new System.Drawing.Point(387, 73);
+            this.Connect_btn.Location = new System.Drawing.Point(590, 91);
+            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Connect_btn.Name = "Connect_btn";
-            this.Connect_btn.Size = new System.Drawing.Size(75, 23);
+            this.Connect_btn.Size = new System.Drawing.Size(100, 28);
             this.Connect_btn.TabIndex = 7;
             this.Connect_btn.Text = "Connect";
             this.Connect_btn.UseVisualStyleBackColor = true;
@@ -99,30 +111,11 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(39, 129);
+            this.panel1.Location = new System.Drawing.Point(13, 47);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(360, 252);
+            this.panel1.Size = new System.Drawing.Size(462, 494);
             this.panel1.TabIndex = 8;
-            // 
-            // Client
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 450);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.Connect_btn);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.UserName_tb);
-            this.Controls.Add(this.Server_tb);
-            this.Controls.Add(this.Local_tb);
-            this.Name = "Client";
-            this.Text = "Client";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
-            this.Load += new System.EventHandler(this.Client_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
             // 
             // listBox1
             // 
@@ -132,6 +125,28 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(8, 4);
             this.listBox1.TabIndex = 3;
+            // 
+            // Waiting_Room
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(718, 554);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.Connect_btn);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.UserName_tb);
+            this.Controls.Add(this.Server_tb);
+            this.Controls.Add(this.Local_tb);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "Waiting_Room";
+            this.Text = "Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
+            this.Load += new System.EventHandler(this.Client_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

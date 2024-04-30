@@ -251,7 +251,6 @@
             this.box251 = new System.Windows.Forms.PictureBox();
             this.box252 = new System.Windows.Forms.PictureBox();
             this.SpeedTimer = new System.Windows.Forms.Timer(this.components);
-            this.TetrisLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.ScoreLabel = new System.Windows.Forms.Label();
             this.ClearsLabel = new System.Windows.Forms.Label();
@@ -281,6 +280,7 @@
             this.btnPlay = new System.Windows.Forms.Button();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.lvStatus = new System.Windows.Forms.ListView();
             this.grid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).BeginInit();
@@ -3202,16 +3202,6 @@
             this.SpeedTimer.Interval = 800;
             this.SpeedTimer.Tick += new System.EventHandler(this.SpeedTimer_Tick);
             // 
-            // TetrisLabel
-            // 
-            this.TetrisLabel.AutoSize = true;
-            this.TetrisLabel.Font = new System.Drawing.Font("Calibri", 25F);
-            this.TetrisLabel.Location = new System.Drawing.Point(462, 636);
-            this.TetrisLabel.Name = "TetrisLabel";
-            this.TetrisLabel.Size = new System.Drawing.Size(136, 51);
-            this.TetrisLabel.TabIndex = 2;
-            this.TetrisLabel.Text = "TETRIS";
-            // 
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
@@ -3519,11 +3509,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Name";
             // 
+            // lvStatus
+            // 
+            this.lvStatus.HideSelection = false;
+            this.lvStatus.Location = new System.Drawing.Point(470, 454);
+            this.lvStatus.Name = "lvStatus";
+            this.lvStatus.Size = new System.Drawing.Size(260, 343);
+            this.lvStatus.TabIndex = 13;
+            this.lvStatus.UseCompatibleStateImageBehavior = false;
+            this.lvStatus.View = System.Windows.Forms.View.List;
+            // 
             // GameTetris
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(742, 813);
+            this.Controls.Add(this.lvStatus);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ScoreUpdateLabel);
             this.Controls.Add(this.label6);
@@ -3533,7 +3534,6 @@
             this.Controls.Add(this.ScoreLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.grid);
-            this.Controls.Add(this.TetrisLabel);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GameTetris";
@@ -3889,7 +3889,6 @@
         private System.Windows.Forms.PictureBox box99;
         private System.Windows.Forms.PictureBox box100;
         private System.Windows.Forms.Timer SpeedTimer;
-        private System.Windows.Forms.Label TetrisLabel;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Label ScoreLabel;
         private System.Windows.Forms.PictureBox box101;
@@ -4039,6 +4038,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPlay;
+        private System.Windows.Forms.ListView lvStatus;
     }
 }
 
