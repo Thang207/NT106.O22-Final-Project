@@ -88,10 +88,14 @@ namespace Tetris
             if (side == 0)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
+<<<<<<< HEAD
+=======
+                    //MessageBox.Show("gui toi server");
+>>>>>>> c459a2b73efd3832b1d54e262b437d9a65170531
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
@@ -99,10 +103,14 @@ namespace Tetris
             else if (side == 1)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
+<<<<<<< HEAD
+=======
+                    //MessageBox.Show("gui toi server");
+>>>>>>> c459a2b73efd3832b1d54e262b437d9a65170531
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
