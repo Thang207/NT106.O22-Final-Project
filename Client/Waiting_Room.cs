@@ -64,6 +64,7 @@ namespace Client
             service.SendToServer("Login," + UserName_tb.Text);
             Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
             threadReceive.Start();
+            UserName_tb.ReadOnly = true;
         }
         // process the received data
         private void ReceiveData()
@@ -136,23 +137,31 @@ namespace Client
                         }
                         break;
                     case "allready":
-                        MessageBox.Show("Both sides are ready, the game starts!");
                         room.Invoke((MethodInvoker)delegate
                         {
+                            room.AddMessage("Both sides are ready, the game starts!");
                             room.GameTetris_StartGame();
                             room.Focus();
                         });
                         break;
                     case "key":
                         Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
-<<<<<<< HEAD
-=======
-                        //MessageBox.Show("nhan tu server");
->>>>>>> c459a2b73efd3832b1d54e262b437d9a65170531
                         if (room != null)
                         {
                             room.ProcessReceivedKey(keyData);
                         }
+                        break;
+                    case "message":
+                        room.Invoke((MethodInvoker)delegate
+                        {
+                            room.AddMessage(splitString[1]);
+                        });
+                        break;
+                    case "win":
+                        room.Invoke((MethodInvoker)delegate
+                        {
+                            room.AddMessage("Player "+ splitString[1] + " is the winner");
+                        });
                         break;
                 }
             }
@@ -242,15 +251,13 @@ namespace Client
             //If Checked is true, it means that the player sits on the jth table at the ith table
             if (checkbox.Checked == true)
             {
-                int i = int.Parse(checkbox.Name.Substring(5, 4));
-                int j = int.Parse(checkbox.Name.Substring(9, 4));
+                int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
+                int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
-                //MessageBox.Show(side.ToString());
                 //Format: SitDown, Nickname, Table Number, Seat Number
                 service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                 room = new TetrisRoom(i, j, sw);
                 room.Show();
-                //formPlaying.RePaint();
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
@@ -275,6 +282,16 @@ namespace Client
                     client.Close();
                 }
             }
+        }
+
+        private void UserName_tb_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

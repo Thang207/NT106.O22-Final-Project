@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
+﻿using System.Windows.Forms;
 
 namespace Server
 {
@@ -21,6 +15,7 @@ namespace Server
         //Additional information in listBox, direct access to controls across threads is prohibited in C#
         public void AddItem(string str)
         {
+            // Tráng thay đổi giao diện trên cùng 1 luồng :>
             if (listbox.InvokeRequired)
             {
                 listbox.Invoke(addItemDelegate, str);

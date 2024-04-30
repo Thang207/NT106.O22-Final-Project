@@ -46,6 +46,7 @@ namespace Tetris
 
         public event EventHandler StartGame;
         public event EventHandler GameOver;
+        public event EventHandler RestartGame;
 
 
         // Load main window
@@ -161,6 +162,7 @@ namespace Tetris
                         gameOver = false;
                         isPaused = false;
                         btnPlay.Enabled = true;
+                        RestartGame?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
@@ -706,5 +708,21 @@ namespace Tetris
         //    }
         //    return base.ProcessCmdKey(ref msg, keyData);
         //}
+
+        public void AddMessage(string str)
+        {
+            lvStatus.Items.Add(str);
+        }
+
+        public void HideListView()
+        {
+            lvStatus.Visible = false;
+            btnPlay.Visible = false;
+        }
+
+        public void Enable_Play()
+        {
+            btnPlay.Enabled = true;
+        }
     }
 }

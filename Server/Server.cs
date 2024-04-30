@@ -186,8 +186,9 @@ namespace Server
                         break;
                     //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
-                        tableIndex = int.Parse(splitString[1]);
-                        side = int.Parse(splitString[2]);
+                        tableIndex = int.Parse(splitString[1]); // i
+                        side = int.Parse(splitString[2]);       // j
+
                         gameTable[tableIndex].gamePlayer[side].user = user;
                         gameTable[tableIndex].gamePlayer[side].someone = true;
                         service.AddItem(string.Format("{0} is seated at table {1}, seat {2}", user.userName, tableIndex + 1, side + 1));
@@ -207,6 +208,17 @@ namespace Server
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         //Send the status of each table in the game room to all users
                         service.SendToAll(userList, "Tables," + this.GetOnlineString());
+                        if (side == 0)
+                        {
+                            anotherSide = 1;
+                            sendString = "Message,Player1 enter room";
+                        }
+                        else
+                        {
+                            anotherSide = 0;
+                            sendString = "Message,Player2 enter room";
+                        }
+                        service.SendToBoth(gameTable[tableIndex], sendString);
                         break;
                     //Leave seat, format: GetUp, table number, seat number
                     case "getup":
@@ -233,12 +245,12 @@ namespace Server
                         if (side == 0)
                         {
                             anotherSide = 1;
-                            sendString = "Message, Black is ready";
+                            sendString = "Message,Player1 is ready";
                         }
                         else
                         {
                             anotherSide = 0;
-                            sendString = "Message, the red team is ready";
+                            sendString = "Message,Player2 is ready";
                         }
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
@@ -255,11 +267,11 @@ namespace Server
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
                     //Victory, format: Win, table number, seat number
-                    case "win":
+                    case "lose":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         anotherSide = (side + 1) % 2;
-                        sendString = string.Format("win,{0}", side);
+                        sendString = string.Format("lose,{0}", side + 1);
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;

@@ -48,6 +48,9 @@ namespace Tetris
             p1Game.StartGame += Player_Ready;
             p2Game.StartGame += Player_Ready;
 
+            p1Game.RestartGame += Player_Restart;
+            p2Game.RestartGame += Player_Restart;
+
 
             pn_p1.Size = new Size(p1Game.Width, p1Game.Height);
             pn_p2.Size = new Size(p2Game.Width, p2Game.Height);
@@ -71,15 +74,29 @@ namespace Tetris
             {
                 pn_p2.Enabled = false;
                 gb_p2.Enabled = false;
+                p2Game.HideListView();
                 p1Game.Focus();
             } else if (side == 1)
             {
                 pn_p1.Enabled = false;
                 gb_p1.Enabled = false;
+                p1Game.HideListView();
                 p2Game.Focus();
             }
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
+        }
+
+        public void AddMessage(string message)
+        {
+            if (side == 0)
+            {
+                p1Game.AddMessage(message);
+            }
+            else if (side == 1)
+            {
+                p2Game.AddMessage(message);
+            }
         }
 
         // Chỉ cho panel 1 có thể nhấn phím
@@ -92,10 +109,6 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
-<<<<<<< HEAD
-=======
-                    //MessageBox.Show("gui toi server");
->>>>>>> c459a2b73efd3832b1d54e262b437d9a65170531
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
@@ -107,10 +120,6 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
-<<<<<<< HEAD
-=======
-                    //MessageBox.Show("gui toi server");
->>>>>>> c459a2b73efd3832b1d54e262b437d9a65170531
                     service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
@@ -132,6 +141,13 @@ namespace Tetris
                 KeyEventArgs e = new KeyEventArgs(keyData);
                 p1Game.MainWindow_KeyDown(this, e);
             }
+        }
+
+        private void Player_Restart(object sender, EventArgs e)
+        {
+            GameTetris senderWindow = sender as GameTetris;
+            p1Game.Enable_Play();
+            p2Game.Enable_Play();
         }
 
         private void Player_Ready(object sender, EventArgs e)
@@ -156,11 +172,11 @@ namespace Tetris
 
             if (senderWindow == p1Game)
             {
-                MessageBox.Show("Player 2 wins!");
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
             else
             {
-                MessageBox.Show("Player 1 wins!");
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
         }
         public void GameTetris_StartGame()
