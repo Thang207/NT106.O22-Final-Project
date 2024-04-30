@@ -88,7 +88,7 @@ namespace Tetris
             if (side == 0)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
@@ -100,7 +100,7 @@ namespace Tetris
             else if (side == 1)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
