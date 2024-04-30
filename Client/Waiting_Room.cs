@@ -251,10 +251,9 @@ namespace Client
             //If Checked is true, it means that the player sits on the jth table at the ith table
             if (checkbox.Checked == true)
             {
-                int i = int.Parse(checkbox.Name.Substring(5, 4));
-                int j = int.Parse(checkbox.Name.Substring(9, 4));
+                int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
+                int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
-                //MessageBox.Show(side.ToString());
                 //Format: SitDown, Nickname, Table Number, Seat Number
                 service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                 room = new TetrisRoom(i, j, sw);

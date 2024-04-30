@@ -172,11 +172,11 @@ namespace Tetris
 
             if (senderWindow == p1Game)
             {
-                service.SendToServer(string.Format("Win,{0},{1}", TableIndex, side));
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
             else
             {
-                service.SendToServer(string.Format("Win,{0},{1}", TableIndex, side));
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
         }
         public void GameTetris_StartGame()
