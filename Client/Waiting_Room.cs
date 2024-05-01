@@ -87,7 +87,7 @@ namespace Client
                 {
                     if (normalExit == false)
                     {
-                        MessageBox.Show("Lost contact with server, game cannot continue!");
+                        MessageBox.Show("Khong the ket noi toi server");
                     }
                     if (side != 1)
                     {
@@ -132,7 +132,7 @@ namespace Client
                                     }
                                     else
                                     {
-                                        UpdateCheckBox(checkBoxGameTables[i, j], false);
+                                        UpdateCheckBox(checkBoxGameTables[i, j], true);
                                     }
                                 }
                                 isReceiveCommand = false;
@@ -164,6 +164,10 @@ namespace Client
                         {
                             side = -1;
                             Complete_create_game_room = false;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                button_play.Enabled = true;
+                            });
                         }
                         else
                         {
@@ -282,39 +286,32 @@ namespace Client
         }
         //Triggered when the Checked property of the CheckBox changes
         public bool Complete_create_game_room = false;
-        private void checkBox_CheckedChanged(object sender, EventArgs e)    
+        // Modify the title of the room to the table number
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
-            //Whether to update the table status for the server
+            // Whether to update the table status for the server
             if (isReceiveCommand == true)
             {
                 return;
             }
             CheckBox checkbox = (CheckBox)sender;
-            //If Checked is true, it means that the player sits on the jth table at the ith table
+            // If Checked is true, it means that the player sits on the jth table at the ith table
             if (checkbox.Checked == true)
             {
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
-<<<<<<< Updated upstream
 
-                if(receiveTable == false)
+                if (receiveTable == false)
                 {
-                    //Format: SitDown, Nickname, Table Number, Side,
+                    // Format: SitDown, Nickname, Table Number, Side,
                     service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new TetrisRoom(i, j, sw);
+                    room.Text = "Table " + (i + 1);
                     room.Show();
                     Complete_create_game_room = true;
                 }
-=======
-                //Format: SitDown, Nickname, Table Number, Side, 
-                service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
 
-                room = new TetrisRoom(i, j, sw);
-                room.Show();
-                Complete_create_game_room = true;
-                
->>>>>>> Stashed changes
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
@@ -340,5 +337,59 @@ namespace Client
                 }
             }
         }
+        // tìm phòng trong textbox làm hiển thị trong panel
+        private void button_find_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int tableIndex = int.Parse(textbox_tableindex.Text);
+                if (tableIndex >= 1 && tableIndex <= maxPlayingTables)
+                {
+                    //table index tính từ 0 nên -1
+                    tableIndex -= 1;
+                    CheckBox targetCheckBox = checkBoxGameTables[tableIndex, 0];
+                    panel1.ScrollControlIntoView(targetCheckBox);
+                }
+                else
+                {
+                    MessageBox.Show("Không có bàn này", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Vui lòng nhập một số hợp lệ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_play_Click(object sender, EventArgs e)
+        {
+            // tìm bàn đầu tiên có chỗ trống
+            // so sánh 2 checkbox nếu khác nhau thì có nghĩa là 1 trống 1 đầy.
+            for (int i = 0; i < maxPlayingTables; i++)
+            {
+                if (checkBoxGameTables[i, 0].Checked != checkBoxGameTables[i, 1].Checked)
+                {
+                    //ngồi tai vị trí hợp lệ
+                    checkBoxGameTables[i, checkBoxGameTables[i, 0].Checked ? 1 : 0].Checked = true;
+                    button_play.Enabled = false;
+                    return;
+                }
+            }
+            //nếu không có bàn nào có 1 người ngồi thì vào vị trí hợp lệ đầu tiên (không ngồi đè)
+            for (int i = 0; i < maxPlayingTables; i++)
+            {
+                if (!checkBoxGameTables[i, 0].Checked || !checkBoxGameTables[i, 1].Checked)
+                {
+                    checkBoxGameTables[i, checkBoxGameTables[i, 0].Checked ? 1 : 0].Checked = true;
+                    button_play.Enabled = false;
+                    return;
+                }
+            }
+            // nếu đầy hết thì thông báo
+            MessageBox.Show("Không tìm được bàn phù hợp", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+
     }
 }

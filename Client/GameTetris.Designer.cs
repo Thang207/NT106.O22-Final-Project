@@ -3242,7 +3242,6 @@
             this.LevelLabel.Size = new System.Drawing.Size(155, 54);
             this.LevelLabel.TabIndex = 6;
             this.LevelLabel.Text = "Level: 0";
-            this.LevelLabel.Click += new System.EventHandler(this.LevelLabel_Click);
             // 
             // GameTimer
             // 

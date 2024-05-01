@@ -186,12 +186,7 @@ namespace Server
                         break;
                     //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
-<<<<<<< Updated upstream
                         // Nhận receive từ server
-                        DateTime currentTime = DateTime.Now;
-                        MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] receive,{1}", currentTime,receiveString));
-=======
->>>>>>> Stashed changes
                         tableIndex = int.Parse(splitString[1]); // i
                         side = int.Parse(splitString[2]);       // j
 

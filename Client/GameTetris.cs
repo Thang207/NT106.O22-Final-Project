@@ -698,10 +698,5 @@ namespace Tetris
                 btnPlay.Enabled = true;
             }));
         }
-
-        private void LevelLabel_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

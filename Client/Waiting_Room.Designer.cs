@@ -37,6 +37,10 @@
             this.Connect_btn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.textbox_tableindex = new System.Windows.Forms.TextBox();
+            this.button_find = new System.Windows.Forms.Button();
+            this.label_tableindex = new System.Windows.Forms.Label();
+            this.button_play = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Local_tb
@@ -98,7 +102,7 @@
             // 
             // Connect_btn
             // 
-            this.Connect_btn.Location = new System.Drawing.Point(590, 91);
+            this.Connect_btn.Location = new System.Drawing.Point(590, 77);
             this.Connect_btn.Margin = new System.Windows.Forms.Padding(4);
             this.Connect_btn.Name = "Connect_btn";
             this.Connect_btn.Size = new System.Drawing.Size(100, 28);
@@ -109,6 +113,7 @@
             // 
             // panel1
             // 
+            this.panel1.AutoScroll = true;
             this.panel1.Location = new System.Drawing.Point(13, 47);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
@@ -124,11 +129,52 @@
             this.listBox1.Size = new System.Drawing.Size(8, 4);
             this.listBox1.TabIndex = 3;
             // 
+            // textbox_tableindex
+            // 
+            this.textbox_tableindex.Location = new System.Drawing.Point(558, 210);
+            this.textbox_tableindex.Name = "textbox_tableindex";
+            this.textbox_tableindex.Size = new System.Drawing.Size(132, 22);
+            this.textbox_tableindex.TabIndex = 9;
+            // 
+            // button_find
+            // 
+            this.button_find.Location = new System.Drawing.Point(658, 239);
+            this.button_find.Margin = new System.Windows.Forms.Padding(4);
+            this.button_find.Name = "button_find";
+            this.button_find.Size = new System.Drawing.Size(32, 36);
+            this.button_find.TabIndex = 10;
+            this.button_find.Text = "🔎";
+            this.button_find.UseVisualStyleBackColor = true;
+            this.button_find.Click += new System.EventHandler(this.button_find_Click);
+            // 
+            // label_tableindex
+            // 
+            this.label_tableindex.AutoSize = true;
+            this.label_tableindex.Location = new System.Drawing.Point(491, 213);
+            this.label_tableindex.Name = "label_tableindex";
+            this.label_tableindex.Size = new System.Drawing.Size(56, 16);
+            this.label_tableindex.TabIndex = 11;
+            this.label_tableindex.Text = "Tìm bàn";
+            // 
+            // button_play
+            // 
+            this.button_play.Location = new System.Drawing.Point(558, 129);
+            this.button_play.Name = "button_play";
+            this.button_play.Size = new System.Drawing.Size(132, 56);
+            this.button_play.TabIndex = 12;
+            this.button_play.Text = "Chơi ngay";
+            this.button_play.UseVisualStyleBackColor = true;
+            this.button_play.Click += new System.EventHandler(this.button_play_Click);
+            // 
             // Waiting_Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 554);
+            this.Controls.Add(this.button_play);
+            this.Controls.Add(this.label_tableindex);
+            this.Controls.Add(this.button_find);
+            this.Controls.Add(this.textbox_tableindex);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Connect_btn);
             this.Controls.Add(this.label3);
@@ -158,6 +204,10 @@
         private System.Windows.Forms.Button Connect_btn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox textbox_tableindex;
+        private System.Windows.Forms.Button button_find;
+        private System.Windows.Forms.Label label_tableindex;
+        private System.Windows.Forms.Button button_play;
     }
 }
 
