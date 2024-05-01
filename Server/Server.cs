@@ -151,7 +151,7 @@ namespace Server
                     }
                     break;
                 }
-                service.AddItem(string.Format("from {0}:{1}", user.userName, receiveString));
+                service.AddItem(string.Format($"From {user.userName}:{receiveString}"));
                 string[] splitString = receiveString.Split(',');
                 int tableIndex = -1; //table number
                 int side = -1;//Seat number
@@ -186,6 +186,7 @@ namespace Server
                         break;
                     //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
+                        // Nhận receive từ server
                         DateTime currentTime = DateTime.Now;
                         MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] receive,{1}", currentTime,receiveString));
                         tableIndex = int.Parse(splitString[1]); // i
@@ -200,7 +201,7 @@ namespace Server
                         if (gameTable[tableIndex].gamePlayer[anotherSide].someone == true)
                         {
                             // Tell the user that the other party is seated
-                            //Format: SitDown, seat number, username
+                            // Format: SitDown, seat number, username
                             sendString = string.Format("SitDown,{0},{1}", anotherSide, gameTable[tableIndex].gamePlayer[anotherSide].user.userName);
                             service.SendToOne(user, sendString);
                         }
@@ -213,14 +214,14 @@ namespace Server
                         if (side == 0)
                         {
                             anotherSide = 1;
-                            sendString = "Message,Player1 enter room";
                         }
                         else
                         {
                             anotherSide = 0;
-                            sendString = "Message,Player2 enter room";
                         }
+                        sendString = $"Message, {user.userName} enter room {tableIndex}";
                         service.SendToBoth(gameTable[tableIndex], sendString);
+                        service.AddItem("------------------------------------");
                         break;
                     //Leave seat, format: GetUp, table number, seat number
                     case "getup":
@@ -247,13 +248,12 @@ namespace Server
                         if (side == 0)
                         {
                             anotherSide = 1;
-                            sendString = "Message,Player1 is ready";
                         }
                         else
                         {
                             anotherSide = 0;
-                            sendString = "Message,Player2 is ready";
                         }
+                        sendString = $"Message,{user.userName} is ready";
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
                         {
@@ -340,6 +340,11 @@ namespace Server
             {
                 Disconnect_btn_Click(null, null);
             }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ServerLog_lb.Items.Clear();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Tetris;
 using System.Threading;
+using System.Linq;
 
 namespace Client
 {
@@ -278,7 +279,7 @@ namespace Client
         }
         //Triggered when the Checked property of the CheckBox changes
         public bool Complete_create_game_room = false;
-        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_CheckedChanged(object sender, EventArgs e)    
         {
             //Whether to update the table status for the server
             if (isReceiveCommand == true)
@@ -295,11 +296,10 @@ namespace Client
                 //Format: SitDown, Nickname, Table Number, Side, 
                 service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                 DateTime currentTime = DateTime.Now;
-                MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] send SitDown,{1},{2}", currentTime, i, j));
+                //MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] send SitDown,{1},{2}", currentTime, i, j));
                 room = new TetrisRoom(i, j, sw);
                 room.Show();
                 Complete_create_game_room = true;
-                
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
@@ -324,16 +324,6 @@ namespace Client
                     client.Close();
                 }
             }
-        }
-
-        private void UserName_tb_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

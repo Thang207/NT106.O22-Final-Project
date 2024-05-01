@@ -35,6 +35,7 @@
             this.ServerLog_lb = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Connect_btn
@@ -79,7 +80,7 @@
             this.MaxTable_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MaxTable_tb.Size = new System.Drawing.Size(146, 22);
             this.MaxTable_tb.TabIndex = 3;
-            this.MaxTable_tb.Text = "2";
+            this.MaxTable_tb.Text = "3";
             // 
             // ServerLog_lb
             // 
@@ -111,11 +112,22 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Số phòng chơi tối đa (1-300):";
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(432, 325);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 7;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 364);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ServerLog_lb);
@@ -142,6 +154,7 @@
         private System.Windows.Forms.ListBox ServerLog_lb;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

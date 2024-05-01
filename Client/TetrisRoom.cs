@@ -205,12 +205,6 @@ namespace Tetris
             }
         }
 
-        public void annouceWin(string message)
-        {
-            announcementLabel.Text = message;
-            announcementLabel.Visible = true;
-            announcementTimer.Start();
-        }
         public void GameTetris_StartGame(int GlobalSeed)
         {
             TetrisRoom.random = new System.Random(GlobalSeed);
@@ -223,15 +217,21 @@ namespace Tetris
             //    p1Game.StartNewGame();
             //    p2Game.StartNewGame();
             //});
-
         }
-
+        public void annouceWin(string message)
+        {
+            announcementLabel.Text = message;
+            announcementLabel.Visible = true;
+            announcementTimer.Start();
+        }
+        // Chờ 4 giây hiện thông báo thắng thua 
         private void announcement_Tick(object sender, EventArgs e)
         {
             announcementLabel.Text = "";
             announcementLabel.Visible = false; 
             announcementTimer.Stop();
         }
+
         private void TetrisRoom_FormClosing(object sender, FormClosingEventArgs e)
         {
             service.SendToServer(string.Format("GetUp,{0},{1}", TableIndex, side));
