@@ -19,16 +19,16 @@ namespace Tetris
         private Service service;
         public static Random random;
 
-        public TetrisRoom(int tableIndex, int side, StreamWriter sw, string name)
+        public TetrisRoom(int tableIndex, int side, StreamWriter sw)
         {
             InitializeComponent();
             TableIndex = tableIndex;
             this.side = side;
-            DrawGameRoom(name);
+            DrawGameRoom();
             service = new Service(null, sw);
         }
 
-        private void DrawGameRoom(string name)
+        private void DrawGameRoom()
         {
             this.IsMdiContainer = true;
             this.WindowState = FormWindowState.Normal;
@@ -77,7 +77,6 @@ namespace Tetris
                     p2Game.HideListView();
                     p1Game.Focus(); 
                     p1Game.GameOver += PlayerWindow_GameOver;   
-                    p1Game.txtName.Text = name;
             }
             else if (side == 1)
             {
@@ -89,7 +88,6 @@ namespace Tetris
                     p1Game.HideListView();
                     p2Game.Focus();
                     p2Game.GameOver += PlayerWindow_GameOver;
-                    p2Game.txtName.Text = name;
 
             }
 

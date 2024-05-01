@@ -184,11 +184,12 @@ namespace Server
                         normalExit = true;
                         exitWhile = true;
                         break;
-                    //Sit down, format: SitDown, table number, seat number//name
+                    //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
+                        DateTime currentTime = DateTime.Now;
+                        MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] receive,{1}", currentTime,receiveString));
                         tableIndex = int.Parse(splitString[1]); // i
                         side = int.Parse(splitString[2]);       // j
-                        string name = splitString[3];
 
                         gameTable[tableIndex].gamePlayer[side].user = user;
                         gameTable[tableIndex].gamePlayer[side].someone = true;
@@ -202,7 +203,6 @@ namespace Server
                             //Format: SitDown, seat number, username
                             sendString = string.Format("SitDown,{0},{1}", anotherSide, gameTable[tableIndex].gamePlayer[anotherSide].user.userName);
                             service.SendToOne(user, sendString);
-                            MessageBox.Show(sendString);
                         }
                         //Tell both users that the user is seated
                         //Format: SitDown, seat number, username

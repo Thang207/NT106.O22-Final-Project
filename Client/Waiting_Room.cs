@@ -160,6 +160,7 @@ namespace Client
                         if (side == int.Parse(splitString[1]))
                         {
                             side = -1;
+                            Complete_create_game_room = false;
                         }
                         else
                         {
@@ -273,11 +274,10 @@ namespace Client
                 checkBoxGameTables[i, j].Checked = false;
             }
             this.panel1.Controls.Add(checkBoxGameTables[i, j]);
-            checkBoxGameTables[i, j].CheckedChanged +=
-                 new EventHandler(checkBox_CheckedChanged);
+            checkBoxGameTables[i, j].CheckedChanged += new EventHandler(checkBox_CheckedChanged);
         }
         //Triggered when the Checked property of the CheckBox changes
-        private bool Complete_create_game_room = false;
+        public bool Complete_create_game_room = false;
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             //Whether to update the table status for the server
@@ -291,13 +291,15 @@ namespace Client
             {
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
-                string name = UserName_tb.Text;
                 side = j;
-                //Format: SitDown, Nickname, Table Number, Side, name
-                service.SendToServer(string.Format("SitDown,{0},{1},{2}", i, j, name));
-                room = new TetrisRoom(i, j, sw, name);
+                //Format: SitDown, Nickname, Table Number, Side, 
+                service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
+                DateTime currentTime = DateTime.Now;
+                MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] send SitDown,{1},{2}", currentTime, i, j));
+                room = new TetrisRoom(i, j, sw);
                 room.Show();
                 Complete_create_game_room = true;
+                
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
