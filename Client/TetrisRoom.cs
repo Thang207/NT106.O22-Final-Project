@@ -3,21 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace Tetris
 {
     public partial class TetrisRoom : Form
     {
-        public static int GlobalSeed { get; set; }
-        public static System.Random random = new System.Random(GlobalSeed);
         private int TableIndex;
         private int side = 0;
-
         public GameTetris p1Game;
         public GameTetris p2Game;
         public GameTetris main;
         private Service service;
+        public static Random random;
 
         public TetrisRoom(int tableIndex, int side, StreamWriter sw)
         {
@@ -197,9 +196,8 @@ namespace Tetris
             announcementLabel.Visible = true;
             announcementTimer.Start();
         }
-        public void GameTetris_StartGame()
+        public void GameTetris_StartGame(int GlobalSeed)
         {
-
             TetrisRoom.random = new System.Random(GlobalSeed);
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
             p1Game.StartNewGame(sequence);

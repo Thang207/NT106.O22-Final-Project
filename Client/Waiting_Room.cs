@@ -139,8 +139,9 @@ namespace Client
                     case "allready":
                         room.Invoke((MethodInvoker)delegate
                         {
+                            int Globalseed = int.Parse(splitString[1]);
                             room.AddMessage("Both sides are ready, the game starts!");
-                            room.GameTetris_StartGame();
+                            room.GameTetris_StartGame(Globalseed);
                             room.Focus();
                         });
                         break;

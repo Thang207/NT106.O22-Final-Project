@@ -342,20 +342,11 @@ namespace Tetris
                 GameTimer.Stop();
                 GameOver?.Invoke(this, EventArgs.Empty);
 
-                DialogResult result = MessageBox.Show("Game over! Chơi game mới?", "Game Over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                // Xử lý chơi game mới
+                gameOver = false;
+                isPaused = false;
+                btnPlay.Enabled = true;
 
-                if (result == DialogResult.Yes)
-                {
-                    // Xử lý chơi game mới
-                    gameOver = false;
-                    isPaused = false;
-                    btnPlay.Enabled = true;
-                }
-                else
-                {
-                    // Xử lý thoát form game
-                    this.Close();
-                }
             }
 
             else
@@ -373,21 +364,11 @@ namespace Tetris
                         GameTimer.Stop();
                         GameOver?.Invoke(this, EventArgs.Empty);
 
-                        DialogResult result = MessageBox.Show("Game over! Chơi game mới?", "Game Over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (result == DialogResult.Yes)
-                        {
                             // Xử lý chơi game mới
                             gameOver = false;
                             isPaused = false;
                             btnPlay.Enabled = true;
 
-                        }
-                        else
-                        {
-                            // Xử lý thoát form game
-                            this.Close();
-                        }
                     }
                     if (CheckForCompleteRows() > -1)
                     {
@@ -712,7 +693,10 @@ namespace Tetris
 
         public void Enable_Play()
         {
-            btnPlay.Enabled = true;
+            this.Invoke(new MethodInvoker(delegate
+            {
+                btnPlay.Enabled = true;
+            }));
         }
 
         private void LevelLabel_Click(object sender, EventArgs e)

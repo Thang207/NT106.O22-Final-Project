@@ -255,7 +255,8 @@ namespace Server
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
                         {
-                            sendString = "AllReady";
+                            int Globalseed = new Random().Next(1000);
+                            sendString = string.Format("allready, {0}", Globalseed);
                             service.SendToBoth(gameTable[tableIndex], sendString);
                         }
                         break;
