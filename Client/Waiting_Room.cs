@@ -145,6 +145,23 @@ namespace Client
                             room.Focus();
                         });
                         break;
+                    // leave seat
+                    case "getup":
+                        if (side == int.Parse(splitString[1]))
+                        {
+                            side = -1;
+                        }
+                        else
+                        {
+                            room.Invoke((MethodInvoker)delegate
+                            {
+                                room.annouceWin("You Win!!!");
+                                room.AddMessage("Enemy escape, You Win!!!");
+                                room.p1Game.StopGame();
+                                room.p2Game.StopGame();
+                            });
+                        }
+                        break;
                     case "key":
                         Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
                         if (room != null)
@@ -173,19 +190,6 @@ namespace Client
                             }
                         });
                         break;
-                    //case "getup":
-                    //    if (side == int.Parse(splitString[1]))
-                    //    {
-                    //        side = -1;
-                    //    }
-                    //    else
-                    //    {
-                    //        room.SetTableSideText(splitString[1], "",
-                    //            string.Format("{0} exit", splitString[2]));
-                    //        room.Restart("The enemy escapes, our side wins");
-                    //    }
-                    //    break;
-                        //The other party disconnects from the server
                 }
             }
             Application.Exit();
