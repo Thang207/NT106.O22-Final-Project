@@ -132,7 +132,7 @@ namespace Client
                                     }
                                     else
                                     {
-                                        UpdateCheckBox(checkBoxGameTables[i, j], true);
+                                        UpdateCheckBox(checkBoxGameTables[i, j], false);
                                     }
                                 }
                                 isReceiveCommand = false;
@@ -296,6 +296,7 @@ namespace Client
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
+<<<<<<< Updated upstream
 
                 if(receiveTable == false)
                 {
@@ -305,6 +306,15 @@ namespace Client
                     room.Show();
                     Complete_create_game_room = true;
                 }
+=======
+                //Format: SitDown, Nickname, Table Number, Side, 
+                service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
+
+                room = new TetrisRoom(i, j, sw);
+                room.Show();
+                Complete_create_game_room = true;
+                
+>>>>>>> Stashed changes
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
