@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -235,16 +236,11 @@ namespace Server
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         gameTable[tableIndex].gamePlayer[side].started = true;
-                        if (side == 0)
-                        {
-                            anotherSide = 1;
-                        }
-                        else
-                        {
-                            anotherSide = 0;
-                        }
+                        anotherSide = (side + 1) % 2;
+
                         sendString = $"Message,{user.userName} is ready";
                         service.SendToBoth(gameTable[tableIndex], sendString);
+
                         if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
                         {
                             int Globalseed = new Random().Next(1000);
@@ -259,16 +255,34 @@ namespace Server
                         sendString = string.Format("Key,{0}", splitString[3]);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
-                    //Victory, format: Win, table number, seat number
-                    case "lose":
+                    //Victory, format: lose, table number, seat number
+                    case "stop":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
+                        int score = int.Parse(splitString[3]);
+                        gameTable[tableIndex].gamePlayer[side].score = score;
+                        gameTable[tableIndex].gamePlayer[side].stopped = true;
+
                         anotherSide = (side + 1) % 2;
-                        sendString = string.Format("win");
-                        service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
-                        gameTable[tableIndex].gamePlayer[side].started = false;
-                        gameTable[tableIndex].gamePlayer[anotherSide].started = false;
+
+                        sendString = string.Format("stop,{0}", side);
+                        service.SendToBoth(gameTable[tableIndex], sendString);
+
+                        sendString = $"Message,{user.userName} is stopped with score {score}";
+                        service.SendToBoth(gameTable[tableIndex], sendString);
+
+                        if (gameTable[tableIndex].gamePlayer[anotherSide].stopped == true && gameTable[tableIndex].gamePlayer[side].stopped == true)
+                        {
+                            int p1score = gameTable[tableIndex].gamePlayer[0].score;
+                            int p2score = gameTable[tableIndex].gamePlayer[1].score;
+                            sendString = string.Format("winner,{0},{1}",p1score,p2score);
+                            service.SendToBoth(gameTable[tableIndex], sendString);
+
+                            gameTable[tableIndex].gamePlayer[side].started = false;
+                            gameTable[tableIndex].gamePlayer[anotherSide].started = false;
+                        }
                         break;
+
                 }
             }
             userList.Remove(user);

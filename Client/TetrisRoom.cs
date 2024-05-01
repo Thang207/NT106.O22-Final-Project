@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -107,6 +108,14 @@ namespace Tetris
                 }
             });
         }
+        public string GetName(int side)
+        {
+            if (side == 0)
+            {
+                return p1Game.txtName.Text;
+            }
+            else return p2Game.txtName.Text;
+        }
         public void AddMessage(string message)
         {
             if (side == 0)
@@ -165,7 +174,6 @@ namespace Tetris
 
         private void Player_Restart(object sender, EventArgs e)
         {
-            GameTetris senderWindow = sender as GameTetris;
             p1Game.Enable_Play();
             p2Game.Enable_Play();
         }
@@ -179,15 +187,29 @@ namespace Tetris
         // Khi 2 player game over
         private void PlayerWindow_GameOver(object sender, EventArgs e)
         {
+            GameTetris senderWindow = sender as GameTetris;
+
+            int score = 0;
+
+            if (senderWindow == p1Game)
+            {
+                p1Game.StopGame();
+                score = p1Game.Get_Score();
+            } else
+            {
+                p2Game.StopGame();
+                score = p2Game.Get_Score();
+            }
+
+            service.SendToServer(string.Format("stop,{0},{1},{2}", TableIndex, side, score));
+        }
+
+        private void ShowAnnouncementWin()
+        {
             announcementLabel.Text = "You Lose!!!";
             AddMessage("You Lose!!!");
-            announcementLabel.Visible = true; 
+            announcementLabel.Visible = true;
             announcementTimer.Start();
-            
-            p2Game.StopGame();
-            p1Game.StopGame();
-
-            service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
         }
 
         public void GameTetris_StartGame(int GlobalSeed)
@@ -204,6 +226,13 @@ namespace Tetris
             announcementLabel.Visible = true;
             announcementTimer.Start();
         }
+
+        public void ResetScore()
+        {
+            p1Game.ResetScore();
+            p2Game.ResetScore();
+        }
+
         // Thông báo hiển trj thắng thua trong 4 giây
         private void announcement_Tick(object sender, EventArgs e)
         {

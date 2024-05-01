@@ -253,7 +253,6 @@
             this.SpeedTimer = new System.Windows.Forms.Timer(this.components);
             this.TimeLabel = new System.Windows.Forms.Label();
             this.ScoreLabel = new System.Windows.Forms.Label();
-            this.ClearsLabel = new System.Windows.Forms.Label();
             this.LevelLabel = new System.Windows.Forms.Label();
             this.GameTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -3208,7 +3207,7 @@
             this.TimeLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TimeLabel.Location = new System.Drawing.Point(461, 108);
             this.TimeLabel.Name = "TimeLabel";
-            this.TimeLabel.Size = new System.Drawing.Size(151, 54);
+            this.TimeLabel.Size = new System.Drawing.Size(123, 45);
             this.TimeLabel.TabIndex = 3;
             this.TimeLabel.Text = "Time: 0";
             // 
@@ -3218,20 +3217,9 @@
             this.ScoreLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ScoreLabel.Location = new System.Drawing.Point(461, 60);
             this.ScoreLabel.Name = "ScoreLabel";
-            this.ScoreLabel.Size = new System.Drawing.Size(162, 54);
+            this.ScoreLabel.Size = new System.Drawing.Size(132, 45);
             this.ScoreLabel.TabIndex = 4;
             this.ScoreLabel.Text = "Score: 0";
-            // 
-            // ClearsLabel
-            // 
-            this.ClearsLabel.AutoSize = true;
-            this.ClearsLabel.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ClearsLabel.ForeColor = System.Drawing.Color.Black;
-            this.ClearsLabel.Location = new System.Drawing.Point(461, 199);
-            this.ClearsLabel.Name = "ClearsLabel";
-            this.ClearsLabel.Size = new System.Drawing.Size(79, 41);
-            this.ClearsLabel.TabIndex = 5;
-            this.ClearsLabel.Text = "Line:";
             // 
             // LevelLabel
             // 
@@ -3239,7 +3227,7 @@
             this.LevelLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LevelLabel.Location = new System.Drawing.Point(461, 154);
             this.LevelLabel.Name = "LevelLabel";
-            this.LevelLabel.Size = new System.Drawing.Size(155, 54);
+            this.LevelLabel.Size = new System.Drawing.Size(125, 45);
             this.LevelLabel.TabIndex = 6;
             this.LevelLabel.Text = "Level: 0";
             // 
@@ -3449,7 +3437,7 @@
             this.label6.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(461, 235);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 32);
+            this.label6.Size = new System.Drawing.Size(51, 25);
             this.label6.TabIndex = 9;
             this.label6.Text = "Next";
             // 
@@ -3460,7 +3448,7 @@
             this.ScoreUpdateLabel.ForeColor = System.Drawing.Color.Green;
             this.ScoreUpdateLabel.Location = new System.Drawing.Point(643, 65);
             this.ScoreUpdateLabel.Name = "ScoreUpdateLabel";
-            this.ScoreUpdateLabel.Size = new System.Drawing.Size(75, 26);
+            this.ScoreUpdateLabel.Size = new System.Drawing.Size(62, 22);
             this.ScoreUpdateLabel.TabIndex = 11;
             this.ScoreUpdateLabel.Text = "+Point";
             // 
@@ -3530,7 +3518,6 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.LevelLabel);
-            this.Controls.Add(this.ClearsLabel);
             this.Controls.Add(this.ScoreLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.grid);
@@ -3991,7 +3978,6 @@
         private System.Windows.Forms.PictureBox box198;
         private System.Windows.Forms.PictureBox box199;
         private System.Windows.Forms.PictureBox box200;
-        private System.Windows.Forms.Label ClearsLabel;
         private System.Windows.Forms.Label LevelLabel;
         private System.Windows.Forms.Timer GameTimer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

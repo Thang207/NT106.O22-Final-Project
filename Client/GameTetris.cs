@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Tetris
 {
@@ -424,7 +426,6 @@ namespace Tetris
             UpdateScore();
 
             clears++;
-            ClearsLabel.Text = "Clears: " + clears;
 
             if (clears % 10 == 0)
             {
@@ -449,7 +450,6 @@ namespace Tetris
             if (combo == 0)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+100";
             }
 
             // Double clear
@@ -514,7 +514,16 @@ namespace Tetris
                 combo++;
             }
 
-            ScoreLabel.Text = "Score: " + score.ToString();
+            if (ScoreLabel.InvokeRequired)
+            {
+                ScoreLabel.BeginInvoke((MethodInvoker)delegate () {
+                    ScoreLabel.Text = "Score: " + score.ToString();
+                });
+            }
+            else
+            {
+                ScoreLabel.Text = "Score: " + score.ToString();
+            }
             ScoreUpdateTimer.Start();
         }
 
@@ -655,6 +664,7 @@ namespace Tetris
             SpeedTimer.Stop();
             GameTimer.Stop();
             gameOver = true;
+            isPaused = true;
         }
 
         #endregion
@@ -684,6 +694,11 @@ namespace Tetris
             {
                 btnPlay.Enabled = true;
             }));
+        }
+
+        public void ResetScore()
+        {
+            ScoreLabel.Text = "0";
         }
 
         public int Get_Score()

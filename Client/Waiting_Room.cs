@@ -152,6 +152,7 @@ namespace Client
                     case "allready":
                         room.Invoke((MethodInvoker)delegate
                         {
+                            room.ResetScore();
                             int Globalseed = int.Parse(splitString[1]);
                             room.AddMessage("Both sides are ready, the game starts!");
                             room.GameTetris_StartGame(Globalseed);
@@ -192,11 +193,10 @@ namespace Client
                             room.AddMessage(splitString[1]);
                         });
                         break;
-                    case "win":
+                    case "stop":
                         room.Invoke((MethodInvoker)delegate
                         {
-                            room.annouceWin("You Win!!!");
-                            room.AddMessage("You Win!!!");
+                            int side = int.Parse(splitString[1]);
                             if (side == 0)
                             {
                                 room.p1Game.StopGame();
@@ -204,6 +204,27 @@ namespace Client
                             else if (side == 1)
                             {
                                 room.p2Game.StopGame();
+                            }
+                        });
+                        break;
+                    case "winner":
+                        int p1score = int.Parse(splitString[1]);
+                        int p2score = int.Parse(splitString[2]);
+
+                        room.Invoke((MethodInvoker)delegate
+                        {
+                            if (p1score > p2score)
+                            {
+                                string p1Name = room.GetName(0);
+                                room.annouceWin($"{p1Name} Win!!!");
+                            } else if (p1score < p2score)
+                            {
+                                string p2Name = room.GetName(2);
+                                room.annouceWin($"{p2Name} Win!!!");
+                            }
+                            else
+                            {
+                                room.annouceWin("Both Win!!!");
                             }
                         });
                         break;
