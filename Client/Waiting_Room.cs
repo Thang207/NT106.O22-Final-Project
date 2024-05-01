@@ -18,7 +18,7 @@ namespace Client
         private StreamWriter sw;
         private StreamReader sr;
         private Service service;
-        // Form game ở đây
+
         private TetrisRoom room;
 
         //Whether to exit the receiving thread normally
@@ -158,7 +158,6 @@ namespace Client
                             room.Focus();
                         });
                         break;
-                    // leave seat
                     case "getup":
                         if (side == int.Parse(splitString[1]))
                         {
@@ -388,8 +387,6 @@ namespace Client
             // nếu đầy hết thì thông báo
             MessageBox.Show("Không tìm được bàn phù hợp", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-
 
     }
 }

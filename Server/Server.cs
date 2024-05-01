@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Security.Policy;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Server
@@ -331,7 +323,7 @@ namespace Server
             }
             return str;
         }
-        // Form Closing Event
+        // Form Closing Event - Close connect from client
         private void Server_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (tcpListener != null)
@@ -339,7 +331,7 @@ namespace Server
                 Disconnect_btn_Click(null, null);
             }
         }
-
+        // Clear status log 
         private void btnClear_Click(object sender, EventArgs e)
         {
             ServerLog_lb.Items.Clear();

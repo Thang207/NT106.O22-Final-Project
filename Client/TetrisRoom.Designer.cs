@@ -86,7 +86,7 @@
             // 
             // announcementTimer
             // 
-            this.announcementTimer.Interval = 4000;
+            this.announcementTimer.Interval = 4000; // 4 giây
             this.announcementTimer.Tick += new System.EventHandler(this.announcement_Tick);
             // 
             // announcementLabel

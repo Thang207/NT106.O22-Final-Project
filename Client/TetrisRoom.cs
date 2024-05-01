@@ -170,39 +170,24 @@ namespace Tetris
             p2Game.Enable_Play();
         }
 
+        // Khi 2 player sẵm sámg
         private void Player_Ready(object sender, EventArgs e)
         {
-             GameTetris senderWindow = sender as GameTetris;
-
-            if (senderWindow == p1Game)
-            {
-                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
-            }
-            else
-            {
-                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
-            }
+            service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
         }
 
+        // Khi 2 player game over
         private void PlayerWindow_GameOver(object sender, EventArgs e)
         {
             announcementLabel.Text = "You Lose!!!";
             AddMessage("You Lose!!!");
             announcementLabel.Visible = true; 
             announcementTimer.Start();
-            GameTetris senderWindow = sender as GameTetris;
             
             p2Game.StopGame();
             p1Game.StopGame();
 
-            if (senderWindow == p1Game)
-            {
-                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
-            }
-            else
-            {
-                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
-            }
+            service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
         }
 
         public void GameTetris_StartGame(int GlobalSeed)
@@ -212,11 +197,6 @@ namespace Tetris
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
-            //this.Invoke((MethodInvoker)delegate
-            //{
-            //    p1Game.StartNewGame();
-            //    p2Game.StartNewGame();
-            //});
         }
         public void annouceWin(string message)
         {
@@ -224,7 +204,7 @@ namespace Tetris
             announcementLabel.Visible = true;
             announcementTimer.Start();
         }
-        // Chờ 4 giây hiện thông báo thắng thua 
+        // Thông báo hiển trj thắng thua trong 4 giây
         private void announcement_Tick(object sender, EventArgs e)
         {
             announcementLabel.Text = "";
