@@ -43,7 +43,7 @@
             // 
             this.Local_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Local_tb.Location = new System.Drawing.Point(558, 15);
-            this.Local_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Local_tb.Margin = new System.Windows.Forms.Padding(4);
             this.Local_tb.Name = "Local_tb";
             this.Local_tb.Size = new System.Drawing.Size(132, 22);
             this.Local_tb.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             this.Server_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Server_tb.Location = new System.Drawing.Point(558, 47);
-            this.Server_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Server_tb.Margin = new System.Windows.Forms.Padding(4);
             this.Server_tb.Name = "Server_tb";
             this.Server_tb.Size = new System.Drawing.Size(132, 22);
             this.Server_tb.TabIndex = 1;
@@ -61,11 +61,10 @@
             // 
             this.UserName_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserName_tb.Location = new System.Drawing.Point(94, 15);
-            this.UserName_tb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.UserName_tb.Margin = new System.Windows.Forms.Padding(4);
             this.UserName_tb.Name = "UserName_tb";
             this.UserName_tb.Size = new System.Drawing.Size(132, 22);
             this.UserName_tb.TabIndex = 2;
-            this.UserName_tb.TextChanged += new System.EventHandler(this.UserName_tb_TextChanged);
             // 
             // label1
             // 
@@ -101,7 +100,7 @@
             // Connect_btn
             // 
             this.Connect_btn.Location = new System.Drawing.Point(590, 91);
-            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Connect_btn.Margin = new System.Windows.Forms.Padding(4);
             this.Connect_btn.Name = "Connect_btn";
             this.Connect_btn.Size = new System.Drawing.Size(100, 28);
             this.Connect_btn.TabIndex = 7;
@@ -112,7 +111,7 @@
             // panel1
             // 
             this.panel1.Location = new System.Drawing.Point(13, 47);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(462, 494);
             this.panel1.TabIndex = 8;
@@ -139,7 +138,7 @@
             this.Controls.Add(this.UserName_tb);
             this.Controls.Add(this.Server_tb);
             this.Controls.Add(this.Local_tb);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Waiting_Room";
             this.Text = "Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);

@@ -4036,7 +4036,7 @@
         private System.Windows.Forms.Label ScoreUpdateLabel;
         private System.Windows.Forms.Timer ScoreUpdateTimer;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox txtName;
+        public System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.ListView lvStatus;

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Tetris
 {
@@ -18,16 +19,16 @@ namespace Tetris
         private Service service;
         public static Random random;
 
-        public TetrisRoom(int tableIndex, int side, StreamWriter sw)
+        public TetrisRoom(int tableIndex, int side, StreamWriter sw, string name)
         {
             InitializeComponent();
             TableIndex = tableIndex;
             this.side = side;
-            DrawGameRoom();
+            DrawGameRoom(name);
             service = new Service(null, sw);
         }
 
-        private void DrawGameRoom()
+        private void DrawGameRoom(string name)
         {
             this.IsMdiContainer = true;
             this.WindowState = FormWindowState.Normal;
@@ -68,30 +69,46 @@ namespace Tetris
 
             if (side == 0)
             {
-                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
-                pn_p1.Controls.Add(announcementLabel);
-                announcementLabel.BringToFront();
-                pn_p2.Enabled = false;
-                gb_p2.Enabled = false;
-                p2Game.HideListView();
-                p1Game.Focus();
-                p1Game.GameOver += PlayerWindow_GameOver;
+                    announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                    pn_p1.Controls.Add(announcementLabel);
+                    announcementLabel.BringToFront();
+                    pn_p2.Enabled = false;
+                    gb_p2.Enabled = false;
+                    p2Game.HideListView();
+                    p1Game.Focus(); 
+                    p1Game.GameOver += PlayerWindow_GameOver;   
+                    p1Game.txtName.Text = name;
             }
             else if (side == 1)
             {
-                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
-                pn_p2.Controls.Add(announcementLabel);
-                announcementLabel.BringToFront();
-                pn_p1.Enabled = false;
-                gb_p1.Enabled = false;
-                p1Game.HideListView();
-                p2Game.Focus();
-                p2Game.GameOver += PlayerWindow_GameOver;
+                    announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                    pn_p2.Controls.Add(announcementLabel);
+                    announcementLabel.BringToFront();
+                    pn_p1.Enabled = false;
+                    gb_p1.Enabled = false;
+                    p1Game.HideListView();
+                    p2Game.Focus();
+                    p2Game.GameOver += PlayerWindow_GameOver;
+                    p2Game.txtName.Text = name;
+
             }
 
             this.Size = new Size(gb_p1.Width * 2 + 10, 760);
         }
-
+        public void SetName(int side, string name)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                if (side == 0)
+                {
+                    p1Game.txtName.Text = name;
+                }
+                if (side == 1)
+                {
+                    p2Game.txtName.Text = name;
+                }
+            });
+        }
         public void AddMessage(string message)
         {
             if (side == 0)

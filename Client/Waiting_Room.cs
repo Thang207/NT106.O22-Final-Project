@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
 using Tetris;
+using System.Threading;
 
 namespace Client
 {
@@ -67,7 +68,7 @@ namespace Client
             UserName_tb.ReadOnly = true;
         }
         // process the received data
-        private void ReceiveData()
+        private async void ReceiveData()
         {
             bool exitWhile = false;
             while (exitWhile == false)
@@ -135,6 +136,15 @@ namespace Client
                                 isReceiveCommand = false;
                             }
                         }
+                        break;
+                    case "sitdown": //sitdown,side, user name
+                        int Receive_side_need_update_name = int.Parse(splitString[1]);
+                        string name = splitString[2];
+                        while (!Complete_create_game_room)
+                        {
+                            Thread.Sleep(100); // Chờ 0.1 giây
+                        }
+                        room.SetName(Receive_side_need_update_name, name);
                         break;
                     case "allready":
                         room.Invoke((MethodInvoker)delegate
@@ -267,6 +277,7 @@ namespace Client
                  new EventHandler(checkBox_CheckedChanged);
         }
         //Triggered when the Checked property of the CheckBox changes
+        private bool Complete_create_game_room = false;
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             //Whether to update the table status for the server
@@ -280,11 +291,13 @@ namespace Client
             {
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
+                string name = UserName_tb.Text;
                 side = j;
-                //Format: SitDown, Nickname, Table Number, Seat Number
-                service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
-                room = new TetrisRoom(i, j, sw);
+                //Format: SitDown, Nickname, Table Number, Side, name
+                service.SendToServer(string.Format("SitDown,{0},{1},{2}", i, j, name));
+                room = new TetrisRoom(i, j, sw, name);
                 room.Show();
+                Complete_create_game_room = true;
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
