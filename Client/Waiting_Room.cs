@@ -103,6 +103,7 @@ namespace Client
                 switch (command)
                 {
                     case "tables":
+                        receiveTable = true;
                         string s = splitString[1];
                         //If maxPlayingTables is 0, it means checkBoxGameTables has not been created
                         if (maxPlayingTables == 0)
@@ -137,6 +138,7 @@ namespace Client
                                 isReceiveCommand = false;
                             }
                         }
+                        receiveTable = false;
                         break;
                     case "sitdown": //sitdown,side, user name
                         int Receive_side_need_update_name = int.Parse(splitString[1]);
@@ -229,6 +231,7 @@ namespace Client
             }
         }
 
+        private bool receiveTable = false;
         delegate void CheckBoxDelegate(CheckBox checkbox, bool isChecked);
         //Modify the selection state
         private void UpdateCheckBox(CheckBox checkbox, bool isChecked)
@@ -293,13 +296,15 @@ namespace Client
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
-                //Format: SitDown, Nickname, Table Number, Side, 
-                service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
-                DateTime currentTime = DateTime.Now;
-                //MessageBox.Show(string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] send SitDown,{1},{2}", currentTime, i, j));
-                room = new TetrisRoom(i, j, sw);
-                room.Show();
-                Complete_create_game_room = true;
+
+                if(receiveTable == false)
+                {
+                    //Format: SitDown, Nickname, Table Number, Side,
+                    service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
+                    room = new TetrisRoom(i, j, sw);
+                    room.Show();
+                    Complete_create_game_room = true;
+                }
             }
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
