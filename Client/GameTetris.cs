@@ -650,7 +650,6 @@ namespace Tetris
             btnPlay.Enabled = false;
         }
 
-
         public void StopGame()
         {
             SpeedTimer.Stop();

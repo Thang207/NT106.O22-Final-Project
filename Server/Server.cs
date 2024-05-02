@@ -225,16 +225,25 @@ namespace Server
                     case "getup":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
+                        anotherSide = (side + 1) % 2;
+
                         service.AddItem(string.Format("{0} leave seat and return to the game room", user.userName));
                         //Send the departure information to two users in the format: GetUp, seat number, user name
-                        service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1}", side, user.userName));
+
+                        if ((gameTable[tableIndex].gamePlayer[side].started != gameTable[tableIndex].gamePlayer[anotherSide].started)
+                         || (gameTable[tableIndex].gamePlayer[side].started == false | gameTable[tableIndex].gamePlayer[anotherSide].started == false))
+                        {
+                            service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 0));
+                        }
+                        if (gameTable[tableIndex].gamePlayer[side].started == true && gameTable[tableIndex].gamePlayer[anotherSide].started==true)
+                        {
+                            service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 1));
+                            gameTable[tableIndex].gamePlayer[anotherSide].started = false;
+
+                        }
                         gameTable[tableIndex].gamePlayer[side].someone = false;
                         gameTable[tableIndex].gamePlayer[side].started = false;
-                        anotherSide = (side + 1) % 2;
-                        if (gameTable[tableIndex].gamePlayer[anotherSide].someone == true)
-                        {
-                            gameTable[tableIndex].gamePlayer[anotherSide].started = false;
-                        }
+                        
                         //Send the status of each table in the game room to all users
                         service.SendToAll(userList, "Tables," + this.GetOnlineString());
                         break;
@@ -272,7 +281,7 @@ namespace Server
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         anotherSide = (side + 1) % 2;
-                        sendString = string.Format("win");
+                        sendString = string.Format("win,{0}",anotherSide);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;

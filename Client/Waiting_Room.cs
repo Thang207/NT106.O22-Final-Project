@@ -115,6 +115,7 @@ namespace Client
                             //Add the CheckBox object to the array
                             for (int i = 0; i < maxPlayingTables; i++)
                             {
+                          
                                 AddCheckBoxToPanel(s, i);
                             }
                             isReceiveCommand = false;
@@ -159,7 +160,7 @@ namespace Client
                         });
                         break;
                     // leave seat
-                    case "getup":
+                    case "getup": //getup,side//name//areplaying
                         if (side == int.Parse(splitString[1]))
                         {
                             side = -1;
@@ -169,15 +170,25 @@ namespace Client
                                 button_play.Enabled = true;
                             });
                         }
-                        else
+                        else 
                         {
-                            room.Invoke((MethodInvoker)delegate
+                            int isplaying = int.Parse(splitString[3]);
+                            if (isplaying == 1)
                             {
-                                room.annouceWin("You Win!!!");
-                                room.AddMessage("Enemy escape, You Win!!!");
-                                room.p1Game.StopGame();
-                                room.p2Game.StopGame();
-                            });
+                                room.Invoke((MethodInvoker)delegate
+                                {
+                                    room.annouceWin("You Win!!!");
+                                    room.AddMessage("Enemy escape, You Win!!!");
+                                    room.p1Game.StopGame();
+                                    room.p2Game.StopGame();
+                                });
+                            }
+                            else { 
+                                room.Invoke((MethodInvoker)delegate
+                                {
+                                    room.AddMessage("Enemy escape!!!");
+                                });
+                            }
                         }
                         break;
                     case "key":
@@ -194,18 +205,20 @@ namespace Client
                         });
                         break;
                     case "win":
+                        int receive_side = int.Parse(splitString[1]);
                         room.Invoke((MethodInvoker)delegate
                         {
                             room.annouceWin("You Win!!!");
                             room.AddMessage("You Win!!!");
-                            if (side == 0)
+                            if (receive_side == 0)
                             {
                                 room.p1Game.StopGame();
                             }
-                            else if (side == 1)
+                            if(receive_side == 1)
                             {
                                 room.p2Game.StopGame();
                             }
+                            
                         });
                         break;
                 }
@@ -249,14 +262,28 @@ namespace Client
             {
                 if (side == -1)
                 {
-                    checkbox.Enabled = !isChecked;
+                    if(isChecked == true)
+                    {
+                        checkbox.Checked = true;
+                        checkbox.Enabled = false;
+                    }
+                    else
+                    {
+                        checkbox.Checked = false;
+                        checkbox.Enabled = true;
+                    }
                 }
                 else
                 {
                     //Already seated, no other tables are allowed
-                    checkbox.Enabled = false;
+                    checkbox.Enabled = false; //-> checkbox = icheck.
+                    if(isChecked == true)
+                    {
+                        checkbox.Checked = true;
+                    }
+                    else 
+                        checkbox.Checked = false;
                 }
-                checkbox.Checked = isChecked;
             }
         }
         // Option to add game table seats
@@ -298,17 +325,19 @@ namespace Client
             // If Checked is true, it means that the player sits on the jth table at the ith table
             if (checkbox.Checked == true)
             {
+
+                if (receiveTable == false)
+                {
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
 
-                if (receiveTable == false)
-                {
                     // Format: SitDown, Nickname, Table Number, Side,
                     service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new TetrisRoom(i, j, sw);
-                    room.Text = "Table " + (i + 1);
+                    room.Text = "Table " + (i + 1) + " side " + j;
                     room.Show();
+                    button_play.Enabled = false;
                     Complete_create_game_room = true;
                 }
 
