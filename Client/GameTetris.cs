@@ -23,7 +23,7 @@ namespace Tetris
         int timeElapsed = 0;
         int currentPiece;
         int nextPieceInt;
-        int savedPieceInt = -1;
+        //int savedPieceInt = -1;
         int rotations = 0;
         int combo = 0;
         int score = 0;
@@ -62,10 +62,6 @@ namespace Tetris
             activePiece2[1] = box2;
             activePiece2[2] = box3;
             activePiece2[3] = box4;
-        }
-
-        private void GameTetris_Load(object sender, EventArgs e)
-        {
         }
 
         #region Methods
@@ -156,15 +152,11 @@ namespace Tetris
                     gameOver = true;
                     GameOver?.Invoke(this, EventArgs.Empty);
 
-
-                        // Xử lý chơi game mới
-                        gameOver = false;
-                        isPaused = false;
-                        btnPlay.Enabled = true;
-                        RestartGame?.Invoke(this, EventArgs.Empty);
-                    
-
-
+                    // Handle to restart new game
+                    gameOver = false;
+                    isPaused = false;
+                    btnPlay.Enabled = true;
+                    RestartGame?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
@@ -456,21 +448,21 @@ namespace Tetris
             else if (combo == 1)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+200";
+                //ScoreUpdateLabel.Text = "+200";
             }
 
             // Triple clear
             else if (combo == 2)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+300";
+                //ScoreUpdateLabel.Text = "+300";
             }
 
             // Quad clear, start combo
             else if (combo == 3)
             {
                 score += 500;
-                ScoreUpdateLabel.Text = "+800";
+                //ScoreUpdateLabel.Text = "+800";
                 skipComboReset = true;
             }
 
@@ -478,28 +470,28 @@ namespace Tetris
             else if (combo > 3 && combo % 4 == 0)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+100";
+                //ScoreUpdateLabel.Text = "+100";
             }
 
             // Double clear, broken combo
             else if (combo > 3 && ((combo - 1) % 4 == 0))
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+200";
+                //ScoreUpdateLabel.Text = "+200";
             }
 
             // Triple clear, broken combo
             else if (combo > 3 && ((combo - 2) % 4 == 0))
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+300";
+                //ScoreUpdateLabel.Text = "+300";
             }
 
             // Quad clear, continue combo
             else if (combo > 3 && ((combo - 3) % 4 == 0))
             {
                 score += 900;
-                ScoreUpdateLabel.Text = "+1200";
+                //ScoreUpdateLabel.Text = "+1200";
                 skipComboReset = true;
             }
 
@@ -557,7 +549,7 @@ namespace Tetris
         private void LevelUp()
         {
             level++;
-            LevelLabel.Text = "Level: " + level.ToString();
+            //LevelLabel.Text = "Level: " + level.ToString();
 
             // Milliseconds per square fall
             // Level 1 = 800 ms per square, level 2 = 716 ms per square, etc.
@@ -671,8 +663,6 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            //List<int> sequence = GameTetris.GenerateTetrisSequence(10);
-            //StartNewGame(sequence);
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }

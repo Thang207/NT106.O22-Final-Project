@@ -34,11 +34,11 @@ namespace Server
             {
                 user.sw.WriteLine(str);
                 user.sw.Flush();
-                AddItem(string.Format("Send {1} to {0}", user.userName, str));
+                AddItem(string.Format("Send {1} to [{0}]", user.userName, str));
             }
             catch
             {
-                AddItem(string.Format("Failed to send to {0}", user.userName));
+                AddItem(string.Format("Failed to send to [{0}]", user.userName));
             }
         }
         //Send a message to the same table

@@ -107,7 +107,7 @@ namespace Server
                 User user = new User(newClient);
                 threadReceive.Start(user);
                 userList.Add(user);
-                service.AddItem(string.Format("{0}Enter", newClient.Client.RemoteEndPoint));
+                service.AddItem(string.Format("{0} connected to server", newClient.Client.RemoteEndPoint));
                 service.AddItem(string.Format("Number of currently connected users: {0}", userList.Count));
             }
         }
@@ -144,7 +144,7 @@ namespace Server
                     }
                     break;
                 }
-                service.AddItem(string.Format($"From {user.userName}:{receiveString}"));
+                service.AddItem(string.Format($"Received [{user.userName}]:{receiveString}"));
                 string[] splitString = receiveString.Split(',');
                 int tableIndex = -1; //table number
                 int side = -1;//Seat number
@@ -153,6 +153,7 @@ namespace Server
                 string command = splitString[0].ToLower();
                 switch (command)
                 {
+                    //Connect, format: login, userName
                     case "login":
                         if (userList.Count > maxUser)
                         {
@@ -164,11 +165,10 @@ namespace Server
                         else
                         {
                             //Save the user's nickname to the user list
-                            user.userName = string.Format("[{0}]", splitString[1]);
+                            user.userName = string.Format("{0}", splitString[1]);
                             //Send the status of whether there are people at each table to the user
                             sendString = "Tables," + this.GetOnlineString();
                             service.SendToOne(user, sendString);
-
                         }
                         break;
                     //Exit, format: Logout
@@ -179,7 +179,6 @@ namespace Server
                         break;
                     //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
-                        // Nhận receive từ server
                         tableIndex = int.Parse(splitString[1]); // i
                         side = int.Parse(splitString[2]);       // j
 
@@ -257,9 +256,11 @@ namespace Server
                             service.SendToBoth(gameTable[tableIndex], sendString);
                         }
                         break;
-                    case "key": //table index, side , key
+                    //Receive key signal: key, table index, side, key
+                    case "key": 
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
+
                         anotherSide = (side + 1) % 2;
                         sendString = string.Format("Key,{0}", splitString[3]);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
@@ -274,7 +275,6 @@ namespace Server
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;
                         break;
-
                 }
             }
             userList.Remove(user);

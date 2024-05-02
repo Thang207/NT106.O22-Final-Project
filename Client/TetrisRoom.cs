@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Tetris
 {
@@ -27,7 +25,7 @@ namespace Tetris
             DrawGameRoom();
             service = new Service(null, sw);
         }
-
+        // Draw game room
         private void DrawGameRoom()
         {
             this.IsMdiContainer = true;
@@ -91,7 +89,7 @@ namespace Tetris
 
             }
 
-            this.Size = new Size(gb_p1.Width * 2 + 10, 760);
+            this.Size = new Size(gb_p1.Width * 2 + 10, 710);
         }
         public void SetName(int side, string name)
         {
@@ -119,7 +117,7 @@ namespace Tetris
             }
         }
 
-        // Chỉ cho panel 1 có thể nhấn phím
+        // Only let 1 panel to control the keys
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (side == 0)
@@ -212,11 +210,6 @@ namespace Tetris
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
-            //this.Invoke((MethodInvoker)delegate
-            //{
-            //    p1Game.StartNewGame();
-            //    p2Game.StartNewGame();
-            //});
         }
         public void annouceWin(string message)
         {
