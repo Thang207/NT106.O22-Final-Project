@@ -18,7 +18,7 @@ namespace Client
         private StreamWriter sw;
         private StreamReader sr;
         private Service service;
-        // Form game ở đây
+
         private TetrisRoom room;
 
         //Whether to exit the receiving thread normally
@@ -150,7 +150,7 @@ namespace Client
                         }
                         room.SetName(Receive_side_need_update_name, name);
                         break;
-                    case "allready":
+                     case "allready":
                         room.Invoke((MethodInvoker)delegate
                         {
                             int Globalseed = int.Parse(splitString[1]);
@@ -161,6 +161,7 @@ namespace Client
                         break;
                     // leave seat
                     case "getup": //getup,side//name//areplaying
+
                         if (side == int.Parse(splitString[1]))
                         {
                             side = -1;
@@ -181,6 +182,8 @@ namespace Client
                                     room.AddMessage("Enemy escape, You Win!!!");
                                     room.p1Game.StopGame();
                                     room.p2Game.StopGame();
+                                    room.p1Game.Enable_Play();
+                                    room.p2Game.Enable_Play();
                                 });
                             }
                             else { 
@@ -204,6 +207,7 @@ namespace Client
                             room.AddMessage(splitString[1]);
                         });
                         break;
+
                     case "win":
                         int receive_side = int.Parse(splitString[1]);
                         room.Invoke((MethodInvoker)delegate
@@ -211,6 +215,7 @@ namespace Client
                             room.annouceWin("You Win!!!");
                             room.AddMessage("You Win!!!");
                             if (receive_side == 0)
+
                             {
                                 room.p1Game.StopGame();
                             }
@@ -219,7 +224,7 @@ namespace Client
                                 room.p2Game.StopGame();
                             }
                             
-                        });
+                        });                   
                         break;
                 }
             }
@@ -417,8 +422,6 @@ namespace Client
             // nếu đầy hết thì thông báo
             MessageBox.Show("Không tìm được bàn phù hợp", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-
 
     }
 }

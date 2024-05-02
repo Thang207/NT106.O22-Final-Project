@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Security.Policy;
-using System.Text;
+using System.Security.Cryptography;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Server
@@ -252,16 +245,11 @@ namespace Server
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         gameTable[tableIndex].gamePlayer[side].started = true;
-                        if (side == 0)
-                        {
-                            anotherSide = 1;
-                        }
-                        else
-                        {
-                            anotherSide = 0;
-                        }
+                        anotherSide = (side + 1) % 2;
+
                         sendString = $"Message,{user.userName} is ready";
                         service.SendToBoth(gameTable[tableIndex], sendString);
+
                         if (gameTable[tableIndex].gamePlayer[anotherSide].started == true)
                         {
                             int Globalseed = new Random().Next(1000);
@@ -276,16 +264,17 @@ namespace Server
                         sendString = string.Format("Key,{0}", splitString[3]);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
-                    //Victory, format: Win, table number, seat number
+                    //Victory, format: lose, table number, seat number
                     case "lose":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
                         anotherSide = (side + 1) % 2;
-                        sendString = string.Format("win,{0}",anotherSide);
+                        sendString = string.Format("win, {0}", anotherSide);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;
                         break;
+
                 }
             }
             userList.Remove(user);
@@ -340,7 +329,7 @@ namespace Server
             }
             return str;
         }
-        // Form Closing Event
+        // Form Closing Event - Close connect from client
         private void Server_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (tcpListener != null)
@@ -348,7 +337,7 @@ namespace Server
                 Disconnect_btn_Click(null, null);
             }
         }
-
+        // Clear status log 
         private void btnClear_Click(object sender, EventArgs e)
         {
             ServerLog_lb.Items.Clear();

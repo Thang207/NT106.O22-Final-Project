@@ -69,25 +69,25 @@ namespace Tetris
 
             if (side == 0)
             {
-                    announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
-                    pn_p1.Controls.Add(announcementLabel);
-                    announcementLabel.BringToFront();
-                    pn_p2.Enabled = false;
-                    gb_p2.Enabled = false;
-                    p2Game.HideListView();
-                    p1Game.Focus(); 
-                    p1Game.GameOver += PlayerWindow_GameOver;   
+                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                pn_p1.Controls.Add(announcementLabel);
+                announcementLabel.BringToFront();
+                pn_p2.Enabled = false;
+                gb_p2.Enabled = false;
+                p2Game.HideListView();
+                p1Game.Focus();
+                p1Game.GameOver += PlayerWindow_GameOver;
             }
             else if (side == 1)
             {
-                    announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
-                    pn_p2.Controls.Add(announcementLabel);
-                    announcementLabel.BringToFront();
-                    pn_p1.Enabled = false;
-                    gb_p1.Enabled = false;
-                    p1Game.HideListView();
-                    p2Game.Focus();
-                    p2Game.GameOver += PlayerWindow_GameOver;
+                announcementLabel.Location = new Point(pn_p1.Width / 2 - announcementLabel.Width / 2, pn_p1.Height / 2 - announcementLabel.Height / 2);
+                pn_p2.Controls.Add(announcementLabel);
+                announcementLabel.BringToFront();
+                pn_p1.Enabled = false;
+                gb_p1.Enabled = false;
+                p1Game.HideListView();
+                p2Game.Focus();
+                p2Game.GameOver += PlayerWindow_GameOver;
 
             }
 
@@ -172,7 +172,7 @@ namespace Tetris
 
         private void Player_Ready(object sender, EventArgs e)
         {
-             GameTetris senderWindow = sender as GameTetris;
+            GameTetris senderWindow = sender as GameTetris;
 
             if (senderWindow == p1Game)
             {
@@ -188,21 +188,27 @@ namespace Tetris
         {
             announcementLabel.Text = "You Lose!!!";
             AddMessage("You Lose!!!");
-            announcementLabel.Visible = true; 
+            announcementLabel.Visible = true;
             announcementTimer.Start();
             GameTetris senderWindow = sender as GameTetris;
-            
+
             p2Game.StopGame();
             p1Game.StopGame();
 
-            service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
-
+            if (senderWindow == p1Game)
+            {
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
+            }
+            else
+            {
+                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
+            }
         }
 
         public void GameTetris_StartGame(int GlobalSeed)
         {
             TetrisRoom.random = new System.Random(GlobalSeed);
-            List<int> sequence = GameTetris.GenerateTetrisSequence(1000);  
+            List<int> sequence = GameTetris.GenerateTetrisSequence(1000);
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
@@ -222,7 +228,7 @@ namespace Tetris
         private void announcement_Tick(object sender, EventArgs e)
         {
             announcementLabel.Text = "";
-            announcementLabel.Visible = false; 
+            announcementLabel.Visible = false;
             announcementTimer.Stop();
         }
 
