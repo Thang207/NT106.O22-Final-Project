@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Tetris
 {
-    public partial class TetrisRoom : Form
+    public partial class Playing_Room : Form
     {
         private int TableIndex;
         private int side = 0;
@@ -17,7 +17,7 @@ namespace Tetris
         private Service service;
         public static Random random;
 
-        public TetrisRoom(int tableIndex, int side, StreamWriter sw)
+        public Playing_Room(int tableIndex, int side, StreamWriter sw)
         {
             InitializeComponent();
             TableIndex = tableIndex;
@@ -86,10 +86,9 @@ namespace Tetris
                 p1Game.HideListView();
                 p2Game.Focus();
                 p2Game.GameOver += PlayerWindow_GameOver;
-
             }
 
-            this.Size = new Size(gb_p1.Width * 2 + 10, 710);
+            this.Size = new Size(gb_p1.Width * 2 + 10, 750);
         }
         public void SetName(int side, string name)
         {
@@ -97,11 +96,11 @@ namespace Tetris
             {
                 if (side == 0)
                 {
-                    p1Game.txtName.Text = name;
+                    p1Game.SetName(name);
                 }
                 if (side == 1)
                 {
-                    p2Game.txtName.Text = name;
+                    p2Game.SetName(name);
                 }
             });
         }
@@ -123,7 +122,7 @@ namespace Tetris
             if (side == 0)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
@@ -134,7 +133,7 @@ namespace Tetris
             else if (side == 1)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
@@ -205,7 +204,7 @@ namespace Tetris
 
         public void GameTetris_StartGame(int GlobalSeed)
         {
-            TetrisRoom.random = new System.Random(GlobalSeed);
+            Playing_Room.random = new System.Random(GlobalSeed);
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);

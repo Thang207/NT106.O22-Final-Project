@@ -18,7 +18,7 @@ namespace Client
         private StreamReader sr;
         private Service service;
 
-        private TetrisRoom room;
+        private Playing_Room room;
 
         //Whether to exit the receiving thread normally
         private bool normalExit = false;
@@ -341,7 +341,7 @@ namespace Client
 
                     // Format: SitDown, Nickname, Table Number, Side,
                     service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
-                    room = new TetrisRoom(i, j, sw);
+                    room = new Playing_Room(i, j, sw);
                     room.Text = "Table " + (i + 1) + " side " + j;
                     room.Show();
                     button_play.Enabled = false;

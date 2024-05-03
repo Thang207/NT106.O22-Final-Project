@@ -42,8 +42,9 @@
             // Connect_btn
             // 
             this.Connect_btn.Location = new System.Drawing.Point(460, 58);
+            this.Connect_btn.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Connect_btn.Name = "Connect_btn";
-            this.Connect_btn.Size = new System.Drawing.Size(75, 23);
+            this.Connect_btn.Size = new System.Drawing.Size(74, 23);
             this.Connect_btn.TabIndex = 0;
             this.Connect_btn.Text = "Connect";
             this.Connect_btn.UseVisualStyleBackColor = true;
@@ -52,8 +53,9 @@
             // Disconnect_btn
             // 
             this.Disconnect_btn.Location = new System.Drawing.Point(460, 86);
+            this.Disconnect_btn.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Disconnect_btn.Name = "Disconnect_btn";
-            this.Disconnect_btn.Size = new System.Drawing.Size(75, 23);
+            this.Disconnect_btn.Size = new System.Drawing.Size(74, 23);
             this.Disconnect_btn.TabIndex = 1;
             this.Disconnect_btn.Text = "Disconnet";
             this.Disconnect_btn.UseVisualStyleBackColor = true;
@@ -63,6 +65,7 @@
             // 
             this.MaxUser_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MaxUser_tb.Location = new System.Drawing.Point(487, 6);
+            this.MaxUser_tb.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaxUser_tb.Name = "MaxUser_tb";
             this.MaxUser_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MaxUser_tb.Size = new System.Drawing.Size(48, 20);
@@ -73,6 +76,7 @@
             // 
             this.MaxTable_tb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MaxTable_tb.Location = new System.Drawing.Point(487, 32);
+            this.MaxTable_tb.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaxTable_tb.Name = "MaxTable_tb";
             this.MaxTable_tb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MaxTable_tb.Size = new System.Drawing.Size(48, 20);
@@ -83,14 +87,16 @@
             // 
             this.ServerLog_lb.FormattingEnabled = true;
             this.ServerLog_lb.Location = new System.Drawing.Point(10, 7);
+            this.ServerLog_lb.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.ServerLog_lb.Name = "ServerLog_lb";
-            this.ServerLog_lb.Size = new System.Drawing.Size(385, 277);
+            this.ServerLog_lb.Size = new System.Drawing.Size(386, 277);
             this.ServerLog_lb.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(401, 8);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 5;
@@ -100,6 +106,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(401, 34);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 13);
             this.label2.TabIndex = 6;
@@ -121,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 296);
+            this.ClientSize = new System.Drawing.Size(542, 296);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -131,6 +138,7 @@
             this.Controls.Add(this.Disconnect_btn);
             this.Controls.Add(this.Connect_btn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Server_FormClosing);

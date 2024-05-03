@@ -62,6 +62,7 @@ namespace Tetris
             activePiece2[1] = box2;
             activePiece2[2] = box3;
             activePiece2[3] = box4;
+            SetDefaultFontFamily();
         }
 
         #region Methods
@@ -613,7 +614,7 @@ namespace Tetris
             List<int> sequence = new List<int>();
             for (int i = 0; i < length; i++)
             {
-                sequence.Add(TetrisRoom.random.Next(7));  // Assuming there are 7 different Tetris blocks
+                sequence.Add(Playing_Room.random.Next(7));  // Assuming there are 7 different Tetris blocks
             }
             return sequence;
         }
@@ -694,6 +695,20 @@ namespace Tetris
         public int Get_Score()
         {
             return score;
+        }
+
+        public void SetName(string name)
+        {
+            lbUserName.Text = name;
+        }
+
+        private void SetDefaultFontFamily()
+        {
+            FontFamily fontFamily = new FontFamily("Arial");
+            foreach (Control control in this.Controls)
+            {
+                control.Font = new Font(fontFamily, control.Font.Size);
+            }
         }
     }
 }
