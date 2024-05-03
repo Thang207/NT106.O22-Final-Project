@@ -53,14 +53,17 @@ namespace Tetris
             pn_p1.Controls.Add(p1Game);
             pn_p2.Controls.Add(p2Game);
 
-            gb_p1.Size = new Size(pn_p1.Width, pn_p2.Height);
-            gb_p2.Size = new Size(pn_p2.Width, pn_p2.Height);
+            //gb_p1.Size = new Size(pn_p1.Width, pn_p2.Height);
+            //gb_p2.Size = new Size(pn_p2.Width, pn_p2.Height);
 
-            pn_p1.Dock = DockStyle.Fill;
-            pn_p2.Dock = DockStyle.Fill;
+            //pn_p1.Dock = DockStyle.Fill;
+            //pn_p2.Dock = DockStyle.Fill;
 
-            gb_p1.Dock = DockStyle.Left;
-            gb_p2.Dock = DockStyle.Right;
+            //gb_p1.Dock = DockStyle.Left;
+            //gb_p2.Dock = DockStyle.Right;
+
+            pn_p1.Dock = DockStyle.Left;
+            pn_p2.Dock = DockStyle.Right;
 
             p1Game.Show();
             p2Game.Show();
@@ -71,7 +74,7 @@ namespace Tetris
                 pn_p1.Controls.Add(announcementLabel);
                 announcementLabel.BringToFront();
                 pn_p2.Enabled = false;
-                gb_p2.Enabled = false;
+                //gb_p2.Enabled = false;
                 p2Game.HideListView();
                 p1Game.Focus();
                 p1Game.GameOver += PlayerWindow_GameOver;
@@ -82,13 +85,13 @@ namespace Tetris
                 pn_p2.Controls.Add(announcementLabel);
                 announcementLabel.BringToFront();
                 pn_p1.Enabled = false;
-                gb_p1.Enabled = false;
+                //gb_p1.Enabled = false;
                 p1Game.HideListView();
                 p2Game.Focus();
                 p2Game.GameOver += PlayerWindow_GameOver;
             }
 
-            this.Size = new Size(gb_p1.Width * 2 + 10, 750);
+            this.Size = new Size(pn_p1.Width * 2 + 10, 760);
         }
         public void SetName(int side, string name)
         {

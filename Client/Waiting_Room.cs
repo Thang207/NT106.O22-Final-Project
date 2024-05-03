@@ -17,6 +17,7 @@ namespace Client
         private StreamWriter sw;
         private StreamReader sr;
         private Service service;
+        private string username = "Player";
 
         private Playing_Room room;
 
@@ -26,18 +27,18 @@ namespace Client
         private bool isReceiveCommand = false;
         //The seat number of the game table you are sitting on, -1 means not seated, 0 means black, 1 means red
         private int side = -1;
-        public Waiting_Room()
+        public Waiting_Room(string name)
         {
             InitializeComponent();
+            this.username = name;
+            lbUserName.Text  += name;
         }
-
         private void Client_Load(object sender, EventArgs e)
         {
-            Random r = new Random((int)DateTime.Now.Ticks);
-            UserName_tb.Text = "Player" + r.Next(1, 100);
+            Connect_btn.PerformClick();
+            Connect_btn.Visible = false;
             maxPlayingTables = 0;
         }
-
         private void Connect_btn_Click(object sender, EventArgs e)
         {
             try
@@ -60,10 +61,22 @@ namespace Client
             //Get the server table information
             service = new Service(listBox1, sw);
             //Format: Login, nickname
-            service.SendToServer("Login," + UserName_tb.Text);
+            service.SendToServer("Login," + this.username);
             Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
             threadReceive.Start();
-            UserName_tb.ReadOnly = true;
+        }
+        private void Client_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (client != null)
+            {
+                //When the server stops the service, normalExit is true, otherwise it is false
+                if (!normalExit)
+                {
+                    normalExit = true;
+                    service.SendToServer("Logout");
+                }
+                client.Close();
+            }
         }
         // process the received data
         private void ReceiveData()
@@ -232,9 +245,10 @@ namespace Client
                         break;
                 }
             }
-            Application.Exit();
+            exitWhile = true;
         }
         delegate void ExitFormPlayingDelegate();
+
         //exit the game
         delegate void Paneldelegate(string s, int i);
         //Add a game table
@@ -256,7 +270,6 @@ namespace Client
                 CreateCheckBox(i, 1, s, "P2");
             }
         }
-
         private bool receiveTable = false;
         delegate void CheckBoxDelegate(CheckBox checkbox, bool isChecked);
         //Modify the selection state
@@ -353,29 +366,7 @@ namespace Client
 
             }
         }
-        private void Client_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (client != null)
-            {
-                // Do not allow the player to exit the entire program directly from the game table
-                //Only allowed to return to the game room from the game table, and then exit from the game room
-                if (side != -1)
-                {
-                    MessageBox.Show("Please stand up from the game table, return to the game room, and then exit");
-                    e.Cancel = true;
-                }
-                else
-                {
-                    //When the server stops the service, normalExit is true, otherwise it is false
-                    if (normalExit == false)
-                    {
-                        normalExit = true;
-                        service.SendToServer("Logout");
-                    }
-                    client.Close();
-                }
-            }
-        }
+
         // Find room then display in panel
         private void button_find_Click(object sender, EventArgs e)
         {

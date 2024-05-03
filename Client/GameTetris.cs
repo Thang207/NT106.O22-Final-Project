@@ -46,15 +46,19 @@ namespace Tetris
         };
         #endregion
 
+        private int mode = 2;
+
         public event EventHandler StartGame;
         public event EventHandler GameOver;
         public event EventHandler RestartGame;
 
 
         // Load main window
-        public GameTetris()
+        public GameTetris(int mode = 2, string username = null)
         {
             InitializeComponent();
+            this.mode = mode;
+            lbUserName.Text = username;
             ScoreUpdateLabel.Text = "";
             // Initialize/reset ghost piece
             // box1 through box4 are invisible
@@ -63,6 +67,12 @@ namespace Tetris
             activePiece2[2] = box3;
             activePiece2[3] = box4;
             SetDefaultFontFamily();
+
+            if (this.mode == 1)
+            {
+                lvStatus.Visible = false;
+                btnPlay.Text = "Play";
+            }
         }
 
         #region Methods
@@ -383,7 +393,7 @@ namespace Tetris
                 int minutes = timeElapsed / 60; // Số phút
                 int seconds = timeElapsed % 60; // Số giây
 
-                TimeLabel.Text = "Time: " + minutes.ToString("00") + ":" + seconds.ToString("00");
+                TimeLabel.Text = "TIME: " + minutes.ToString("00") + ":" + seconds.ToString("00");
             }
         }
 
@@ -516,12 +526,12 @@ namespace Tetris
             if (ScoreLabel.InvokeRequired)
             {
                 ScoreLabel.BeginInvoke((MethodInvoker)delegate () {
-                    ScoreLabel.Text = "Score: " + score.ToString();
+                    ScoreLabel.Text = "SCORE: " + score.ToString();
                 });
             }
             else
             {
-                ScoreLabel.Text = "Score: " + score.ToString();
+                ScoreLabel.Text = "SCORE: " + score.ToString();
             }
             ScoreUpdateTimer.Start();
         }
@@ -670,6 +680,14 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
+            if (mode == 1)
+            {
+                int GlobalSeed = new Random().Next(1000);
+                Playing_Room.random = new System.Random(GlobalSeed);
+                List<int> sequence = GameTetris.GenerateTetrisSequence(1000);
+                StartNewGame(sequence);
+                return;
+            }
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }
@@ -715,6 +733,20 @@ namespace Tetris
             {
                 control.Font = new Font(fontFamily, control.Font.Size);
             }
+        }
+
+        private void GameTetris_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void GameTetris_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void lbUserName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
