@@ -336,7 +336,6 @@ namespace Client
             // If Checked is true, it means that the player sits on the jth table at the ith table
             if (checkbox.Checked == true)
             {
-
                 if (receiveTable == false)
                 {
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
@@ -346,7 +345,7 @@ namespace Client
                     // Format: SitDown, Nickname, Table Number, Side,
                     service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new Playing_Room(i, j, sw);
-                    room.Text = "Table " + (i + 1) + " side " + j;
+                    room.Text = "Table " + (i + 1);
                     room.Show();
                     button_play.Enabled = false;
                     Complete_create_game_room = true;
