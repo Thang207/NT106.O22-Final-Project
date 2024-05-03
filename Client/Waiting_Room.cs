@@ -99,6 +99,7 @@ namespace Client
                 string command = splitString[0].ToLower();
                 switch (command)
                 {
+                    // Receive updated table, format: tables,string bit 01 seats
                     case "tables":
                         receiveTable = true;
                         string s = splitString[1];
@@ -138,7 +139,8 @@ namespace Client
                         }
                         receiveTable = false;
                         break;
-                    case "sitdown": //sitdown,side, user name
+                    // Receive sit down signal, format: sitdown, side, user name
+                    case "sitdown": 
                         int Receive_side_need_update_name = int.Parse(splitString[1]);
                         string name = splitString[2];
                         while (!Complete_create_game_room)
@@ -147,9 +149,11 @@ namespace Client
                         }
                         room.SetName(Receive_side_need_update_name, name);
                         break;
-                    case "sorry":
+                    // Receive full room signal, format: allready
+                    case "fullroom":
                         MessageBox.Show("Server is full");
                         break;
+                    // Receive both side are ready to start game, format: allready, globalseed
                     case "allready":
                         room.Invoke((MethodInvoker)delegate
                         {
@@ -159,7 +163,7 @@ namespace Client
                             room.Focus();
                         });
                         break;
-                    // Receive Out table: getup,side//name//isplaying
+                    // Receive Out table, format: getup,side,username,isplaying
                     case "getup": 
                         if (side == int.Parse(splitString[1]))
                         {
@@ -194,7 +198,7 @@ namespace Client
                             }
                         }
                         break;
-                    // Receive process key: key, real key
+                    // Receive process key, format: key, real key
                     case "key":
                         Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
                         if (room != null)
@@ -202,7 +206,7 @@ namespace Client
                             room.ProcessReceivedKey(keyData);
                         }
                         break;
-                    // Receive Message: message, real message
+                    // Receive Message, format: message, real message
                     case "message":
                         room.Invoke((MethodInvoker)delegate
                         {

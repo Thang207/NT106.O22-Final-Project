@@ -145,7 +145,7 @@ namespace Server
                     }
                     break;
                 }
-                service.AddItem(string.Format($"Received [{user.userName}]:{receiveString}"));
+                service.AddItem(string.Format($"Received from [{user.userName}]:{receiveString}"));
                 string[] splitString = receiveString.Split(',');
                 int tableIndex = -1; //table number
                 int side = -1;//Seat number
@@ -158,7 +158,7 @@ namespace Server
                     case "login":
                         if (userList.Count > maxUser)
                         {
-                            sendString = "Sorry";
+                            sendString = "fullroom";
                             service.SendToOne(user, sendString);
                             service.AddItem("The number of people is full, refuse" + splitString[1] + "Enter the game room");
                             exitWhile = true;
@@ -228,6 +228,7 @@ namespace Server
                         {
                             service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 0));
                         }
+                        // both player is started playing
                         if (gameTable[tableIndex].gamePlayer[side].started == true && gameTable[tableIndex].gamePlayer[anotherSide].started==true)
                         {
                             service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 1));
@@ -257,7 +258,7 @@ namespace Server
                             service.SendToBoth(gameTable[tableIndex], sendString);
                         }
                         break;
-                    //Receive key signal: key, table index, side, key
+                    //Receive key signal, format: key, table index, side, key
                     case "key": 
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
@@ -266,7 +267,8 @@ namespace Server
                         sendString = string.Format("Key,{0}", splitString[3]);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
-                    //Victory, format: lose, table number, seat number
+                    // Receive lose signal from player then return win signal to another side
+                    // format: lose, table number, seat number
                     case "lose":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
