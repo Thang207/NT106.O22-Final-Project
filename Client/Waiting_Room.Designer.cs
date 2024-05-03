@@ -51,7 +51,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(346, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 17);
@@ -71,7 +73,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(328, 265);
@@ -108,7 +110,9 @@
             // label_tableindex
             // 
             this.label_tableindex.AutoSize = true;
+            this.label_tableindex.BackColor = System.Drawing.Color.Transparent;
             this.label_tableindex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_tableindex.ForeColor = System.Drawing.Color.White;
             this.label_tableindex.Location = new System.Drawing.Point(346, 118);
             this.label_tableindex.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_tableindex.Name = "label_tableindex";
@@ -132,6 +136,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = global::Client.Properties.Resources.Background;
             this.ClientSize = new System.Drawing.Size(538, 289);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_play);
