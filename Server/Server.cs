@@ -179,7 +179,10 @@ namespace Server
                         break;
                     //Sit down, format: SitDown, table number, seat number
                     case "sitdown":
+<<<<<<< Updated upstream
                         // Nhận receive từ server
+=======
+>>>>>>> Stashed changes
                         tableIndex = int.Parse(splitString[1]); // i
                         side = int.Parse(splitString[2]);       // j
 
