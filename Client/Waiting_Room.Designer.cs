@@ -74,7 +74,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(328, 254);
+            this.panel1.Size = new System.Drawing.Size(328, 265);
             this.panel1.TabIndex = 8;
             // 
             // listBox1
@@ -132,6 +132,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(538, 289);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_play);
