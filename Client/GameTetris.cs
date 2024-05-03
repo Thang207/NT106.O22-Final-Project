@@ -697,10 +697,13 @@ namespace Tetris
             lvStatus.Items.Add(str);
         }
 
-        public void HideListView()
+        public void HideControls()
         {
             lvStatus.Visible = false;
             btnPlay.Visible = false;
+            ScoreLabel.Visible = false;
+            ScoreUpdateLabel.Visible = false;
+            TimeLabel.Visible = false;
         }
 
         public void Enable_Play()
