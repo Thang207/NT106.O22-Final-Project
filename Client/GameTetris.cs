@@ -438,6 +438,7 @@ namespace Tetris
             // 2 or more quad line clears in a row is worth 1200 
 
             bool skipComboReset = false;
+            string bonusScore = "";
 
             // Single clear
             if (combo == 0)
@@ -449,21 +450,21 @@ namespace Tetris
             else if (combo == 1)
             {
                 score += 100;
-                //ScoreUpdateLabel.Text = "+200";
+                bonusScore = "+200";
             }
 
             // Triple clear
             else if (combo == 2)
             {
                 score += 100;
-                //ScoreUpdateLabel.Text = "+300";
+                bonusScore = "+300";
             }
 
             // Quad clear, start combo
             else if (combo == 3)
             {
                 score += 500;
-                //ScoreUpdateLabel.Text = "+800";
+                bonusScore = "+800";
                 skipComboReset = true;
             }
 
@@ -471,30 +472,35 @@ namespace Tetris
             else if (combo > 3 && combo % 4 == 0)
             {
                 score += 100;
-                //ScoreUpdateLabel.Text = "+100";
+                bonusScore = "+100";
             }
 
             // Double clear, broken combo
             else if (combo > 3 && ((combo - 1) % 4 == 0))
             {
                 score += 100;
-                //ScoreUpdateLabel.Text = "+200";
+                bonusScore = "+200";
             }
 
             // Triple clear, broken combo
             else if (combo > 3 && ((combo - 2) % 4 == 0))
             {
                 score += 100;
-                //ScoreUpdateLabel.Text = "+300";
+                bonusScore = "+300";
             }
 
             // Quad clear, continue combo
             else if (combo > 3 && ((combo - 3) % 4 == 0))
             {
                 score += 900;
-                //ScoreUpdateLabel.Text = "+1200";
+                bonusScore = "+1200";
                 skipComboReset = true;
             }
+
+            this.Invoke(new MethodInvoker(delegate
+            {
+                ScoreUpdateLabel.Text = bonusScore;
+            }));
 
             if (CheckForCompleteRows() == -1 && skipComboReset == false)
             {
