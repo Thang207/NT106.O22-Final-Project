@@ -37,6 +37,7 @@
             this.label_tableindex = new System.Windows.Forms.Label();
             this.button_play = new System.Windows.Forms.Button();
             this.lbUserName = new System.Windows.Forms.Label();
+            this.btnReturn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Connect_btn
@@ -108,10 +109,10 @@
             this.button_play.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button_play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_play.ForeColor = System.Drawing.Color.Transparent;
-            this.button_play.Location = new System.Drawing.Point(95, 37);
+            this.button_play.Location = new System.Drawing.Point(70, 35);
             this.button_play.Margin = new System.Windows.Forms.Padding(2);
             this.button_play.Name = "button_play";
-            this.button_play.Size = new System.Drawing.Size(164, 42);
+            this.button_play.Size = new System.Drawing.Size(164, 38);
             this.button_play.TabIndex = 12;
             this.button_play.UseVisualStyleBackColor = false;
             this.button_play.Click += new System.EventHandler(this.button_play_Click);
@@ -122,11 +123,27 @@
             this.lbUserName.BackColor = System.Drawing.Color.Transparent;
             this.lbUserName.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUserName.ForeColor = System.Drawing.Color.White;
-            this.lbUserName.Location = new System.Drawing.Point(95, 9);
+            this.lbUserName.Location = new System.Drawing.Point(69, 8);
             this.lbUserName.Name = "lbUserName";
             this.lbUserName.Size = new System.Drawing.Size(126, 24);
             this.lbUserName.TabIndex = 3;
             this.lbUserName.Text = "WELCOME, ";
+            // 
+            // btnReturn
+            // 
+            this.btnReturn.BackColor = System.Drawing.Color.Transparent;
+            this.btnReturn.FlatAppearance.BorderSize = 0;
+            this.btnReturn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnReturn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReturn.ForeColor = System.Drawing.Color.Transparent;
+            this.btnReturn.Location = new System.Drawing.Point(267, 35);
+            this.btnReturn.Name = "btnReturn";
+            this.btnReturn.Size = new System.Drawing.Size(162, 38);
+            this.btnReturn.TabIndex = 0;
+            this.btnReturn.TabStop = false;
+            this.btnReturn.UseVisualStyleBackColor = false;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
             // Waiting_Room
             // 
@@ -135,6 +152,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::Client.Properties.Resources.WaitingRoom;
             this.ClientSize = new System.Drawing.Size(445, 399);
+            this.Controls.Add(this.btnReturn);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_play);
             this.Controls.Add(this.label_tableindex);
@@ -163,6 +181,7 @@
         private System.Windows.Forms.Label label_tableindex;
         private System.Windows.Forms.Button button_play;
         private System.Windows.Forms.Label lbUserName;
+        private System.Windows.Forms.Button btnReturn;
     }
 }
 

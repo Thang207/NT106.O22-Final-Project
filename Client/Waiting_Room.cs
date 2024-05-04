@@ -361,9 +361,11 @@ namespace Client
                     service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new Playing_Room(i, j, sw);
                     room.Text = "Table " + (i + 1);
-                    room.Show();
                     button_play.Enabled = false;
                     Complete_create_game_room = true;
+                    Hide();
+                    room.Show();
+                    room.FormClosed += (s, args) => Show();
                 }
 
             }
@@ -418,6 +420,11 @@ namespace Client
             }
             // if full, leave a messagebox
             MessageBox.Show("Không tìm được bàn phù hợp", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnReturn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
