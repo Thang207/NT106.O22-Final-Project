@@ -126,7 +126,6 @@ namespace Client
                             //Add the CheckBox object to the array
                             for (int i = 0; i < maxPlayingTables; i++)
                             {
-
                                 AddCheckBoxToPanel(s, i);
                             }
                             isReceiveCommand = false;
@@ -262,9 +261,11 @@ namespace Client
             else
             {
                 Label label = new Label();
-                label.Location = new Point(10, 15 + i * 30);
+                label.Location = new Point(10, 15 + i * 50);
                 label.Text = string.Format("Table {0}: ", i + 1);
                 label.Width = 70;
+                label.Font = new Font("Arial", 12, FontStyle.Bold);
+
                 this.panel1.Controls.Add(label);
                 CreateCheckBox(i, 0, s, "P1");
                 CreateCheckBox(i, 1, s, "P2");
@@ -315,10 +316,11 @@ namespace Client
             checkBoxGameTables[i, j] = new CheckBox();
             checkBoxGameTables[i, j].Name = string.Format("check{0:0000}{1:0000}", i, j);
             checkBoxGameTables[i, j].Width = 60;
-            checkBoxGameTables[i, j].Location = new Point(x, 10 + i * 30);
+            checkBoxGameTables[i, j].Location = new Point(x+10, 10 + i * 50);
             checkBoxGameTables[i, j].Text = text;
             checkBoxGameTables[i, j].TextAlign = ContentAlignment.MiddleCenter;
             checkBoxGameTables[i, j].Appearance = Appearance.Button;
+            checkBoxGameTables[i, j].Font = new Font("Arial", 12, FontStyle.Bold);
 
             if (s[2 * i + j] == '1')
             {
