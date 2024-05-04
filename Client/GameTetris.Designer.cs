@@ -278,6 +278,7 @@
             this.lbUserName = new System.Windows.Forms.Label();
             this.lvStatus = new System.Windows.Forms.ListView();
             this.ScoreUpdateLabel = new System.Windows.Forms.Label();
+            this.lbLose = new System.Windows.Forms.Label();
             this.grid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).BeginInit();
@@ -3202,12 +3203,12 @@
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.TimeLabel.Font = new System.Drawing.Font("Segoe UI", 20F);
+            this.TimeLabel.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(398, 232);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TimeLabel.Name = "TimeLabel";
-            this.TimeLabel.Size = new System.Drawing.Size(104, 37);
+            this.TimeLabel.Size = new System.Drawing.Size(112, 32);
             this.TimeLabel.TabIndex = 3;
             this.TimeLabel.Text = "TIME: 0";
             // 
@@ -3215,18 +3216,17 @@
             // 
             this.ScoreLabel.AutoSize = true;
             this.ScoreLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ScoreLabel.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScoreLabel.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ScoreLabel.ForeColor = System.Drawing.Color.White;
             this.ScoreLabel.Location = new System.Drawing.Point(398, 277);
             this.ScoreLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ScoreLabel.Name = "ScoreLabel";
-            this.ScoreLabel.Size = new System.Drawing.Size(125, 37);
+            this.ScoreLabel.Size = new System.Drawing.Size(144, 32);
             this.ScoreLabel.TabIndex = 4;
             this.ScoreLabel.Text = "SCORE: 0";
             // 
             // GameTimer
             // 
-            this.GameTimer.Interval = 1000;
             this.GameTimer.Tick += new System.EventHandler(this.GameTimer_Tick);
             // 
             // tableLayoutPanel1
@@ -3428,11 +3428,11 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Arial Narrow", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(398, 53);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 25);
+            this.label6.Size = new System.Drawing.Size(60, 26);
             this.label6.TabIndex = 9;
             this.label6.Text = "NEXT";
             // 
@@ -3449,11 +3449,11 @@
             this.btnPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlay.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlay.Location = new System.Drawing.Point(228, 10);
+            this.btnPlay.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlay.Location = new System.Drawing.Point(209, 10);
             this.btnPlay.Margin = new System.Windows.Forms.Padding(2);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(127, 26);
+            this.btnPlay.Size = new System.Drawing.Size(141, 26);
             this.btnPlay.TabIndex = 2;
             this.btnPlay.TabStop = false;
             this.btnPlay.Text = "READY";
@@ -3490,14 +3490,27 @@
             // 
             this.ScoreUpdateLabel.AutoSize = true;
             this.ScoreUpdateLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ScoreUpdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScoreUpdateLabel.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ScoreUpdateLabel.ForeColor = System.Drawing.Color.Cyan;
-            this.ScoreUpdateLabel.Location = new System.Drawing.Point(496, 262);
+            this.ScoreUpdateLabel.Location = new System.Drawing.Point(523, 258);
             this.ScoreUpdateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ScoreUpdateLabel.Name = "ScoreUpdateLabel";
-            this.ScoreUpdateLabel.Size = new System.Drawing.Size(48, 17);
+            this.ScoreUpdateLabel.Size = new System.Drawing.Size(47, 16);
             this.ScoreUpdateLabel.TabIndex = 11;
             this.ScoreUpdateLabel.Text = "+Point";
+            // 
+            // lbLose
+            // 
+            this.lbLose.AutoSize = true;
+            this.lbLose.Font = new System.Drawing.Font("Microsoft Sans Serif", 42F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbLose.ForeColor = System.Drawing.Color.Teal;
+            this.lbLose.Location = new System.Drawing.Point(10, 280);
+            this.lbLose.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbLose.Name = "lbLose";
+            this.lbLose.Size = new System.Drawing.Size(344, 64);
+            this.lbLose.TabIndex = 14;
+            this.lbLose.Text = "YOU LOSE!!";
+            this.lbLose.Visible = false;
             // 
             // GameTetris
             // 
@@ -3505,6 +3518,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Client.Properties.Resources.TetrisRoom;
             this.ClientSize = new System.Drawing.Size(572, 724);
+            this.Controls.Add(this.lbLose);
             this.Controls.Add(this.lbUserName);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.lvStatus);
@@ -4017,6 +4031,7 @@
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.ListView lvStatus;
         private System.Windows.Forms.Label ScoreUpdateLabel;
+        private System.Windows.Forms.Label lbLose;
     }
 }
 

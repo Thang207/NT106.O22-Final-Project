@@ -36,13 +36,13 @@ namespace Tetris
 
         readonly Color[] colorList =
         {
-            Color.FromArgb(1, 237, 250),     // I piece - cyan
-            Color.FromArgb(255, 200, 46),   // L piece - orange
-            Color.FromArgb(0, 119, 211),     // J piece - blue
-            Color.FromArgb(83, 218, 63),    // S piece - green
-            Color.FromArgb(234, 20, 28),      // Z piece - red
-            Color.FromArgb(255, 213, 0),   // O piece - yellow 
-            Color.FromArgb(221, 10, 178)   // T piece - purple
+            Color.FromArgb(0, 236, 250),     // I piece - cyan
+            Color.FromArgb(255, 151, 28),    // L piece - orange
+            Color.FromArgb(3, 65, 174),     // J piece - blue
+            Color.FromArgb(114, 203, 59),     // S piece - green
+            Color.FromArgb(255, 50, 19),     // Z piece - red
+            Color.FromArgb(255, 213, 0),     // O piece - yellow 
+            Color.FromArgb(221, 10, 178)     // T piece - purple
         };
         #endregion
 
@@ -66,7 +66,6 @@ namespace Tetris
             activePiece2[1] = box2;
             activePiece2[2] = box3;
             activePiece2[3] = box4;
-            SetDefaultFontFamily();
 
             if (this.mode == 1)
             {
@@ -351,7 +350,11 @@ namespace Tetris
                 gameOver = false;
                 isPaused = false;
                 btnPlay.Enabled = true;
-
+                if (mode == 1)
+                {
+                    lbLose.Visible = true;
+                    lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                }
             }
 
             else
@@ -619,7 +622,7 @@ namespace Tetris
             {
                 if (square.BackColor != Color.White && square.BackColor != Color.LightGray && Ghost.Contains(square))
                 {
-                    return true; // Đã xảy ra va chạm với khối Ghost
+                    return true;
                 }
             }
             return false;
@@ -647,6 +650,8 @@ namespace Tetris
             isPaused = false;
             PieceSequenceIteration = 0;
             isPlayable = true;
+            lbLose.Visible = false;
+            lbLose.Text = "YOU LOSE!!!";
 
             foreach (Control control in grid.Controls)
             {
@@ -727,15 +732,6 @@ namespace Tetris
         public void SetName(string name)
         {
             lbUserName.Text = name;
-        }
-
-        private void SetDefaultFontFamily()
-        {
-            FontFamily fontFamily = new FontFamily("Arial");
-            foreach (Control control in this.Controls)
-            {
-                control.Font = new Font(fontFamily, control.Font.Size);
-            }
         }
 
         private void GameTetris_FormClosing(object sender, FormClosingEventArgs e)

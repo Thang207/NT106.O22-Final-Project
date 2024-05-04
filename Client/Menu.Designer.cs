@@ -44,9 +44,9 @@
             this.btnSolo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnSolo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSolo.ForeColor = System.Drawing.Color.Transparent;
-            this.btnSolo.Location = new System.Drawing.Point(96, 403);
+            this.btnSolo.Location = new System.Drawing.Point(75, 420);
             this.btnSolo.Name = "btnSolo";
-            this.btnSolo.Size = new System.Drawing.Size(211, 51);
+            this.btnSolo.Size = new System.Drawing.Size(250, 51);
             this.btnSolo.TabIndex = 0;
             this.btnSolo.TabStop = false;
             this.btnSolo.UseVisualStyleBackColor = false;
@@ -62,9 +62,9 @@
             this.btnMulti.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnMulti.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMulti.ForeColor = System.Drawing.Color.Transparent;
-            this.btnMulti.Location = new System.Drawing.Point(96, 478);
+            this.btnMulti.Location = new System.Drawing.Point(75, 495);
             this.btnMulti.Name = "btnMulti";
-            this.btnMulti.Size = new System.Drawing.Size(211, 51);
+            this.btnMulti.Size = new System.Drawing.Size(250, 51);
             this.btnMulti.TabIndex = 0;
             this.btnMulti.TabStop = false;
             this.btnMulti.UseVisualStyleBackColor = false;
@@ -74,10 +74,10 @@
             // 
             this.txtUserName.BackColor = System.Drawing.Color.White;
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUserName.Font = new System.Drawing.Font("Arial", 21F);
-            this.txtUserName.Location = new System.Drawing.Point(133, 346);
+            this.txtUserName.Font = new System.Drawing.Font("Arial", 30F, System.Drawing.FontStyle.Bold);
+            this.txtUserName.Location = new System.Drawing.Point(133, 342);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(134, 33);
+            this.txtUserName.Size = new System.Drawing.Size(134, 46);
             this.txtUserName.TabIndex = 1;
             this.txtUserName.Text = "WUOC";
             this.txtUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
