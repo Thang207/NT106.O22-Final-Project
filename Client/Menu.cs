@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tetris;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Client
 {
@@ -20,7 +21,7 @@ namespace Client
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            txtUserName.BackColor = Color.FromArgb(185, 123, 235);
+            txtUserName.BackColor = Color.White;
         }
 
         private void btnSolo_Click(object sender, EventArgs e)
