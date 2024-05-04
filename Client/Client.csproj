@@ -58,11 +58,17 @@
     <Compile Include="KeyDown.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TetrisRoom.cs">
+    <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TetrisRoom.Designer.cs">
-      <DependentUpon>TetrisRoom.cs</DependentUpon>
+    <Compile Include="Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Playing_Room.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Playing_Room.Designer.cs">
+      <DependentUpon>Playing_Room.cs</DependentUpon>
     </Compile>
     <Compile Include="Waiting_Room.cs">
       <SubType>Form</SubType>
@@ -76,8 +82,11 @@
     <EmbeddedResource Include="GameTetris.resx">
       <DependentUpon>GameTetris.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TetrisRoom.resx">
-      <DependentUpon>TetrisRoom.cs</DependentUpon>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Playing_Room.resx">
+      <DependentUpon>Playing_Room.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Waiting_Room.resx">
       <DependentUpon>Waiting_Room.cs</DependentUpon>
@@ -90,6 +99,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -103,6 +113,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Image\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Image\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Image\WaitingRoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\TetrisRoom.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

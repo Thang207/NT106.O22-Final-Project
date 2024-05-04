@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Tetris
 {
-    public partial class TetrisRoom : Form
+    public partial class Playing_Room : Form
     {
         private int TableIndex;
         private int side = 0;
@@ -19,7 +17,7 @@ namespace Tetris
         private Service service;
         public static Random random;
 
-        public TetrisRoom(int tableIndex, int side, StreamWriter sw)
+        public Playing_Room(int tableIndex, int side, StreamWriter sw)
         {
             InitializeComponent();
             TableIndex = tableIndex;
@@ -27,7 +25,7 @@ namespace Tetris
             DrawGameRoom();
             service = new Service(null, sw);
         }
-
+        // Draw game room
         private void DrawGameRoom()
         {
             this.IsMdiContainer = true;
@@ -55,14 +53,8 @@ namespace Tetris
             pn_p1.Controls.Add(p1Game);
             pn_p2.Controls.Add(p2Game);
 
-            gb_p1.Size = new Size(pn_p1.Width, pn_p2.Height);
-            gb_p2.Size = new Size(pn_p2.Width, pn_p2.Height);
-
-            pn_p1.Dock = DockStyle.Fill;
-            pn_p2.Dock = DockStyle.Fill;
-
-            gb_p1.Dock = DockStyle.Left;
-            gb_p2.Dock = DockStyle.Right;
+            pn_p1.Dock = DockStyle.Left;
+            pn_p2.Dock = DockStyle.Right;
 
             p1Game.Show();
             p2Game.Show();
@@ -73,8 +65,7 @@ namespace Tetris
                 pn_p1.Controls.Add(announcementLabel);
                 announcementLabel.BringToFront();
                 pn_p2.Enabled = false;
-                gb_p2.Enabled = false;
-                p2Game.HideListView();
+                p2Game.HideControls();
                 p1Game.Focus();
                 p1Game.GameOver += PlayerWindow_GameOver;
             }
@@ -84,14 +75,12 @@ namespace Tetris
                 pn_p2.Controls.Add(announcementLabel);
                 announcementLabel.BringToFront();
                 pn_p1.Enabled = false;
-                gb_p1.Enabled = false;
-                p1Game.HideListView();
+                p1Game.HideControls();
                 p2Game.Focus();
                 p2Game.GameOver += PlayerWindow_GameOver;
-
             }
 
-            this.Size = new Size(gb_p1.Width * 2 + 10, 760);
+            this.Size = new Size(pn_p1.Width * 2 + 10, 760);
         }
         public void SetName(int side, string name)
         {
@@ -99,11 +88,11 @@ namespace Tetris
             {
                 if (side == 0)
                 {
-                    p1Game.txtName.Text = name;
+                    p1Game.SetName(name);
                 }
                 if (side == 1)
                 {
-                    p2Game.txtName.Text = name;
+                    p2Game.SetName(name);
                 }
             });
         }
@@ -119,13 +108,13 @@ namespace Tetris
             }
         }
 
-        // Chỉ cho panel 1 có thể nhấn phím
+        // Only let 1 panel to control the keys
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (side == 0)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
@@ -136,7 +125,7 @@ namespace Tetris
             else if (side == 1)
             {
                 if (keyData == Keys.Left || keyData == Keys.Right || keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Space
-                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D || keyData == Keys.Shift)
+                    || keyData == Keys.A || keyData == Keys.S || keyData == Keys.W || keyData == Keys.D)
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
@@ -207,16 +196,11 @@ namespace Tetris
 
         public void GameTetris_StartGame(int GlobalSeed)
         {
-            TetrisRoom.random = new System.Random(GlobalSeed);
+            Playing_Room.random = new System.Random(GlobalSeed);
             List<int> sequence = GameTetris.GenerateTetrisSequence(1000);
             p1Game.StartNewGame(sequence);
             p2Game.StartNewGame(sequence);
             this.Focus();
-            //this.Invoke((MethodInvoker)delegate
-            //{
-            //    p1Game.StartNewGame();
-            //    p2Game.StartNewGame();
-            //});
         }
         public void annouceWin(string message)
         {

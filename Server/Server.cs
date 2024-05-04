@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -107,7 +108,7 @@ namespace Server
                 User user = new User(newClient);
                 threadReceive.Start(user);
                 userList.Add(user);
-                service.AddItem(string.Format("{0}Enter", newClient.Client.RemoteEndPoint));
+                service.AddItem(string.Format("{0} connected to server", newClient.Client.RemoteEndPoint));
                 service.AddItem(string.Format("Number of currently connected users: {0}", userList.Count));
             }
         }
@@ -144,7 +145,7 @@ namespace Server
                     }
                     break;
                 }
-                service.AddItem(string.Format($"From {user.userName}:{receiveString}"));
+                service.AddItem(string.Format($"Received from [{user.userName}]:{receiveString}"));
                 string[] splitString = receiveString.Split(',');
                 int tableIndex = -1; //table number
                 int side = -1;//Seat number
@@ -153,10 +154,11 @@ namespace Server
                 string command = splitString[0].ToLower();
                 switch (command)
                 {
+                    //Connect, format: login, userName
                     case "login":
                         if (userList.Count > maxUser)
                         {
-                            sendString = "Sorry";
+                            sendString = "fullroom";
                             service.SendToOne(user, sendString);
                             service.AddItem("The number of people is full, refuse" + splitString[1] + "Enter the game room");
                             exitWhile = true;
@@ -164,11 +166,10 @@ namespace Server
                         else
                         {
                             //Save the user's nickname to the user list
-                            user.userName = string.Format("[{0}]", splitString[1]);
+                            user.userName = string.Format("{0}", splitString[1]);
                             //Send the status of whether there are people at each table to the user
                             sendString = "Tables," + this.GetOnlineString();
                             service.SendToOne(user, sendString);
-
                         }
                         break;
                     //Exit, format: Logout
@@ -227,6 +228,7 @@ namespace Server
                         {
                             service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 0));
                         }
+                        // both player is started playing
                         if (gameTable[tableIndex].gamePlayer[side].started == true && gameTable[tableIndex].gamePlayer[anotherSide].started==true)
                         {
                             service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 1));
@@ -256,14 +258,17 @@ namespace Server
                             service.SendToBoth(gameTable[tableIndex], sendString);
                         }
                         break;
-                    case "key": //table index, side , key
+                    //Receive key signal, format: key, table index, side, key
+                    case "key": 
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
+
                         anotherSide = (side + 1) % 2;
                         sendString = string.Format("Key,{0}", splitString[3]);
                         service.SendToOne(gameTable[tableIndex].gamePlayer[anotherSide].user, sendString);
                         break;
-                    //Victory, format: lose, table number, seat number
+                    // Receive lose signal from player then return win signal to another side
+                    // format: lose, table number, seat number
                     case "lose":
                         tableIndex = int.Parse(splitString[1]);
                         side = int.Parse(splitString[2]);
@@ -273,7 +278,6 @@ namespace Server
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         gameTable[tableIndex].gamePlayer[anotherSide].started = false;
                         break;
-
                 }
             }
             userList.Remove(user);

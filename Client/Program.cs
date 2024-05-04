@@ -17,7 +17,7 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Waiting_Room());
+            Application.Run(new Menu());
         }
     }
 }

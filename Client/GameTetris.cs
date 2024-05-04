@@ -23,7 +23,7 @@ namespace Tetris
         int timeElapsed = 0;
         int currentPiece;
         int nextPieceInt;
-        int savedPieceInt = -1;
+        //int savedPieceInt = -1;
         int rotations = 0;
         int combo = 0;
         int score = 0;
@@ -36,15 +36,17 @@ namespace Tetris
 
         readonly Color[] colorList =
         {
-            Color.FromArgb(1, 237, 250),     // I piece - cyan
-            Color.FromArgb(255, 200, 46),   // L piece - orange
-            Color.FromArgb(0, 119, 211),     // J piece - blue
-            Color.FromArgb(83, 218, 63),    // S piece - green
-            Color.FromArgb(234, 20, 28),      // Z piece - red
-            Color.FromArgb(255, 213, 0),   // O piece - yellow 
-            Color.FromArgb(221, 10, 178)   // T piece - purple
+            Color.FromArgb(0, 236, 250),     // I piece - cyan
+            Color.FromArgb(255, 151, 28),    // L piece - orange
+            Color.FromArgb(3, 65, 174),     // J piece - blue
+            Color.FromArgb(114, 203, 59),     // S piece - green
+            Color.FromArgb(255, 50, 19),     // Z piece - red
+            Color.FromArgb(255, 213, 0),     // O piece - yellow 
+            Color.FromArgb(221, 10, 178)     // T piece - purple
         };
         #endregion
+
+        private int mode = 2;
 
         public event EventHandler StartGame;
         public event EventHandler GameOver;
@@ -52,9 +54,11 @@ namespace Tetris
 
 
         // Load main window
-        public GameTetris()
+        public GameTetris(int mode = 2, string username = null)
         {
             InitializeComponent();
+            this.mode = mode;
+            lbUserName.Text = username;
             ScoreUpdateLabel.Text = "";
             // Initialize/reset ghost piece
             // box1 through box4 are invisible
@@ -62,10 +66,12 @@ namespace Tetris
             activePiece2[1] = box2;
             activePiece2[2] = box3;
             activePiece2[3] = box4;
-        }
 
-        private void GameTetris_Load(object sender, EventArgs e)
-        {
+            if (this.mode == 1)
+            {
+                lvStatus.Visible = false;
+                btnPlay.Text = "Play";
+            }
         }
 
         #region Methods
@@ -156,15 +162,11 @@ namespace Tetris
                     gameOver = true;
                     GameOver?.Invoke(this, EventArgs.Empty);
 
-
-                        // Xử lý chơi game mới
-                        gameOver = false;
-                        isPaused = false;
-                        btnPlay.Enabled = true;
-                        RestartGame?.Invoke(this, EventArgs.Empty);
-                    
-
-
+                    // Handle to restart new game
+                    gameOver = false;
+                    isPaused = false;
+                    btnPlay.Enabled = true;
+                    RestartGame?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
@@ -348,7 +350,11 @@ namespace Tetris
                 gameOver = false;
                 isPaused = false;
                 btnPlay.Enabled = true;
-
+                if (mode == 1)
+                {
+                    lbLose.Visible = true;
+                    lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                }
             }
 
             else
@@ -390,7 +396,7 @@ namespace Tetris
                 int minutes = timeElapsed / 60; // Số phút
                 int seconds = timeElapsed % 60; // Số giây
 
-                TimeLabel.Text = "Time: " + minutes.ToString("00") + ":" + seconds.ToString("00");
+                TimeLabel.Text = "TIME: " + minutes.ToString("00") + ":" + seconds.ToString("00");
             }
         }
 
@@ -445,6 +451,7 @@ namespace Tetris
             // 2 or more quad line clears in a row is worth 1200 
 
             bool skipComboReset = false;
+            string bonusScore = "";
 
             // Single clear
             if (combo == 0)
@@ -456,21 +463,21 @@ namespace Tetris
             else if (combo == 1)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+200";
+                bonusScore = "+200";
             }
 
             // Triple clear
             else if (combo == 2)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+300";
+                bonusScore = "+300";
             }
 
             // Quad clear, start combo
             else if (combo == 3)
             {
                 score += 500;
-                ScoreUpdateLabel.Text = "+800";
+                bonusScore = "+800";
                 skipComboReset = true;
             }
 
@@ -478,30 +485,35 @@ namespace Tetris
             else if (combo > 3 && combo % 4 == 0)
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+100";
+                bonusScore = "+100";
             }
 
             // Double clear, broken combo
             else if (combo > 3 && ((combo - 1) % 4 == 0))
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+200";
+                bonusScore = "+200";
             }
 
             // Triple clear, broken combo
             else if (combo > 3 && ((combo - 2) % 4 == 0))
             {
                 score += 100;
-                ScoreUpdateLabel.Text = "+300";
+                bonusScore = "+300";
             }
 
             // Quad clear, continue combo
             else if (combo > 3 && ((combo - 3) % 4 == 0))
             {
                 score += 900;
-                ScoreUpdateLabel.Text = "+1200";
+                bonusScore = "+1200";
                 skipComboReset = true;
             }
+
+            this.Invoke(new MethodInvoker(delegate
+            {
+                ScoreUpdateLabel.Text = bonusScore;
+            }));
 
             if (CheckForCompleteRows() == -1 && skipComboReset == false)
             {
@@ -517,12 +529,12 @@ namespace Tetris
             if (ScoreLabel.InvokeRequired)
             {
                 ScoreLabel.BeginInvoke((MethodInvoker)delegate () {
-                    ScoreLabel.Text = "Score: " + score.ToString();
+                    ScoreLabel.Text = "SCORE: " + score.ToString();
                 });
             }
             else
             {
-                ScoreLabel.Text = "Score: " + score.ToString();
+                ScoreLabel.Text = "SCORE: " + score.ToString();
             }
             ScoreUpdateTimer.Start();
         }
@@ -557,7 +569,7 @@ namespace Tetris
         private void LevelUp()
         {
             level++;
-            LevelLabel.Text = "Level: " + level.ToString();
+            //LevelLabel.Text = "Level: " + level.ToString();
 
             // Milliseconds per square fall
             // Level 1 = 800 ms per square, level 2 = 716 ms per square, etc.
@@ -610,7 +622,7 @@ namespace Tetris
             {
                 if (square.BackColor != Color.White && square.BackColor != Color.LightGray && Ghost.Contains(square))
                 {
-                    return true; // Đã xảy ra va chạm với khối Ghost
+                    return true;
                 }
             }
             return false;
@@ -621,7 +633,7 @@ namespace Tetris
             List<int> sequence = new List<int>();
             for (int i = 0; i < length; i++)
             {
-                sequence.Add(TetrisRoom.random.Next(7));  // Assuming there are 7 different Tetris blocks
+                sequence.Add(Playing_Room.random.Next(7));  // Assuming there are 7 different Tetris blocks
             }
             return sequence;
         }
@@ -638,6 +650,8 @@ namespace Tetris
             isPaused = false;
             PieceSequenceIteration = 0;
             isPlayable = true;
+            lbLose.Visible = false;
+            lbLose.Text = "YOU LOSE!!!";
 
             foreach (Control control in grid.Controls)
             {
@@ -671,8 +685,14 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            //List<int> sequence = GameTetris.GenerateTetrisSequence(10);
-            //StartNewGame(sequence);
+            if (mode == 1)
+            {
+                int GlobalSeed = new Random().Next(1000);
+                Playing_Room.random = new System.Random(GlobalSeed);
+                List<int> sequence = GameTetris.GenerateTetrisSequence(1000);
+                StartNewGame(sequence);
+                return;
+            }
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }
@@ -682,10 +702,13 @@ namespace Tetris
             lvStatus.Items.Add(str);
         }
 
-        public void HideListView()
+        public void HideControls()
         {
             lvStatus.Visible = false;
             btnPlay.Visible = false;
+            ScoreLabel.Visible = false;
+            ScoreUpdateLabel.Visible = false;
+            TimeLabel.Visible = false;
         }
 
         public void Enable_Play()
@@ -705,6 +728,25 @@ namespace Tetris
         public int Get_Score()
         {
             return score;
+        }
+
+        public void SetName(string name)
+        {
+            lbUserName.Text = name;
+        }
+
+        private void GameTetris_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void GameTetris_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void lbUserName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
