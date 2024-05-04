@@ -3472,7 +3472,6 @@
             this.lbUserName.Size = new System.Drawing.Size(119, 24);
             this.lbUserName.TabIndex = 0;
             this.lbUserName.Text = "User Name ";
-            this.lbUserName.Click += new System.EventHandler(this.lbUserName_Click);
             // 
             // lvStatus
             // 
@@ -3538,6 +3537,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameTetris_FormClosing);
             this.Load += new System.EventHandler(this.GameTetris_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GameTetris_KeyPress);
             this.grid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.box1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).EndInit();

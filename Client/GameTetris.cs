@@ -719,11 +719,6 @@ namespace Tetris
             }));
         }
 
-        public void ResetScore()
-        {
-            ScoreLabel.Text = "0";
-        }
-
         public int Get_Score()
         {
             return score;
@@ -743,7 +738,7 @@ namespace Tetris
         {
         }
 
-        private void lbUserName_Click(object sender, EventArgs e)
+        public void GameTetris_KeyPress(object sender, KeyPressEventArgs e)
         {
 
         }
