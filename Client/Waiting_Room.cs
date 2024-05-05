@@ -142,7 +142,7 @@ namespace Client
                                     }
                                     else
                                     {
-                                        UpdateCheckBox(checkBoxGameTables[i, j], false);
+                                        UpdateCheckBox(checkBoxGameTables[i, j], true);
                                     }
                                 }
                                 isReceiveCommand = false;
