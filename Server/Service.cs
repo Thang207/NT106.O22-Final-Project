@@ -12,10 +12,10 @@ namespace Server
             this.listbox = listbox;
             addItemDelegate = new AddItemDelegate(AddItem);
         }
-        //Additional information in listBox, direct access to controls across threads is prohibited in C#
+
+        // Additional information in listBox, direct access to controls across threads is prohibited in C#
         public void AddItem(string str)
         {
-            // Tráng thay đổi giao diện trên cùng 1 luồng :>
             if (listbox.InvokeRequired)
             {
                 listbox.Invoke(addItemDelegate, str);
@@ -27,6 +27,7 @@ namespace Server
                 listbox.ClearSelected();
             }
         }
+
         // send message to client
         public void SendToOne(User user, string str)
         {
@@ -41,6 +42,7 @@ namespace Server
                 AddItem(string.Format("Failed to send to [{0}]", user.userName));
             }
         }
+
         //Send a message to the same table
         public void SendToBoth(GameTable gameTable, string str)
         {
@@ -52,6 +54,7 @@ namespace Server
                 }
             }
         }
+
         // send message to all clients
         public void SendToAll(System.Collections.Generic.List<User> userList, string str)
         {

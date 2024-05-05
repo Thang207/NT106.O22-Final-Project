@@ -29,26 +29,25 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Waiting_Room));
-            this.Connect_btn = new System.Windows.Forms.Button();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.textbox_tableindex = new System.Windows.Forms.TextBox();
             this.button_find = new System.Windows.Forms.Button();
             this.label_tableindex = new System.Windows.Forms.Label();
-            this.button_play = new System.Windows.Forms.Button();
+            this.btnQuickPlay = new System.Windows.Forms.Button();
             this.lbUserName = new System.Windows.Forms.Label();
             this.btnReturn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Connect_btn
+            // btnConnect
             // 
-            this.Connect_btn.Location = new System.Drawing.Point(458, 218);
-            this.Connect_btn.Name = "Connect_btn";
-            this.Connect_btn.Size = new System.Drawing.Size(100, 34);
-            this.Connect_btn.TabIndex = 7;
-            this.Connect_btn.Text = "Connect";
-            this.Connect_btn.UseVisualStyleBackColor = true;
-            this.Connect_btn.Click += new System.EventHandler(this.Connect_btn_Click);
+            this.btnConnect.Location = new System.Drawing.Point(458, 218);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(100, 34);
+            this.btnConnect.TabIndex = 7;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.Connect_btn_Click);
             // 
             // panel1
             // 
@@ -58,15 +57,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(408, 291);
             this.panel1.TabIndex = 8;
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(8, 403);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(8, 4);
-            this.listBox1.TabIndex = 3;
             // 
             // textbox_tableindex
             // 
@@ -100,22 +90,22 @@
             this.label_tableindex.TabIndex = 11;
             this.label_tableindex.Text = "Tìm bàn";
             // 
-            // button_play
+            // btnQuickPlay
             // 
-            this.button_play.BackColor = System.Drawing.Color.Transparent;
-            this.button_play.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_play.FlatAppearance.BorderSize = 0;
-            this.button_play.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button_play.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button_play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_play.ForeColor = System.Drawing.Color.Transparent;
-            this.button_play.Location = new System.Drawing.Point(70, 35);
-            this.button_play.Margin = new System.Windows.Forms.Padding(2);
-            this.button_play.Name = "button_play";
-            this.button_play.Size = new System.Drawing.Size(164, 38);
-            this.button_play.TabIndex = 12;
-            this.button_play.UseVisualStyleBackColor = false;
-            this.button_play.Click += new System.EventHandler(this.button_play_Click);
+            this.btnQuickPlay.BackColor = System.Drawing.Color.Transparent;
+            this.btnQuickPlay.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnQuickPlay.FlatAppearance.BorderSize = 0;
+            this.btnQuickPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnQuickPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnQuickPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQuickPlay.ForeColor = System.Drawing.Color.Transparent;
+            this.btnQuickPlay.Location = new System.Drawing.Point(70, 35);
+            this.btnQuickPlay.Margin = new System.Windows.Forms.Padding(2);
+            this.btnQuickPlay.Name = "btnQuickPlay";
+            this.btnQuickPlay.Size = new System.Drawing.Size(164, 38);
+            this.btnQuickPlay.TabIndex = 12;
+            this.btnQuickPlay.UseVisualStyleBackColor = false;
+            this.btnQuickPlay.Click += new System.EventHandler(this.button_play_Click);
             // 
             // lbUserName
             // 
@@ -151,14 +141,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::Client.Properties.Resources.WaitingRoom;
-            this.ClientSize = new System.Drawing.Size(445, 399);
+            this.ClientSize = new System.Drawing.Size(443, 399);
             this.Controls.Add(this.btnReturn);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button_play);
+            this.Controls.Add(this.btnQuickPlay);
             this.Controls.Add(this.label_tableindex);
             this.Controls.Add(this.button_find);
             this.Controls.Add(this.textbox_tableindex);
-            this.Controls.Add(this.Connect_btn);
+            this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.lbUserName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -173,13 +163,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button Connect_btn;
+        private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox textbox_tableindex;
         private System.Windows.Forms.Button button_find;
         private System.Windows.Forms.Label label_tableindex;
-        private System.Windows.Forms.Button button_play;
+        private System.Windows.Forms.Button btnQuickPlay;
         private System.Windows.Forms.Label lbUserName;
         private System.Windows.Forms.Button btnReturn;
     }

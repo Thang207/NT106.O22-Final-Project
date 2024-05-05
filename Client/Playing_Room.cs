@@ -14,8 +14,8 @@ namespace Tetris
         public GameTetris p1Game;
         public GameTetris p2Game;
         public GameTetris main;
-        private Service service;
         public static Random random;
+        StreamWriter sw;
 
         public Playing_Room(int tableIndex, int side, StreamWriter sw)
         {
@@ -23,7 +23,7 @@ namespace Tetris
             TableIndex = tableIndex;
             this.side = side;
             DrawGameRoom();
-            service = new Service(null, sw);
+            this.sw = sw;
         }
         // Draw game room
         private void DrawGameRoom()
@@ -84,17 +84,23 @@ namespace Tetris
         }
         public void SetName(int side, string name)
         {
-            this.Invoke((MethodInvoker)delegate
+            if (this.InvokeRequired)
             {
-                if (side == 0)
-                {
-                    p1Game.SetName(name);
-                }
-                if (side == 1)
-                {
-                    p2Game.SetName(name);
-                }
-            });
+                this.Invoke((MethodInvoker)delegate {
+                    if (side == 0)
+                    {
+                        p1Game.SetName(name);
+                    }
+                    else if (side == 1)
+                    {
+                        p2Game.SetName(name);
+                    }
+                });
+            }
+            else
+            {
+                // Code that can safely access the controls from the UI thread
+            }
         }
         public void AddMessage(string message)
         {
@@ -118,7 +124,7 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p1Game.MainWindow_KeyDown(this, e);
-                    service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
+                    SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
             }
@@ -129,7 +135,7 @@ namespace Tetris
                 {
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     p2Game.MainWindow_KeyDown(this, e);
-                    service.SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
+                    SendToServer(string.Format("Key,{0},{1},{2}", TableIndex, side, keyData));
                     return true;
                 }
             }
@@ -154,7 +160,6 @@ namespace Tetris
 
         private void Player_Restart(object sender, EventArgs e)
         {
-            GameTetris senderWindow = sender as GameTetris;
             p1Game.Enable_Play();
             p2Game.Enable_Play();
         }
@@ -165,11 +170,11 @@ namespace Tetris
 
             if (senderWindow == p1Game)
             {
-                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
+                SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
             }
             else
             {
-                service.SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
+                SendToServer(string.Format("Start,{0},{1}", TableIndex, side));
             }
         }
 
@@ -186,11 +191,11 @@ namespace Tetris
 
             if (senderWindow == p1Game)
             {
-                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
+                SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
             else
             {
-                service.SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
+                SendToServer(string.Format("lose,{0},{1}", TableIndex, side));
             }
         }
 
@@ -208,17 +213,28 @@ namespace Tetris
             announcementLabel.Visible = true;
             announcementTimer.Start();
         }
-        // Chờ 4 giây hiện thông báo thắng thua 
         private void announcement_Tick(object sender, EventArgs e)
         {
             announcementLabel.Text = "";
             announcementLabel.Visible = false;
             announcementTimer.Stop();
         }
-
         private void TetrisRoom_FormClosing(object sender, FormClosingEventArgs e)
         {
-            service.SendToServer(string.Format("GetUp,{0},{1}", TableIndex, side));
+            SendToServer(string.Format("GetUp,{0},{1}", TableIndex, side));
+        }
+
+        public void SendToServer(string str)
+        {
+            try
+            {
+                sw.WriteLine(str);
+                sw.Flush();
+            }
+            catch
+            {
+                Console.WriteLine("Failed to send data");
+            }
         }
     }
 }

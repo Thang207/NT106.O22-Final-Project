@@ -17,6 +17,5 @@ namespace Server
         public bool someone;
         // whether the game has stop
         public bool stopped;
-        public int score;
     }
 }

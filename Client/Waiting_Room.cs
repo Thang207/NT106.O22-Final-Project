@@ -14,57 +14,32 @@ namespace Client
         private int maxPlayingTables;
         private CheckBox[,] checkBoxGameTables;
         private TcpClient client = null;
-        private StreamWriter sw;
+        public StreamWriter sw;
         private StreamReader sr;
-        private Service service;
         private string username = "Player";
-
         private Playing_Room room;
 
-        //Whether to exit the receiving thread normally
+        // Whether to exit the receiving thread normally
         private bool normalExit = false;
-        // whether the command is from the server
+        // Whether the command is from the server
         private bool isReceiveCommand = false;
-        //The seat number of the game table you are sitting on, -1 means not seated, 0 means black, 1 means red
+        // The seat number of the game table you are sitting on, -1 means not seated, 0 means black, 1 means red
         private int side = -1;
+
         public Waiting_Room(string name)
         {
             InitializeComponent();
             this.username = name;
             lbUserName.Text  += name;
         }
+
         private void Client_Load(object sender, EventArgs e)
         {
-            Connect_btn.PerformClick();
-            Connect_btn.Visible = false;
+            btnConnect.PerformClick();
+            btnConnect.Visible = false;
             maxPlayingTables = 0;
         }
-        private void Connect_btn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                client = new TcpClient("127.0.0.1", 8888);
-            }
-            catch
-            {
-                MessageBox.Show("Failed to connect to the server", "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            //Local_tb.Text = client.Client.LocalEndPoint.ToString();
-            //Server_tb.Text = client.Client.RemoteEndPoint.ToString();
-            Connect_btn.Enabled = false;
-            // get network stream
-            NetworkStream netStream = client.GetStream();
-            sr = new StreamReader(netStream, System.Text.Encoding.UTF8);
-            sw = new StreamWriter(netStream, System.Text.Encoding.UTF8);
-            //Get the server table information
-            service = new Service(listBox1, sw);
-            //Format: Login, nickname
-            service.SendToServer("Login," + this.username);
-            Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
-            threadReceive.Start();
-        }
+
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (client != null)
@@ -73,11 +48,36 @@ namespace Client
                 if (!normalExit)
                 {
                     normalExit = true;
-                    service.SendToServer("Logout");
+                    SendToServer("Logout");
                 }
                 client.Close();
             }
         }
+
+        private void Connect_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                client = new TcpClient("127.0.0.1", 8888);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to connect to the server", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            btnConnect.Enabled = false;
+
+            // get network stream
+            NetworkStream netStream = client.GetStream();
+            sr = new StreamReader(netStream, System.Text.Encoding.UTF8);
+            sw = new StreamWriter(netStream, System.Text.Encoding.UTF8);
+
+            // Format: Login, nickname
+            SendToServer("Login," + this.username);
+            Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
+            threadReceive.Start();
+        }
+
         // process the received data
         private void ReceiveData()
         {
@@ -91,7 +91,7 @@ namespace Client
                 }
                 catch
                 {
-                    service.AddItemToListBox("Failed to receive data");
+                    Console.WriteLine("Failed to receive data");
                 }
                 if (receiveString == null)
                 {
@@ -107,7 +107,6 @@ namespace Client
                     normalExit = true;
                     break;
                 }
-                service.AddItemToListBox("Received:" + receiveString);
                 string[] splitString = receiveString.Split(',');
                 string command = splitString[0].ToLower();
                 switch (command)
@@ -183,7 +182,7 @@ namespace Client
                             Complete_create_game_room = false;
                             this.Invoke((MethodInvoker)delegate
                             {
-                                button_play.Enabled = true;
+                                btnQuickPlay.Enabled = true;
                             });
                         }
                         else
@@ -337,6 +336,7 @@ namespace Client
             this.panel1.Controls.Add(checkBoxGameTables[i, j]);
             checkBoxGameTables[i, j].CheckedChanged += new EventHandler(checkBox_CheckedChanged);
         }
+
         //Triggered when the Checked property of the CheckBox changes
         public bool Complete_create_game_room = false;
         // Modify the title of the room to the table number
@@ -358,16 +358,16 @@ namespace Client
                 side = j;
 
                     // Format: SitDown, Nickname, Table Number, Side,
-                    service.SendToServer(string.Format("SitDown,{0},{1}", i, j));
+                    SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new Playing_Room(i, j, sw);
-                    room.Text = "Table " + (i + 1);
-                    button_play.Enabled = false;
+
+                    btnQuickPlay.Enabled = false;
                     Complete_create_game_room = true;
                     Hide();
                     room.Show();
+                    room.Text = "Table " + (i + 1);
                     room.FormClosed += (s, args) => Show();
                 }
-
             }
         }
 
@@ -394,6 +394,7 @@ namespace Client
                 MessageBox.Show("Vui lòng nhập một số hợp lệ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         // Find the first room has empty seat
         private void button_play_Click(object sender, EventArgs e)
         {
@@ -402,19 +403,19 @@ namespace Client
             {
                 if (checkBoxGameTables[i, 0].Checked != checkBoxGameTables[i, 1].Checked)
                 {
-                    //ngồi tai vị trí hợp lệ
+                    // Choose enable seat
                     checkBoxGameTables[i, checkBoxGameTables[i, 0].Checked ? 1 : 0].Checked = true;
-                    button_play.Enabled = false;
+                    btnQuickPlay.Enabled = false;
                     return;
                 }
             }
-            // if there is no one, then sit down at first seat (not on top)
+            // If there is no one, then sit down at first seat (not on top)
             for (int i = 0; i < maxPlayingTables; i++)
             {
                 if (!checkBoxGameTables[i, 0].Checked || !checkBoxGameTables[i, 1].Checked)
                 {
                     checkBoxGameTables[i, checkBoxGameTables[i, 0].Checked ? 1 : 0].Checked = true;
-                    button_play.Enabled = false;
+                    btnQuickPlay.Enabled = false;
                     return;
                 }
             }
@@ -425,6 +426,19 @@ namespace Client
         private void btnReturn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        public void SendToServer(string str)
+        {
+            try
+            {
+                sw.WriteLine(str);
+                sw.Flush();
+            }
+            catch
+            {
+                Console.WriteLine("Failed to send data");
+            }
         }
     }
 }

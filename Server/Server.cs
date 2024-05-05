@@ -17,10 +17,10 @@ namespace Server
         private int maxTables;
         private GameTable[] gameTable;
         // List of user connected to the server
-        List<User> userList= new List<User>();
+        List<User> clientList= new List<User>();
         // Local IP
-        IPAddress localAddress;
-        // Liston Port
+        IPAddress localAddress = IPAddress.Parse("127.0.0.1");
+        // Listen Port
         private int port = 8888;
         private TcpListener tcpListener;
         private Service service;
@@ -29,20 +29,13 @@ namespace Server
             InitializeComponent();
             service = new Service(ServerLog_lb); 
         }
-        // Loading Form Event
-        private void Server_Load(object sender, EventArgs e)
-        {
-            ServerLog_lb.HorizontalScrollbar = true;
-            localAddress = IPAddress.Parse("127.0.0.1");
-            Disconnect_btn.Enabled = false;
-        }
+
         // Connect Button Event
-        private void Connect_btn_Click(object sender, EventArgs e)
+        private void btnOpenServer_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(MaxUser_tb.Text, out maxUser) == false
-               || int.TryParse(MaxTable_tb.Text, out maxTables) == false)
+            if (int.TryParse(MaxUser_tb.Text, out maxUser) == false || int.TryParse(MaxTable_tb.Text, out maxTables) == false)
             {
-                MessageBox.Show("Please enter a positive integer in the range!!!");
+                MessageBox.Show("Vui lòng nhập số nguyên dương!!!");
                 return;
             }
             if (maxUser < 1 || maxUser > 300)
@@ -50,11 +43,12 @@ namespace Server
                 MessageBox.Show("The number of people allowed is 1-300!!!");
                 return;
             }
-            if (maxTables < 1 || maxTables > 100)
+            if (maxTables < 1 || maxTables > 150)
             {
-                MessageBox.Show("The number of tables allowed is 1-100!!!");
+                MessageBox.Show("The number of tables allowed is 1-150!!!");
                 return;
             }
+
             MaxUser_tb.Enabled = false;
             MaxTable_tb.Enabled = false;
             // Create game table array
@@ -66,29 +60,31 @@ namespace Server
             // Monitor
             tcpListener = new TcpListener(localAddress, port);
             tcpListener.Start();
-            service.AddItem(string.Format("Start listening for client connections at {0}:{1}", localAddress, port));
+            service.AddItem(string.Format("Waiting for clients at {0}:{1}", localAddress, port));
             //Create a thread to listen for client connections request
             Thread myThread = new Thread(new ThreadStart(ListenClientConnect));
             myThread.Start();
-            Connect_btn.Enabled = false;
-            Disconnect_btn.Enabled = true;
+            btnOpenServer.Enabled = false;
+            btnCloseSever.Enabled = true;
         }
+
         // Disconnect Button Event
-        private void Disconnect_btn_Click(object sender, EventArgs e)
+        private void btnCloseServer_Click(object sender, EventArgs e)
         {
-            service.AddItem(string.Format("Number of currently connected users:{0}", userList.Count));
-            service.AddItem(string.Format("Stop the service immediately, the user will exit in sequence"));
-            for (int i = 0; i < userList.Count; i++)
+            service.AddItem(string.Format("Currently players:{0}", clientList.Count));
+            service.AddItem(string.Format("Stop the service, the user will exit in sequence"));
+            for (int i = 0; i < clientList.Count; i++)
             {
-                userList[i].client.Close();
+                clientList[i].client.Close();
             }
             // exit the listener thread
             tcpListener.Stop();
-            Connect_btn.Enabled = true;
-            Disconnect_btn.Enabled = false;
+            btnOpenServer.Enabled = true;
+            btnCloseSever.Enabled = false;
             MaxUser_tb.Enabled = true;
             MaxTable_tb.Enabled = true;
         }
+
         //Receive client connection
         private void ListenClientConnect()
         {
@@ -103,15 +99,17 @@ namespace Server
                 {
                     break;
                 }
-                // create a thread for each client
+
+                // Create a thread for each client
                 Thread threadReceive = new Thread(ReceiveData);
                 User user = new User(newClient);
                 threadReceive.Start(user);
-                userList.Add(user);
+                clientList.Add(user);
                 service.AddItem(string.Format("{0} connected to server", newClient.Client.RemoteEndPoint));
-                service.AddItem(string.Format("Number of currently connected users: {0}", userList.Count));
+                service.AddItem(string.Format("Number of currently connected users: {0}", clientList.Count));
             }
         }
+
         //Receive client information
         private void ReceiveData(object obj)
         {
@@ -156,7 +154,7 @@ namespace Server
                 {
                     //Connect, format: login, userName
                     case "login":
-                        if (userList.Count > maxUser)
+                        if (clientList.Count > maxUser)
                         {
                             sendString = "fullroom";
                             service.SendToOne(user, sendString);
@@ -168,7 +166,7 @@ namespace Server
                             //Save the user's nickname to the user list
                             user.userName = string.Format("{0}", splitString[1]);
                             //Send the status of whether there are people at each table to the user
-                            sendString = "Tables," + this.GetOnlineString();
+                            sendString = "Tables," + this.SeatString();
                             service.SendToOne(user, sendString);
                         }
                         break;
@@ -201,7 +199,7 @@ namespace Server
                         sendString = string.Format("SitDown,{0},{1}", side, user.userName);
                         service.SendToBoth(gameTable[tableIndex], sendString);
                         //Send the status of each table in the game room to all users
-                        service.SendToAll(userList, "Tables," + this.GetOnlineString());
+                        service.SendToAll(clientList, "Tables," + this.SeatString());
                         if (side == 0)
                         {
                             anotherSide = 1;
@@ -233,13 +231,12 @@ namespace Server
                         {
                             service.SendToBoth(gameTable[tableIndex], string.Format("GetUp,{0},{1},{2}", side, user.userName, 1));
                             gameTable[tableIndex].gamePlayer[anotherSide].started = false;
-
                         }
                         gameTable[tableIndex].gamePlayer[side].someone = false;
                         gameTable[tableIndex].gamePlayer[side].started = false;
                         
                         //Send the status of each table in the game room to all users
-                        service.SendToAll(userList, "Tables," + this.GetOnlineString());
+                        service.SendToAll(clientList, "Tables," + this.SeatString());
                         break;
                     //Prepare, format: Start, table number, seat number
                     case "start":
@@ -280,9 +277,9 @@ namespace Server
                         break;
                 }
             }
-            userList.Remove(user);
+            clientList.Remove(user);
             client.Close();
-            service.AddItem(string.Format("There is one exit, remaining connected users: {0}", userList.Count));
+            service.AddItem(string.Format("There is one exit, remaining connected users: {0}", clientList.Count));
         }
         //Detect if the user is sitting on the game table, if so, remove it and terminate the table game
         private void RemoveClientfromPlayer(User user)
@@ -320,7 +317,7 @@ namespace Server
             }
         }
         //Get the string of whether there is someone at each table, 0 means there is someone, 1 means no one
-        private string GetOnlineString()
+        private string SeatString()
         {
             string str = "";
             for (int i = 0; i < gameTable.Length; i++)
@@ -332,14 +329,16 @@ namespace Server
             }
             return str;
         }
+
         // Form Closing Event - Close connect from client
         private void Server_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (tcpListener != null)
             {
-                Disconnect_btn_Click(null, null);
+                btnCloseServer_Click(null, null);
             }
         }
+
         // Clear status log 
         private void btnClear_Click(object sender, EventArgs e)
         {

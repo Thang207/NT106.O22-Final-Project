@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Server));
-            this.Connect_btn = new System.Windows.Forms.Button();
-            this.Disconnect_btn = new System.Windows.Forms.Button();
+            this.btnOpenServer = new System.Windows.Forms.Button();
+            this.btnCloseSever = new System.Windows.Forms.Button();
             this.MaxUser_tb = new System.Windows.Forms.TextBox();
             this.MaxTable_tb = new System.Windows.Forms.TextBox();
             this.ServerLog_lb = new System.Windows.Forms.ListBox();
@@ -39,27 +39,28 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Connect_btn
+            // btnOpenServer
             // 
-            this.Connect_btn.Location = new System.Drawing.Point(460, 58);
-            this.Connect_btn.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Connect_btn.Name = "Connect_btn";
-            this.Connect_btn.Size = new System.Drawing.Size(74, 23);
-            this.Connect_btn.TabIndex = 0;
-            this.Connect_btn.Text = "Connect";
-            this.Connect_btn.UseVisualStyleBackColor = true;
-            this.Connect_btn.Click += new System.EventHandler(this.Connect_btn_Click);
+            this.btnOpenServer.Location = new System.Drawing.Point(460, 58);
+            this.btnOpenServer.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnOpenServer.Name = "btnOpenServer";
+            this.btnOpenServer.Size = new System.Drawing.Size(74, 23);
+            this.btnOpenServer.TabIndex = 0;
+            this.btnOpenServer.Text = "Open";
+            this.btnOpenServer.UseVisualStyleBackColor = true;
+            this.btnOpenServer.Click += new System.EventHandler(this.btnOpenServer_Click);
             // 
-            // Disconnect_btn
+            // btnCloseSever
             // 
-            this.Disconnect_btn.Location = new System.Drawing.Point(460, 86);
-            this.Disconnect_btn.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Disconnect_btn.Name = "Disconnect_btn";
-            this.Disconnect_btn.Size = new System.Drawing.Size(74, 23);
-            this.Disconnect_btn.TabIndex = 1;
-            this.Disconnect_btn.Text = "Disconnet";
-            this.Disconnect_btn.UseVisualStyleBackColor = true;
-            this.Disconnect_btn.Click += new System.EventHandler(this.Disconnect_btn_Click);
+            this.btnCloseSever.Enabled = false;
+            this.btnCloseSever.Location = new System.Drawing.Point(460, 86);
+            this.btnCloseSever.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnCloseSever.Name = "btnCloseSever";
+            this.btnCloseSever.Size = new System.Drawing.Size(74, 23);
+            this.btnCloseSever.TabIndex = 1;
+            this.btnCloseSever.Text = "Close";
+            this.btnCloseSever.UseVisualStyleBackColor = true;
+            this.btnCloseSever.Click += new System.EventHandler(this.btnCloseServer_Click);
             // 
             // MaxUser_tb
             // 
@@ -86,6 +87,7 @@
             // ServerLog_lb
             // 
             this.ServerLog_lb.FormattingEnabled = true;
+            this.ServerLog_lb.HorizontalScrollbar = true;
             this.ServerLog_lb.Location = new System.Drawing.Point(10, 7);
             this.ServerLog_lb.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.ServerLog_lb.Name = "ServerLog_lb";
@@ -135,14 +137,13 @@
             this.Controls.Add(this.ServerLog_lb);
             this.Controls.Add(this.MaxTable_tb);
             this.Controls.Add(this.MaxUser_tb);
-            this.Controls.Add(this.Disconnect_btn);
-            this.Controls.Add(this.Connect_btn);
+            this.Controls.Add(this.btnCloseSever);
+            this.Controls.Add(this.btnOpenServer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Server";
             this.Text = "Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Server_FormClosing);
-            this.Load += new System.EventHandler(this.Server_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,8 +151,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button Connect_btn;
-        private System.Windows.Forms.Button Disconnect_btn;
+        private System.Windows.Forms.Button btnOpenServer;
+        private System.Windows.Forms.Button btnCloseSever;
         private System.Windows.Forms.TextBox MaxUser_tb;
         private System.Windows.Forms.TextBox MaxTable_tb;
         private System.Windows.Forms.ListBox ServerLog_lb;
