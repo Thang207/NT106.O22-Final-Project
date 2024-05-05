@@ -46,7 +46,7 @@ namespace Tetris
         };
         #endregion
 
-        private int mode = 2;
+        private int mode;
 
         public event EventHandler StartGame;
         public event EventHandler GameOver;
@@ -167,6 +167,14 @@ namespace Tetris
                     isPaused = false;
                     btnPlay.Enabled = true;
                     RestartGame?.Invoke(this, EventArgs.Empty);
+
+                    if (this.mode == 1)
+                    {
+                        lbLose.BringToFront();
+                        lbLose.Visible = true;
+                        lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                        isPlayable = false;
+                    }
                     return;
                 }
             }
@@ -342,21 +350,25 @@ namespace Tetris
         {
             if (CheckGameOver() == true)
             {
+                MessageBox.Show("Lose");
                 SpeedTimer.Stop();
                 GameTimer.Stop();
                 GameOver?.Invoke(this, EventArgs.Empty);
+
+                if (this.mode == 1)
+                {
+                    MessageBox.Show("1");
+                    lbLose.BringToFront();
+                    lbLose.Visible = true;
+                    lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                    isPlayable = false;
+                }
 
                 // Xử lý chơi game mới
                 gameOver = false;
                 isPaused = false;
                 btnPlay.Enabled = true;
-                if (mode == 1)
-                {
-                    lbLose.Visible = true;
-                    lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
-                }
             }
-
             else
             {
                 //Move piece down, or drop new piece if it can't move
@@ -372,10 +384,18 @@ namespace Tetris
                         GameTimer.Stop();
                         GameOver?.Invoke(this, EventArgs.Empty);
 
-                            // Xử lý chơi game mới
-                            gameOver = false;
-                            isPaused = false;
-                            btnPlay.Enabled = true;
+                        if (this.mode == 1)
+                        {
+                            MessageBox.Show("1");
+                            lbLose.BringToFront();
+                            lbLose.Visible = true;
+                            lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                            isPlayable = false;
+                        }
+                        // Xử lý chơi game mới
+                        gameOver = false;
+                        isPaused = false;
+                        btnPlay.Enabled = true;
 
                     }
                     if (CheckForCompleteRows() > -1)
@@ -685,7 +705,7 @@ namespace Tetris
 
         public void btnPlay_Click(object sender, EventArgs e)
         {
-            if (mode == 1)
+            if (this.mode == 1)
             {
                 int GlobalSeed = new Random().Next(1000);
                 Playing_Room.random = new System.Random(GlobalSeed);
@@ -720,11 +740,6 @@ namespace Tetris
             }));
         }
 
-        public void ResetScore()
-        {
-            ScoreLabel.Text = "0";
-        }
-
         public int Get_Score()
         {
             return score;
@@ -733,20 +748,6 @@ namespace Tetris
         public void SetName(string name)
         {
             lbUserName.Text = name;
-        }
-
-        private void GameTetris_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void GameTetris_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void lbUserName_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

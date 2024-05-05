@@ -22,6 +22,7 @@ namespace Client
         private void Menu_Load(object sender, EventArgs e)
         {
             txtUserName.BackColor = Color.White;
+            this.BackColor = Color.Green;
         }
 
         private void btnSolo_Click(object sender, EventArgs e)
