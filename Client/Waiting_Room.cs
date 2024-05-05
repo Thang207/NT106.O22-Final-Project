@@ -142,7 +142,7 @@ namespace Client
                                     }
                                     else
                                     {
-                                        UpdateCheckBox(checkBoxGameTables[i, j], true);
+                                        UpdateCheckBox(checkBoxGameTables[i, j], false);
                                     }
                                 }
                                 isReceiveCommand = false;
@@ -356,7 +356,6 @@ namespace Client
                 int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
                 int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
                 side = j;
-
                     // Format: SitDown, Nickname, Table Number, Side,
                     SendToServer(string.Format("SitDown,{0},{1}", i, j));
                     room = new Playing_Room(i, j, sw);

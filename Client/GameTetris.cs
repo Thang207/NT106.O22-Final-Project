@@ -736,6 +736,7 @@ namespace Tetris
             this.Invoke(new MethodInvoker(delegate
             {
                 btnPlay.Enabled = true;
+            
             }));
         }
 
