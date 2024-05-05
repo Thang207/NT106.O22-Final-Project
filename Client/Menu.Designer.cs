@@ -74,12 +74,12 @@
             // 
             this.txtUserName.BackColor = System.Drawing.Color.White;
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUserName.Font = new System.Drawing.Font("Arial", 30F, System.Drawing.FontStyle.Bold);
-            this.txtUserName.Location = new System.Drawing.Point(133, 342);
+            this.txtUserName.Font = new System.Drawing.Font("Arial", 25F, System.Drawing.FontStyle.Bold);
+            this.txtUserName.Location = new System.Drawing.Point(134, 346);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(134, 46);
+            this.txtUserName.Size = new System.Drawing.Size(134, 39);
             this.txtUserName.TabIndex = 1;
-            this.txtUserName.Text = "WUOC";
+            this.txtUserName.Text = "PLAYER";
             this.txtUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Menu

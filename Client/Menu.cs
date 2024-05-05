@@ -23,7 +23,6 @@ namespace Client
         {
             txtUserName.BackColor = Color.White;
             this.BackColor = Color.Green;
-            //this.Padding = new Padding(5);
         }
 
         private void btnSolo_Click(object sender, EventArgs e)
