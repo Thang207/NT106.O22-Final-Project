@@ -187,11 +187,17 @@ namespace Client
                         }
                         else
                         {
+                            int getup_side = int.Parse(splitString[1]);
                             int isplaying = int.Parse(splitString[3]);
                             if (isplaying == 1)
                             {
                                 room.Invoke((MethodInvoker)delegate
                                 {
+                                    while (!Complete_create_game_room)
+                                    {
+                                        Thread.Sleep(100); // Chờ 0.1 giây
+                                    }
+                                    room.SetName(getup_side,"");
                                     room.annouceWin("You Win!!!");
                                     room.AddMessage("Enemy escape, You Win!!!");
                                     room.p1Game.StopGame();
@@ -204,6 +210,11 @@ namespace Client
                             {
                                 room.Invoke((MethodInvoker)delegate
                                 {
+                                    while (!Complete_create_game_room)
+                                    {
+                                        Thread.Sleep(100); // Chờ 0.1 giây
+                                    }
+                                    room.SetName(getup_side, "");
                                     room.AddMessage("Enemy escape!!!");
                                 });
                             }

@@ -99,7 +99,14 @@ namespace Tetris
             }
             else
             {
-                // Code that can safely access the controls from the UI thread
+                if (side == 0)
+                {
+                    p1Game.SetName(name);
+                }
+                else if (side == 1)
+                {
+                    p2Game.SetName(name);
+                }
             }
         }
         public void AddMessage(string message)
