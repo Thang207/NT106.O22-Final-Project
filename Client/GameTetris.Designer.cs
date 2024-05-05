@@ -3227,6 +3227,7 @@
             // 
             // GameTimer
             // 
+            this.GameTimer.Interval = 1000;
             this.GameTimer.Tick += new System.EventHandler(this.GameTimer_Tick);
             // 
             // tableLayoutPanel1
@@ -3501,14 +3502,15 @@
             // lbLose
             // 
             this.lbLose.AutoSize = true;
-            this.lbLose.Font = new System.Drawing.Font("Microsoft Sans Serif", 42F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbLose.ForeColor = System.Drawing.Color.Teal;
+            this.lbLose.Font = new System.Drawing.Font("Arial", 40F, System.Drawing.FontStyle.Bold);
+            this.lbLose.ForeColor = System.Drawing.Color.Black;
             this.lbLose.Location = new System.Drawing.Point(10, 280);
             this.lbLose.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbLose.Name = "lbLose";
-            this.lbLose.Size = new System.Drawing.Size(344, 64);
+            this.lbLose.Size = new System.Drawing.Size(339, 63);
             this.lbLose.TabIndex = 14;
             this.lbLose.Text = "YOU LOSE!!";
+            this.lbLose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLose.Visible = false;
             // 
             // GameTetris
@@ -3534,10 +3536,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GameTetris";
             this.Text = "Tetris";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameTetris_FormClosing);
-            this.Load += new System.EventHandler(this.GameTetris_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GameTetris_KeyPress);
             this.grid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.box1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).EndInit();
