@@ -1,26 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Server
 {
     class User
     {
-        public TcpClient client { get; private set; }
-        public StreamReader sr { get; private set; }
-        public StreamWriter sw { get; private set; }
+        public Socket client { get; private set; }
         public string userName { get; set; }
-        public User(TcpClient client)
+        public NetworkStream netStream;
+
+        public User(Socket client)
         {
             this.client = client;
-            this.userName = "";
-            NetworkStream netStream = client.GetStream();
-            sr = new StreamReader(netStream, System.Text.Encoding.UTF8);
-            sw = new StreamWriter(netStream, System.Text.Encoding.UTF8);
+            userName = "";
+            try
+            {
+                netStream = new NetworkStream(client);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to create network stream");
+            }
+        }
+
+        public void Send(string mgs)
+        {
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes(mgs);
+                netStream.Write(data, 0, data.Length);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send message: {ex.Message}");
+            }
         }
     }
 }

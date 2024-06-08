@@ -6,10 +6,9 @@ namespace Tetris
     public partial class GameTetris : Form
     {
         // Handle inputs - triggered on any keypress
-        // Cleanup needed
         public void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (isPaused || !isPlayable) return;
+            if (isPaused || !isPlayable || isTexting) return;
             if (!CheckGameOver() && ((e.KeyCode == Keys.Left | e.KeyCode == Keys.A) && TestMove("left") == true))
             {
                 MovePiece("left");

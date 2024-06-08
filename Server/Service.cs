@@ -13,7 +13,7 @@ namespace Server
             addItemDelegate = new AddItemDelegate(AddItem);
         }
 
-        // Additional information in listBox, direct access to controls across threads is prohibited in C#
+        // Add information in listBox
         public void AddItem(string str)
         {
             if (listbox.InvokeRequired)
@@ -23,18 +23,19 @@ namespace Server
             else
             {
                 listbox.Items.Add(str);
+
+                // scroll to bottom, easy to read status
                 listbox.SelectedIndex = listbox.Items.Count - 1;
                 listbox.ClearSelected();
             }
         }
 
-        // send message to client
+        // Send message to client
         public void SendToOne(User user, string str)
         {
             try
             {
-                user.sw.WriteLine(str);
-                user.sw.Flush();
+                user.Send(str);
                 AddItem(string.Format("Send {1} to [{0}]", user.userName, str));
             }
             catch
@@ -43,7 +44,7 @@ namespace Server
             }
         }
 
-        //Send a message to the same table
+        // Send a message to 2 client in table
         public void SendToBoth(GameTable gameTable, string str)
         {
             for (int i = 0; i < 2; i++)
@@ -55,7 +56,7 @@ namespace Server
             }
         }
 
-        // send message to all clients
+        // Send message to all clients
         public void SendToAll(System.Collections.Generic.List<User> userList, string str)
         {
             for (int i = 0; i < userList.Count; i++)

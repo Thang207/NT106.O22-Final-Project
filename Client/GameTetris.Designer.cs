@@ -276,9 +276,11 @@
             this.ScoreUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.btnPlay = new System.Windows.Forms.Button();
             this.lbUserName = new System.Windows.Forms.Label();
-            this.lvStatus = new System.Windows.Forms.ListView();
             this.ScoreUpdateLabel = new System.Windows.Forms.Label();
-            this.lbLose = new System.Windows.Forms.Label();
+            this.lbInfo = new System.Windows.Forms.Label();
+            this.txtChat = new System.Windows.Forms.TextBox();
+            this.btnSendMessage = new System.Windows.Forms.Button();
+            this.rtbChatZone = new System.Windows.Forms.RichTextBox();
             this.grid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).BeginInit();
@@ -3474,18 +3476,6 @@
             this.lbUserName.TabIndex = 0;
             this.lbUserName.Text = "User Name ";
             // 
-            // lvStatus
-            // 
-            this.lvStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvStatus.HideSelection = false;
-            this.lvStatus.Location = new System.Drawing.Point(368, 388);
-            this.lvStatus.Margin = new System.Windows.Forms.Padding(2);
-            this.lvStatus.Name = "lvStatus";
-            this.lvStatus.Size = new System.Drawing.Size(193, 303);
-            this.lvStatus.TabIndex = 13;
-            this.lvStatus.UseCompatibleStateImageBehavior = false;
-            this.lvStatus.View = System.Windows.Forms.View.List;
-            // 
             // ScoreUpdateLabel
             // 
             this.ScoreUpdateLabel.AutoSize = true;
@@ -3499,19 +3489,54 @@
             this.ScoreUpdateLabel.TabIndex = 11;
             this.ScoreUpdateLabel.Text = "+Point";
             // 
-            // lbLose
+            // lbInfo
             // 
-            this.lbLose.AutoSize = true;
-            this.lbLose.Font = new System.Drawing.Font("Arial", 40F, System.Drawing.FontStyle.Bold);
-            this.lbLose.ForeColor = System.Drawing.Color.Black;
-            this.lbLose.Location = new System.Drawing.Point(10, 280);
-            this.lbLose.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lbLose.Name = "lbLose";
-            this.lbLose.Size = new System.Drawing.Size(339, 63);
-            this.lbLose.TabIndex = 14;
-            this.lbLose.Text = "YOU LOSE!!";
-            this.lbLose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbLose.Visible = false;
+            this.lbInfo.AutoSize = true;
+            this.lbInfo.Font = new System.Drawing.Font("Arial", 40F, System.Drawing.FontStyle.Bold);
+            this.lbInfo.ForeColor = System.Drawing.Color.Black;
+            this.lbInfo.Location = new System.Drawing.Point(10, 280);
+            this.lbInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbInfo.Name = "lbInfo";
+            this.lbInfo.Size = new System.Drawing.Size(339, 63);
+            this.lbInfo.TabIndex = 14;
+            this.lbInfo.Text = "YOU LOSE!!";
+            this.lbInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbInfo.Visible = false;
+            // 
+            // txtChat
+            // 
+            this.txtChat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtChat.Location = new System.Drawing.Point(381, 663);
+            this.txtChat.Name = "txtChat";
+            this.txtChat.Size = new System.Drawing.Size(131, 20);
+            this.txtChat.TabIndex = 15;
+            this.txtChat.TabStop = false;
+            this.txtChat.Enter += new System.EventHandler(this.txtChat_Enter);
+            this.txtChat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtChat_KeyDown);
+            // 
+            // btnSendMessage
+            // 
+            this.btnSendMessage.Location = new System.Drawing.Point(526, 660);
+            this.btnSendMessage.Name = "btnSendMessage";
+            this.btnSendMessage.Size = new System.Drawing.Size(28, 23);
+            this.btnSendMessage.TabIndex = 16;
+            this.btnSendMessage.Text = "📃";
+            this.btnSendMessage.UseVisualStyleBackColor = true;
+            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
+            // 
+            // rtbChatZone
+            // 
+            this.rtbChatZone.BackColor = System.Drawing.Color.White;
+            this.rtbChatZone.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbChatZone.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbChatZone.ForeColor = System.Drawing.Color.Black;
+            this.rtbChatZone.Location = new System.Drawing.Point(363, 343);
+            this.rtbChatZone.Name = "rtbChatZone";
+            this.rtbChatZone.ReadOnly = true;
+            this.rtbChatZone.Size = new System.Drawing.Size(197, 284);
+            this.rtbChatZone.TabIndex = 17;
+            this.rtbChatZone.TabStop = false;
+            this.rtbChatZone.Text = "";
             // 
             // GameTetris
             // 
@@ -3519,10 +3544,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Client.Properties.Resources.TetrisRoom;
             this.ClientSize = new System.Drawing.Size(572, 724);
-            this.Controls.Add(this.lbLose);
+            this.Controls.Add(this.rtbChatZone);
+            this.Controls.Add(this.btnSendMessage);
+            this.Controls.Add(this.txtChat);
+            this.Controls.Add(this.lbInfo);
             this.Controls.Add(this.lbUserName);
             this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.lvStatus);
             this.Controls.Add(this.ScoreUpdateLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -3536,7 +3563,9 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GameTetris";
             this.Text = "Tetris";
+            this.Load += new System.EventHandler(this.GameTetris_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameTetris_MouseClick);
             this.grid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.box1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.box2)).EndInit();
@@ -4028,9 +4057,11 @@
         private System.Windows.Forms.Timer ScoreUpdateTimer;
         private System.Windows.Forms.Label lbUserName;
         private System.Windows.Forms.Button btnPlay;
-        private System.Windows.Forms.ListView lvStatus;
         private System.Windows.Forms.Label ScoreUpdateLabel;
-        private System.Windows.Forms.Label lbLose;
+        private System.Windows.Forms.Label lbInfo;
+        private System.Windows.Forms.TextBox txtChat;
+        private System.Windows.Forms.Button btnSendMessage;
+        private System.Windows.Forms.RichTextBox rtbChatZone;
     }
 }
 

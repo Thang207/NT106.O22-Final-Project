@@ -32,6 +32,7 @@
             this.btnSolo = new System.Windows.Forms.Button();
             this.btnMulti = new System.Windows.Forms.Button();
             this.txtUserName = new System.Windows.Forms.TextBox();
+            this.btnSound = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSolo
@@ -82,6 +83,18 @@
             this.txtUserName.Text = "PLAYER";
             this.txtUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnSound
+            // 
+            this.btnSound.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSound.Location = new System.Drawing.Point(333, 552);
+            this.btnSound.Name = "btnSound";
+            this.btnSound.Size = new System.Drawing.Size(40, 40);
+            this.btnSound.TabIndex = 2;
+            this.btnSound.TabStop = false;
+            this.btnSound.Text = "🔊";
+            this.btnSound.UseVisualStyleBackColor = true;
+            this.btnSound.Click += new System.EventHandler(this.btnSound_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -89,6 +102,7 @@
             this.BackgroundImage = global::Client.Properties.Resources.Menu;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(400, 617);
+            this.Controls.Add(this.btnSound);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnMulti);
             this.Controls.Add(this.btnSolo);
@@ -109,5 +123,6 @@
         private System.Windows.Forms.Button btnSolo;
         private System.Windows.Forms.Button btnMulti;
         private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.Button btnSound;
     }
 }

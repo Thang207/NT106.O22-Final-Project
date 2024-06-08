@@ -62,14 +62,14 @@
             // announcementLabel
             // 
             this.announcementLabel.AutoSize = true;
-            this.announcementLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 42F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.announcementLabel.Font = new System.Drawing.Font("Arial", 42F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.announcementLabel.ForeColor = System.Drawing.Color.Teal;
-            this.announcementLabel.Location = new System.Drawing.Point(-34, 18);
+            this.announcementLabel.Location = new System.Drawing.Point(-33, 94);
             this.announcementLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.announcementLabel.Name = "announcementLabel";
-            this.announcementLabel.Size = new System.Drawing.Size(549, 64);
+            this.announcementLabel.Size = new System.Drawing.Size(321, 64);
             this.announcementLabel.TabIndex = 1;
-            this.announcementLabel.Text = "announcement Label";
+            this.announcementLabel.Text = "ResultLabel";
             this.announcementLabel.Visible = false;
             // 
             // Playing_Room

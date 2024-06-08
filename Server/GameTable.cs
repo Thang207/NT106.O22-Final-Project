@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Server
+﻿namespace Server
 {
     class GameTable
     {
+        // A game has 2 seat - 2 player 
         public Player[] gamePlayer;
-        Service service;
-        public GameTable(ListBox listbox)
+        public GameTable()
         {
             gamePlayer = new Player[2];
-            service = new Service(listbox);
         }
     }
 }

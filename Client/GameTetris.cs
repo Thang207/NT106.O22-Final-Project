@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net.Configuration;
 using System.Security.Policy;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Tetris
 {
@@ -15,15 +16,11 @@ namespace Tetris
         Control[] activePiece = { null, null, null, null };
         Control[] activePiece2 = { null, null, null, null };
         Control[] nextPiece = { null, null, null, null };
-        Control[] savedPiece = { null, null, null, null };
         Control[] Ghost = { null, null, null, null };
         List<int> PieceSequence = new List<int>();
-        Color pieceColor = Color.White;
-        Color savedPieceColor = Color.White;
         int timeElapsed = 0;
         int currentPiece;
         int nextPieceInt;
-        //int savedPieceInt = -1;
         int rotations = 0;
         int combo = 0;
         int score = 0;
@@ -32,7 +29,12 @@ namespace Tetris
         bool gameOver = false;
         bool isPaused = false;
         int PieceSequenceIteration = 0;
-        bool isPlayable = false;
+
+        public bool isTexting = false;
+        public bool isPlayable = false;
+
+        private delegate void AddMessageDelegate(string str);
+        private AddMessageDelegate addMessageDelegate;
 
         readonly Color[] colorList =
         {
@@ -51,6 +53,7 @@ namespace Tetris
         public event EventHandler StartGame;
         public event EventHandler GameOver;
         public event EventHandler RestartGame;
+        public event EventHandler SendMessage;
 
 
         // Load main window
@@ -66,11 +69,16 @@ namespace Tetris
             activePiece2[1] = box2;
             activePiece2[2] = box3;
             activePiece2[3] = box4;
+            grid.Focus();
+
+            addMessageDelegate = new AddMessageDelegate(AddMessage);
 
             if (this.mode == 1)
             {
-                lvStatus.Visible = false;
+                rtbChatZone.Visible = false;
                 btnPlay.Text = "Play";
+                btnSendMessage.Visible = false;
+                txtChat.Visible = false;
             }
         }
 
@@ -170,11 +178,12 @@ namespace Tetris
 
                     if (this.mode == 1)
                     {
-                        lbLose.BringToFront();
-                        lbLose.Visible = true;
-                        lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                        lbInfo.BringToFront();
+                        lbInfo.Visible = true;
+                        lbInfo.Text = "YOU LOSE!!!" + Environment.NewLine + $"Score: {Get_Score()}";
                         isPlayable = false;
                     }
+
                     return;
                 }
             }
@@ -344,23 +353,20 @@ namespace Tetris
         }
 
         // Timer for piece movement speed - increases with game level
-
         // Speed is controlled by LevelUp() method
         private void SpeedTimer_Tick(object sender, EventArgs e)
         {
             if (CheckGameOver() == true)
             {
-                MessageBox.Show("Lose");
                 SpeedTimer.Stop();
                 GameTimer.Stop();
                 GameOver?.Invoke(this, EventArgs.Empty);
 
                 if (this.mode == 1)
                 {
-                    MessageBox.Show("1");
-                    lbLose.BringToFront();
-                    lbLose.Visible = true;
-                    lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                    lbInfo.BringToFront();
+                    lbInfo.Visible = true;
+                    lbInfo.Text = "YOU LOSE!!!" + Environment.NewLine + $"Score: {Get_Score()}";
                     isPlayable = false;
                 }
 
@@ -386,12 +392,14 @@ namespace Tetris
 
                         if (this.mode == 1)
                         {
-                            MessageBox.Show("1");
-                            lbLose.BringToFront();
-                            lbLose.Visible = true;
-                            lbLose.Text += Environment.NewLine + $"Score: {Get_Score()}";
+                            lbInfo.BringToFront();
+                            lbInfo.Visible = true;
+                            lbInfo.Text = "YOU LOSE!!!" + Environment.NewLine + $"Score: {Get_Score()}";
                             isPlayable = false;
                         }
+
+                        isPlayable = false;
+                        
                         // Xử lý chơi game mới
                         gameOver = false;
                         isPaused = false;
@@ -466,101 +474,40 @@ namespace Tetris
 
         private void UpdateScore()
         {
-            // 1-3 line clear is worth 100 per line
-            // Quad line clear (no combo) is worth 800
-            // 2 or more quad line clears in a row is worth 1200 
-
             bool skipComboReset = false;
-            string bonusScore = "";
+            int bonus = 100 * Math.Min(combo + 1, 3); // Base score for 1-3 line clears
 
-            // Single clear
-            if (combo == 0)
-            {
-                score += 100;
+            if (combo == 3)
+            { // Quad clear start
+                bonus = 800;
+                skipComboReset = true;
             }
-
-            // Double clear
-            else if (combo == 1)
-            {
-                score += 100;
-                bonusScore = "+200";
-            }
-
-            // Triple clear
-            else if (combo == 2)
-            {
-                score += 100;
-                bonusScore = "+300";
-            }
-
-            // Quad clear, start combo
-            else if (combo == 3)
-            {
-                score += 500;
-                bonusScore = "+800";
+            else if (combo > 3 && (combo - 3) % 4 == 0)
+            { // Quad clear continue
+                bonus = 1200;
                 skipComboReset = true;
             }
 
-            // Single clear, broken combo
-            else if (combo > 3 && combo % 4 == 0)
-            {
-                score += 100;
-                bonusScore = "+100";
-            }
+            score += bonus;
 
-            // Double clear, broken combo
-            else if (combo > 3 && ((combo - 1) % 4 == 0))
+            if (CheckForCompleteRows() == -1 && !skipComboReset)
             {
-                score += 100;
-                bonusScore = "+200";
+                combo = 0; // Reset combo for non-quad clears
             }
-
-            // Triple clear, broken combo
-            else if (combo > 3 && ((combo - 2) % 4 == 0))
+            else
             {
-                score += 100;
-                bonusScore = "+300";
-            }
-
-            // Quad clear, continue combo
-            else if (combo > 3 && ((combo - 3) % 4 == 0))
-            {
-                score += 900;
-                bonusScore = "+1200";
-                skipComboReset = true;
+                combo++;
             }
 
             this.Invoke(new MethodInvoker(delegate
             {
-                ScoreUpdateLabel.Text = bonusScore;
+                ScoreUpdateLabel.Text = "+" + bonus;
+                ScoreLabel.Text = "SCORE: \n" + score;
+                ScoreUpdateTimer.Start();
             }));
-
-            if (CheckForCompleteRows() == -1 && skipComboReset == false)
-            {
-                // 1-3 line clear
-                combo = 0;
-            }
-            else
-            {
-                // Quad clear
-                combo++;
-            }
-
-            if (ScoreLabel.InvokeRequired)
-            {
-                ScoreLabel.BeginInvoke((MethodInvoker)delegate () {
-                    ScoreLabel.Text = "SCORE: " + score.ToString();
-                });
-            }
-            else
-            {
-                ScoreLabel.Text = "SCORE: " + score.ToString();
-            }
-            ScoreUpdateTimer.Start();
         }
 
         // Return row number of lowest full row
-
         // If no full rows, return -1
         private int CheckForCompleteRows()
         {
@@ -589,21 +536,9 @@ namespace Tetris
         private void LevelUp()
         {
             level++;
-            //LevelLabel.Text = "Level: " + level.ToString();
 
-            // Milliseconds per square fall
-            // Level 1 = 800 ms per square, level 2 = 716 ms per square, etc.
-            int[] levelSpeed =
-            {
-                800, 716, 633, 555, 466, 383, 300, 216, 133, 100, 083, 083, 083, 066, 066,
-                066, 050, 050, 050, 033, 033, 033, 033, 033, 033, 033, 033, 033, 033, 016
-            };
-
-            // Speed does not change after level 29
-            if (level <= 29)
-            {
-                SpeedTimer.Interval = levelSpeed[level];
-            }
+            int speed = Math.Max(800 - (level * 84), 16); // Example formula, adjust as needed
+            SpeedTimer.Interval = speed;
         }
 
         // Game ends if a piece is in the top row when the next piece is dropped
@@ -613,19 +548,13 @@ namespace Tetris
 
             foreach (Control box in topRow)
             {
-                if ((box.BackColor != Color.White & box.BackColor != Color.LightGray) & !activePiece.Contains(box))
+                if ((box.BackColor != Color.White && box.BackColor != Color.LightGray) && !activePiece.Contains(box))
                 {
-                    //Game over!
-                    return true;
+                    return true; // Game Over
                 }
             }
 
-            if (gameOver == true)
-            {
-                return true;
-            }
-
-            return false;
+            return false; // Game Not Over
         }
 
         // Clear score update notification every 2 seconds
@@ -670,8 +599,9 @@ namespace Tetris
             isPaused = false;
             PieceSequenceIteration = 0;
             isPlayable = true;
-            lbLose.Visible = false;
-            lbLose.Text = "YOU LOSE!!!";
+            lbInfo.Visible = false;
+            lbInfo.Text = "YOU LOSE!!!";
+            this.ActiveControl = this.grid;
 
             foreach (Control control in grid.Controls)
             {
@@ -699,6 +629,7 @@ namespace Tetris
             GameTimer.Stop();
             gameOver = true;
             isPaused = true;
+            isPlayable = false;
         }
 
         #endregion
@@ -713,30 +644,28 @@ namespace Tetris
                 StartNewGame(sequence);
                 return;
             }
+
             StartGame?.Invoke(this, EventArgs.Empty);
             btnPlay.Enabled = false;
         }
 
-        public void AddMessage(string str)
-        {
-            lvStatus.Items.Add(str);
-        }
 
         public void HideControls()
         {
-            lvStatus.Visible = false;
+            rtbChatZone.Visible = false;
+            btnSendMessage.Visible = false;
+            txtChat.Visible = false;
             btnPlay.Visible = false;
             ScoreLabel.Visible = false;
             ScoreUpdateLabel.Visible = false;
             TimeLabel.Visible = false;
         }
 
-        public void Enable_Play()
+        public void Enable_PlayButton()
         {
             this.Invoke(new MethodInvoker(delegate
             {
                 btnPlay.Enabled = true;
-            
             }));
         }
 
@@ -747,7 +676,105 @@ namespace Tetris
 
         public void SetName(string name)
         {
-            lbUserName.Text = name;
+            if (this.lbUserName.InvokeRequired)
+            {
+                this.lbUserName.Invoke(new Action<string>(SetName), name);
+            }
+            else
+            {
+                lbUserName.Text = name;
+            }
+        }
+
+        public void ClearGrid()
+        {
+            foreach (Control control in grid.Controls)
+            {
+                control.BackColor = Color.White;
+            }
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                control.BackColor = Color.White;
+            }
+        }
+
+        #region chat zone UI and method
+        public void AddMessage(string str)
+        {
+            if (rtbChatZone.InvokeRequired)
+            {
+                rtbChatZone.Invoke(addMessageDelegate, str);
+            }
+            else
+            {
+                rtbChatZone.AppendText(str + Environment.NewLine);
+                rtbChatZone.SelectionStart = rtbChatZone.Text.Length;
+                rtbChatZone.ScrollToCaret();
+            }
+        }
+
+
+        public string ReadMessage()
+        {
+            string mgs = txtChat.Text.Trim();
+            if (string.IsNullOrEmpty(mgs))
+            {
+                return "";
+            }
+            return mgs;
+        }
+
+        private void btnSendMessage_Click(object sender, EventArgs e)
+        {
+            string mgs = txtChat.Text.Trim();
+            if (string.IsNullOrEmpty(mgs))
+            {
+                return;
+            }
+
+            SendMessage?.Invoke(this, EventArgs.Empty);
+
+            AddMessage("Me: " + mgs);
+            txtChat.Clear();
+        }
+
+        private void txtChat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSendMessage.PerformClick();
+            }
+        }
+
+        private void txtChat_Enter(object sender, EventArgs e)
+        {
+            isTexting = true;
+        }
+
+        private void GameTetris_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (txtChat.ContainsFocus)
+            {
+                isTexting = false;
+                grid.Focus();
+            }
+        }
+
+        private void GameTetris_Load(object sender, EventArgs e)
+        {
+            this.ActiveControl = grid;
+        }
+
+        #endregion
+
+        public void AnnounceLabel(string str)
+        {
+            lbInfo.Text = str;
+        }
+
+        public void ChangeVisible(bool need)
+        {
+            lbInfo.Visible = need;
         }
     }
 }

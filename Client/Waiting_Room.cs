@@ -1,142 +1,166 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
+using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Tetris;
-using System.Linq;
 
 namespace Client
 {
     public partial class Waiting_Room : Form
     {
+        #region Global
         private int maxPlayingTables;
-        private CheckBox[,] checkBoxGameTables;
-        private TcpClient client = null;
-        public StreamWriter sw;
-        private StreamReader sr;
         private string username = "Player";
+
+        private CheckBox[,] checkBoxGameTables;
         private Playing_Room room;
 
-        // Whether to exit the receiving thread normally
-        private bool normalExit = false;
-        // Whether the command is from the server
-        private bool isReceiveCommand = false;
-        // The seat number of the game table you are sitting on, -1 means not seated, 0 means black, 1 means red
+        private NetworkStream netStream = null;
+        private IPEndPoint ipEP = null;
+        private Socket client = null;
+
+        private bool isConnected = false;
+        // The seat number of the game table you are sitting on, -1 means not seated
         private int side = -1;
+        #endregion
 
         public Waiting_Room(string name)
         {
             InitializeComponent();
             this.username = name;
-            lbUserName.Text  += name;
+            lbUserName.Text += name;
         }
-
+            
+        #region Client
+        // Form load and start connecting to server
         private void Client_Load(object sender, EventArgs e)
         {
             btnConnect.PerformClick();
             btnConnect.Visible = false;
             maxPlayingTables = 0;
         }
-
+        // Close form and close connect 
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (client != null)
+            if (client != null && netStream != null)
             {
-                //When the server stops the service, normalExit is true, otherwise it is false
-                if (!normalExit)
+                SendToServer("Leave");
+                this.Invoke((MethodInvoker)delegate
                 {
-                    normalExit = true;
-                    SendToServer("Logout");
-                }
-                client.Close();
+                    client.Close();
+                    netStream.Close();
+                });
             }
         }
-
-        private void Connect_btn_Click(object sender, EventArgs e)
+        // Return button out connect 
+        private void btnReturn_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
+
+        // Button Connect to server
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            ipEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8888);
+            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
             try
             {
-                client = new TcpClient("127.0.0.1", 8888);
+                try
+                {
+                    client.Connect(ipEP);
+                    isConnected = true;
+                }
+                catch 
+                {
+                    Console.WriteLine($"Failed to connect to the server.");
+                    return;
+                }
+
+                netStream = new NetworkStream(client);
+                SendToServer("Join," + this.username);
+
+                Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
+                threadReceive.IsBackground = true;
+                threadReceive.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to connect to the server: {ex.Message}");
+            }
+        }
+        // Send data to Server
+        private void SendToServer(string str)
+        {
+            if (!isConnected)
+            {
+                return;
+            }
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes(str);
+                netStream.Write(data, 0, data.Length);
+                netStream.Flush();
             }
             catch
             {
-                MessageBox.Show("Failed to connect to the server", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                Console.WriteLine("Failed to send data");
             }
-            btnConnect.Enabled = false;
-
-            // get network stream
-            NetworkStream netStream = client.GetStream();
-            sr = new StreamReader(netStream, System.Text.Encoding.UTF8);
-            sw = new StreamWriter(netStream, System.Text.Encoding.UTF8);
-
-            // Format: Login, nickname
-            SendToServer("Login," + this.username);
-            Thread threadReceive = new Thread(new ThreadStart(ReceiveData));
-            threadReceive.Start();
         }
-
-        // process the received data
+        // Receive command data from server
         private void ReceiveData()
         {
-            bool exitWhile = false;
-            while (exitWhile == false)
+            try
             {
-                string receiveString = null;
-                try
+                while (true)
                 {
-                    receiveString = sr.ReadLine();
-                }
-                catch
-                {
-                    Console.WriteLine("Failed to receive data");
-                }
-                if (receiveString == null)
-                {
-                    if (normalExit == false)
+                    byte[] data = new byte[1024];
+                    string receiveString = null;
+
+                    int numBytesRead = client.Receive(data);
+
+                    if (numBytesRead == 0)
                     {
-                        MessageBox.Show("Khong the ket noi toi server");
+                        client.Close();
+                        return;
                     }
-                    if (side != 1)
+
+                    receiveString = Encoding.UTF8.GetString(data, 0, numBytesRead);
+
+                    if(receiveString == null)
                     {
-                        //ExitFormPlaying();
+                        side = -1;
+                        break;
                     }
-                    side = -1;
-                    normalExit = true;
-                    break;
-                }
-                string[] splitString = receiveString.Split(',');
-                string command = splitString[0].ToLower();
-                switch (command)
-                {
-                    // Receive updated table, format: tables,string bit 01 seats
-                    case "tables":
+
+                    string[] splitString = receiveString.Split(',');
+                    string command = splitString[0].ToLower();
+
+                    // Receive table, format: tables, side, seat string
+                    if (command == "tables")
+                    {
                         receiveTable = true;
-                        string s = splitString[1];
-                        //If maxPlayingTables is 0, it means checkBoxGameTables has not been created
-                        if (maxPlayingTables == 0)
+                        string seatString = splitString[1];
+                        if (maxPlayingTables == 0) // First time receive table
                         {
-                            // count the number of tables
-                            maxPlayingTables = s.Length / 2;
+                            // 2 bit is one table, ex: 101010 means 3 table
+                            maxPlayingTables = seatString.Length / 2;
                             checkBoxGameTables = new CheckBox[maxPlayingTables, 2];
-                            isReceiveCommand = true;
-                            //Add the CheckBox object to the array
                             for (int i = 0; i < maxPlayingTables; i++)
                             {
-                                AddCheckBoxToPanel(s, i);
+                                AddCheckBoxToPanel(seatString, i);
                             }
-                            isReceiveCommand = false;
                         }
-                        else
+                        else 
                         {
-                            isReceiveCommand = true;
                             for (int i = 0; i < maxPlayingTables; i++)
                             {
                                 for (int j = 0; j < 2; j++)
                                 {
-                                    if (s[2 * i + j] == '0')
+                                    if (seatString[2 * i + j] == '0')
                                     {
                                         UpdateCheckBox(checkBoxGameTables[i, j], false);
                                     }
@@ -145,37 +169,44 @@ namespace Client
                                         UpdateCheckBox(checkBoxGameTables[i, j], true);
                                     }
                                 }
-                                isReceiveCommand = false;
                             }
                         }
                         receiveTable = false;
-                        break;
-                    // Receive sit down signal, format: sitdown, side, user name
-                    case "sitdown": 
-                        int Receive_side_need_update_name = int.Parse(splitString[1]);
+                    }
+                    // Receive sitdown info, format: sitdown, other side, other name 
+                    else if (command == "sitdown")
+                    {
+                        int side = int.Parse(splitString[1]);
                         string name = splitString[2];
+
                         while (!Complete_create_game_room)
                         {
                             Thread.Sleep(100); // Chờ 0.1 giây
                         }
-                        room.SetName(Receive_side_need_update_name, name);
-                        break;
-                    // Receive full room signal, format: allready
-                    case "fullroom":
+
+                        room.SetName(side, name);
+                        room.AddMessage($"{name} enter room at position {side + 1}");
+                        room.ClearGrid();
+                    }
+                    // Receive full client, format: fullclient
+                    else if (command == "fullclient")
+                    {
                         MessageBox.Show("Server is full");
-                        break;
-                    // Receive both side are ready to start game, format: allready, globalseed
-                    case "allready":
+                    }
+                    // Receive 2 side are ready signal, format: allready, global seed game
+                    else if (command == "allready")
+                    {
                         room.Invoke((MethodInvoker)delegate
                         {
                             int Globalseed = int.Parse(splitString[1]);
-                            room.AddMessage("Both sides are ready, the game starts!");
                             room.GameTetris_StartGame(Globalseed);
+                            room.AddMessage("Both side is ready, let's start the game!!!");
                             room.Focus();
                         });
-                        break;
-                    // Receive Out table, format: getup,side,username,isplaying
-                    case "getup": 
+                    }
+                    // Receive leave seat, format: getup, side, username, is playing
+                    else if (command == "getup")
+                    {
                         if (side == int.Parse(splitString[1]))
                         {
                             side = -1;
@@ -188,7 +219,9 @@ namespace Client
                         else
                         {
                             int getup_side = int.Parse(splitString[1]);
+                            string userName = splitString[2];
                             int isplaying = int.Parse(splitString[3]);
+
                             if (isplaying == 1)
                             {
                                 room.Invoke((MethodInvoker)delegate
@@ -197,13 +230,13 @@ namespace Client
                                     {
                                         Thread.Sleep(100); // Chờ 0.1 giây
                                     }
-                                    room.SetName(getup_side,"");
-                                    room.annouceWin("You Win!!!");
+                                    room.SetName(getup_side, "");
                                     room.AddMessage("Enemy escape, You Win!!!");
+                                    room.annouceMgs("You Win!!!");
                                     room.p1Game.StopGame();
                                     room.p2Game.StopGame();
-                                    room.p1Game.Enable_Play();
-                                    room.p2Game.Enable_Play();
+                                    room.p1Game.Enable_PlayButton();
+                                    room.p2Game.Enable_PlayButton();
                                 });
                             }
                             else
@@ -219,48 +252,66 @@ namespace Client
                                 });
                             }
                         }
-                        break;
-                    // Receive process key, format: key, real key
-                    case "key":
-                        Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
-                        if (room != null)
+                    }
+                    // Receive key data, format: key, key data
+                    else if (command == "key")
+                    {
+                        try
                         {
-                            room.ProcessReceivedKey(keyData);
+                            Keys keyData = (Keys)Enum.Parse(typeof(Keys), splitString[1]);
+
+                            room?.ProcessReceivedKey(keyData);
                         }
-                        break;
-                    // Receive Message, format: message, real message
-                    case "message":
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error parsing key data: " + ex.Message);
+                        }
+                    }
+                    // Receive chat from server, format: message, message
+                    else if (command == "message")
+                    {
                         room.Invoke((MethodInvoker)delegate
                         {
                             room.AddMessage(splitString[1]);
                         });
-                        break;
-                    // Receive win signal, format: win, anotherSide
-                    case "win":
-                        int other_side = int.Parse(splitString[1]);
+                    }
+                    // Receive winner, format: winner, side, username, winner's score
+                    else if (command == "winner")
+                    {
+                        int sideWinner = int.Parse(splitString[1]);
+                        string nameWinner = splitString[2];
+                        int score = int.Parse(splitString[3]);
+
                         room.Invoke((MethodInvoker)delegate
                         {
-                            room.annouceWin("You Win!!!");
-                            room.AddMessage("You Win!!!");
-                            if (other_side == 0)
+                            if (sideWinner == 0 || sideWinner == 1)
                             {
-                                room.p1Game.StopGame();
+                                room.annouceMgs(nameWinner + " WIN!!!" + Environment.NewLine + $"Score: {score}");
+                                room.AddMessage(nameWinner + $" win with {score} points.");
                             }
-                            if (other_side == 1)
+                            else if (sideWinner == 2)
                             {
-                                room.p2Game.StopGame();
+                                room.annouceMgs("Draw!!!");
+                                room.AddMessage("Both player have the same score so Draw!!!");
+                            }
+                            else
+                            {
+                                room.annouceMgs("I DON'T KNOW WHO WIN :>");
                             }
                         });
-                        break;
+                    }
                 }
             }
-            exitWhile = true;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
-        delegate void ExitFormPlayingDelegate();
+        #endregion
 
-        //exit the game
+        #region Create CheckBox
+        // Add a game table and seat
         delegate void Paneldelegate(string s, int i);
-        //Add a game table
         private void AddCheckBoxToPanel(string s, int i)
         {
             if (panel1.InvokeRequired == true)
@@ -273,7 +324,7 @@ namespace Client
                 Label label = new Label();
                 label.Location = new Point(10, 15 + i * 50);
                 label.Text = string.Format("Table {0}: ", i + 1);
-                label.Width = 70;
+                label.Width = 90;
                 label.Font = new Font("Arial", 12, FontStyle.Bold);
 
                 this.panel1.Controls.Add(label);
@@ -283,7 +334,7 @@ namespace Client
         }
         private bool receiveTable = false;
         delegate void CheckBoxDelegate(CheckBox checkbox, bool isChecked);
-        //Modify the selection state
+        // Modify the selection state
         private void UpdateCheckBox(CheckBox checkbox, bool isChecked)
         {
             if (checkbox.InvokeRequired == true)
@@ -295,7 +346,7 @@ namespace Client
             {
                 if (side == -1)
                 {
-                    if(isChecked == true)
+                    if (isChecked == true)
                     {
                         checkbox.Checked = true;
                         checkbox.Enabled = false;
@@ -309,12 +360,10 @@ namespace Client
                 else
                 {
                     //Already seated, no other tables are allowed
-                    checkbox.Enabled = false; //-> checkbox = icheck.
-                    if(isChecked == true)
-                    {
+                    checkbox.Enabled = false;
+                    if (isChecked == true)
                         checkbox.Checked = true;
-                    }
-                    else 
+                    else
                         checkbox.Checked = false;
                 }
             }
@@ -326,11 +375,15 @@ namespace Client
             checkBoxGameTables[i, j] = new CheckBox();
             checkBoxGameTables[i, j].Name = string.Format("check{0:0000}{1:0000}", i, j);
             checkBoxGameTables[i, j].Width = 60;
-            checkBoxGameTables[i, j].Location = new Point(x+10, 10 + i * 50);
+            checkBoxGameTables[i, j].Location = new Point(x + 10, 10 + i * 50);
             checkBoxGameTables[i, j].Text = text;
             checkBoxGameTables[i, j].TextAlign = ContentAlignment.MiddleCenter;
+            checkBoxGameTables[i, j].FlatAppearance.BorderSize = 1;
+            checkBoxGameTables[i, j].BackColor = SystemColors.Control;
+            checkBoxGameTables[i, j].FlatAppearance.CheckedBackColor = Color.FromArgb(150, 147, 0, 255);
+            checkBoxGameTables[i, j].FlatStyle = FlatStyle.Flat;
             checkBoxGameTables[i, j].Appearance = Appearance.Button;
-            checkBoxGameTables[i, j].Font = new Font("Arial", 12, FontStyle.Bold);
+            checkBoxGameTables[i, j].Font = new Font("Arial", 11, FontStyle.Bold);
 
             if (s[2 * i + j] == '1')
             {
@@ -348,13 +401,12 @@ namespace Client
             checkBoxGameTables[i, j].CheckedChanged += new EventHandler(checkBox_CheckedChanged);
         }
 
-        //Triggered when the Checked property of the CheckBox changes
         public bool Complete_create_game_room = false;
         // Modify the title of the room to the table number
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
             // Whether to update the table status for the server
-            if (isReceiveCommand == true)
+            if (receiveTable == true)
             {
                 return;
             }
@@ -364,12 +416,14 @@ namespace Client
             {
                 if (receiveTable == false)
                 {
-                int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
-                int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
-                side = j;
+                    int i = int.Parse(checkbox.Name.Substring(5, 4)); // TabeIndex
+                    int j = int.Parse(checkbox.Name.Substring(9, 4)); // side
+                    side = j;
                     // Format: SitDown, Nickname, Table Number, Side,
                     SendToServer(string.Format("SitDown,{0},{1}", i, j));
-                    room = new Playing_Room(i, j, sw);
+                    room = new Playing_Room(i, j, netStream);
+
+                    checkbox.ForeColor = Color.Black;
 
                     btnQuickPlay.Enabled = false;
                     Complete_create_game_room = true;
@@ -380,33 +434,10 @@ namespace Client
                 }
             }
         }
+        #endregion
 
-        // Find room then display in panel
-        private void button_find_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int tableIndex = int.Parse(textbox_tableindex.Text);
-                if (tableIndex >= 1 && tableIndex <= maxPlayingTables)
-                {
-                    // Count from -1
-                    tableIndex -= 1;
-                    CheckBox targetCheckBox = checkBoxGameTables[tableIndex, 0];
-                    panel1.ScrollControlIntoView(targetCheckBox);
-                }
-                else
-                {
-                    MessageBox.Show("Không có bàn này", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Vui lòng nhập một số hợp lệ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // Find the first room has empty seat
-        private void button_play_Click(object sender, EventArgs e)
+        // Quickly choose seat, priority to table has someone
+        private void btnQuickPlay_Click(object sender, EventArgs e)
         {
             // Compare 2 seats, if they are different, 1 is empty and the other is filled
             for (int i = 0; i < maxPlayingTables; i++)
@@ -431,24 +462,6 @@ namespace Client
             }
             // if full, leave a messagebox
             MessageBox.Show("Không tìm được bàn phù hợp", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnReturn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        public void SendToServer(string str)
-        {
-            try
-            {
-                sw.WriteLine(str);
-                sw.Flush();
-            }
-            catch
-            {
-                Console.WriteLine("Failed to send data");
-            }
         }
     }
 }
