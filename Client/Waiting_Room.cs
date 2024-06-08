@@ -33,7 +33,7 @@ namespace Client
             this.username = name;
             lbUserName.Text += name;
         }
-            
+
         #region Client
         // Form load and start connecting to server
         private void Client_Load(object sender, EventArgs e)

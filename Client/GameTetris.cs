@@ -713,7 +713,6 @@ namespace Tetris
             }
         }
 
-
         public string ReadMessage()
         {
             string mgs = txtChat.Text.Trim();
